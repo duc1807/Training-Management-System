@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-        <form method="POST" action="">
-        <input autofocus type="text" name="username" value={{username}}>
-        <button type="submit">Click</button>
-        </form>
-        <p>{{warning}}</p>
+        <h1>Home page</h1>
+    {{# each result}}
+    <div>
+        <p>{{Permission}}</p>
     </div>
+    {{/each}}
+
 </body>
 </html>

@@ -2,6 +2,11 @@
 const express = require("express");
 const engines = require("consolidate");
 const app = express();
+var session = require('express-session');
+
+
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create public directory to storing static files
 var publicDir = require("path").join(__dirname, "/public");
@@ -12,8 +17,16 @@ app.engine("hbs", engines.handlebars);
 app.set("views", "./views");
 app.set("view engine", "hbs");
 
+// Initialize session
+app.use(session
+  ({
+  secret: "hashed-secret-key",
+  saveUninitialized:false, 
+  resave: false
+  }));
+
 // Initialize the controllers for the app
-var controllerIndex = require("./index");
+var controllerIndex = require("./controllers/index");
 
 // Initialize the controller with its path
 app.use("/", controllerIndex);
