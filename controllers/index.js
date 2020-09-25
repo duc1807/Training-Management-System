@@ -1,6 +1,22 @@
+const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+
+// Initialize connection to mySQL
+var mysql = require('mysql')
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'learningmanagement'
+})
+
+connection.connect(function(err){
+  if(!!err) console.log("Error")
+  else console.log('Connected')
+})
 
 // Connect to database
 const mongoPromises = require("../utils/mongoConnect.js");
@@ -40,5 +56,18 @@ router.post("/", async (req, res) => {
     throw err;
   }
 });
+
+//Test
+router.get('/connect', (req,res)=> {
+  connection.query("SELECT * FROM sample", function(err, rows, fields){
+    if (!!err) console.log('Error')
+    else {
+      console.log('Success')
+      var result = rows
+      console.log(result)
+      res.render("home", { result: result });
+    }
+  })
+})
 
 module.exports = router;
