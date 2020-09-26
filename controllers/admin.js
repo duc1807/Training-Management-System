@@ -3,78 +3,77 @@ const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
 // Connect to database
-const mongoPromises = require("../utils/mongoConnect.js");
+var mysql = require('mysql')
+
+var connection = mysql.createConnection({
+  host: 'sql12.freemysqlhosting.net',
+  user: 'sql12367447',
+  password: 'vHENizWluh',
+  database: 'sql12367447',
+  port: 3306,
+})
+
+connection.connect(function(err){
+  if(!!err) console.log(err)
+  else console.log('Connected')
+})
 
 // GET: Admin homepage
-router.get("admin/home", async function (req, res) {
-  try {
-    const dbo = await mongoPromises()
-    let result = await dbo.collection("Account").find({}).toArray()
-    res.render("test", { result: result })
-  } catch (err) {
-    throw err
-  }
+router.get("/home", async function (req, res) {
+    var sql = "SELECT * FROM Account"
+    connection.query(sql, (err, rows, field)=> {
+      console.log(rows)
+      res.render('adminAccount', {result: rows})
+    })
 });
 
 // POST: Create new accout
-router.post("admin/home", async function (req, res) {
+router.post("/home/add", async function (req, res) {
   // Receive information from hbs
   let username = req.body.username
   let password = req.body.password
   let role = req.body.role
-  let newAccount = { Username: username, Password: password, Role: role }
 
-  const dbo = await mongoPromises()
-
-  dbo.collection("Account").insertOne(newAccount, (res, err) => {
-    if (err) throw err
-    console.log("Add new account successfully")
-    res.redirect("/admin/home")
-  });
+  res.redirect("/admin/home")
 });
 
-// GET: Edit account
-router.get("admin/home/edit", async function (req, res) {
+// POST: Edit account
+router.post("/home/edit", async function (req, res) {
   // Get account id from hbs
   let id = req.query.id
 
-  try {
-    const dbo = await mongoPromises()
-    let result = await dbo.collection("Account").findOne({ _id: ObjectId(id) })
-    res.render("test", { result: result })
-  } catch (err) {
-    throw err
-  }
-});
-
-// PUT: Update account
-router.put("admin/home", async function (req, res) {
-  // Receive information from hbs
   let username = req.body.username
   let password = req.body.password
   let role = req.body.role
-  let updatedAccount = {$set:{ Username: username, Password: password, Role: role }}
-  let condition = {_id: ObjectId(id)}
 
-  try {
-    const dbo = await mongoPromises()
-
-    await dbo.collection("Account").updateOne(condition, updatedAccount)
-    res.redirect("/admin/home")
-  } catch (err) {
-    throw err
-  }
+  let sql = `UPDATE Account SET username='${username}', password='${password}', role='${role}' WHERE user_id ='6'`
+  connection.query(sql, (err) => {
+    if (err) throw err
+    res.redirect('/admin/home')
+  })
 });
 
 // DELETE: Delete account
-router.delete("admin/home", async function (req, res) {
-  try {
-    const dbo = await mongoPromises()
-    let result = await dbo.collection("Account").find({}).toArray()
-    res.render("test", { result: result })
-  } catch (err) {
-    throw err
-  }
+router.get("/home/delete/:id", async function (req, res) {
+  let id = req.params.id
+  console.log(id)
+  let sql = `DELETE FROM Account WHERE user_id='${id}'`
+  connection.query(sql, (err)=> {
+    if (err) throw err
+    res.redirect('/admin/home')
+  })
+});
+
+// POST: Search for account
+router.get("/home/edit", async function (req, res) {
+  // Get account id from hbs
+  let key = req.body.key
+
+  let sql = `SELECT * FROM Account WHERE username LIKE '%${key}%'`
+  connection.query(sql, (err,rows, field) => {
+    if (err) throw err
+    console.log(rows)
+  })
 });
 
 module.exports = router;

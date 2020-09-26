@@ -6,16 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-        <h1>Home page</h1>
-
-{{#each result}}
-    <tr style="flex-direction: row;">
-        <td>{{user_id}}</td>
-        <td>{{username}}</td>
-        <td>{{password}}</td>
-        <td>{{role}}</td>
-    </tr>
+    <h1>all account</h1>
+    {{#each result}}
+    <div>
+        <p>{{username}}</p>
+        <p>{{password}}</p>
+        <p>{{role}}</p>
+        <a href="/admin/home/delete/{{user_id}}">delete</a>
+    </div>
     {{/each}}
-
 </body>
 </html>

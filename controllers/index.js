@@ -7,28 +7,24 @@ const multer = require("multer");
 var mysql = require('mysql')
 
 var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'learningmanagement'
+  host: 'sql12.freemysqlhosting.net',
+  user: 'sql12367447',
+  password: 'vHENizWluh',
+  database: 'sql12367447',
+  port: 3306,
 })
 
 connection.connect(function(err){
-  if(!!err) console.log("Error")
+  if(!!err) console.log(err)
   else console.log('Connected')
 })
-
-// Connect to database
-const mongoPromises = require("../utils/mongoConnect.js");
 
 // ======================== Index Page
 
 // GET: Login
 router.get("/", async function (req, res) {
-  try {
-    const dbo = await mongoPromises();
-    let result = await dbo.collection("Account").find({}).toArray();
-    res.render("test", { result: result });
+  try {  
+    res.render("test");
   } catch (err) {
     throw err;
   }
@@ -36,38 +32,16 @@ router.get("/", async function (req, res) {
 
 // POST: Login
 router.post("/", async (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
+  var username = req.body.username
+  var password = req.body.password
 
-  try {
-    const dbo = await mongoPromises();
-    let result = await dbo
-      .collection("Account")
-      .findOne({ Username: username });
-    if (result == null) {
-      res.render("test", {
-        username: username,
-        warning: "Incorrect Username or Password.",
-      });
-    } else {
-      res.render("home", { result: result });
+  var sql = `SELECT * FROM Account WHERE username="${username}" AND password="${password}"`
+  connection.query(sql, (err, row, fields) => {
+    if(row != "") {
+      res.render("home")
     }
-  } catch (err) {
-    throw err;
-  }
-});
-
-//Test
-router.get('/connect', (req,res)=> {
-  connection.query("SELECT * FROM sample", function(err, rows, fields){
-    if (!!err) console.log('Error')
-    else {
-      console.log('Success')
-      var result = rows
-      console.log(result)
-      res.render("home", { result: result });
-    }
+    else res.render("test", {warning: "Incorrect username or password"})
   })
-})
+});
 
 module.exports = router;

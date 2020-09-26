@@ -27,9 +27,11 @@ app.use(session
 
 // Initialize the controllers for the app
 var controllerIndex = require("./controllers/index");
+var controllerAdmin = require("./controllers/admin");
 
 // Initialize the controller with its path
 app.use("/", controllerIndex);
+app.use("/admin", controllerAdmin);
 
 // Initialize the environment port | default port for the server
 app.listen(process.env.PORT || 8080, function () {
