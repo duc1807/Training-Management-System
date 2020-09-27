@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
 
-// Connect to database
+// [✔] Connect to database
 var mysql = require('mysql')
 
 var connection = mysql.createConnection({
@@ -19,7 +19,7 @@ connection.connect(function(err){
   else console.log('Connected')
 })
 
-// GET: Admin homepage
+// [✔] GET: Admin homepage
 router.get("/home", async function (req, res) {
     var sql = "SELECT * FROM Account"
     connection.query(sql, (err, rows, field)=> {
@@ -28,13 +28,13 @@ router.get("/home", async function (req, res) {
     })
 });
 
-// Add account page
+// [✔] Add account page
 router.get("/home/add", async function (req, res) {
   
     res.render('addEmp')
 });
 
-// POST: Create new accout
+// [✔] POST: Create new accout
 router.post("/home/add", async function (req, res) {
   // Receive information from hbs
   let username = req.body.username
@@ -57,10 +57,10 @@ router.post("/home/add", async function (req, res) {
 
 });
 
-// POST: Edit account
-router.post("/home/edit", async function (req, res) {
+// POST: Edit account 
+router.post("/home/edit/:id", async function (req, res) {
   // Get account id from hbs
-  let id = req.query.id
+  let id = req.params.id
 
   let username = req.body.username
   let password = req.body.password
@@ -73,7 +73,7 @@ router.post("/home/edit", async function (req, res) {
   })
 });
 
-// DELETE: Delete account
+// [✔] DELETE: Delete account
 router.get("/home/delete/:id", async function (req, res) {
   let id = req.params.id
   console.log(id)
@@ -84,8 +84,8 @@ router.get("/home/delete/:id", async function (req, res) {
   })
 });
 
-// POST: Search for account
-router.get("/home/edit", async function (req, res) {
+// [✔] POST: Search for account
+router.get("/home/search", async function (req, res) {
   // Get account id from hbs
   let key = req.body.key
 

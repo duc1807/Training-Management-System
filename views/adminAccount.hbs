@@ -13,7 +13,23 @@
         <p>{{password}}</p>
         <p>{{role}}</p>
         <a href="/admin/home/delete/{{user_id}}">delete</a>
+        <button onclick="getAcc({{user_id}},'{{username}}', '{{password}}', '{{role}}')">Edit</button>
+
+        <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}' style="opacity: 0; width: 200; height:300">
+            <input value="{{username}}" name="username">
+            <input value="{{password}}" name="password">
+            <input value="{{role}}" name="role">
+            <button type="submit">Submit</button>
+        </form>
     </div>
     {{/each}}
+    <script>
+        function getAcc(id, username, password, role) {
+            console.log('ok')
+            console.log(id, username, password, role)
+            document.getElementById(id).style.opacity = 1
+        }
+    </script>
+
 </body>
 </html>
