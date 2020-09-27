@@ -1,7 +1,6 @@
 const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
-const ObjectId = require("mongodb").ObjectId;
 
 // [✔] Connect to database
 var mysql = require('mysql')
@@ -24,14 +23,14 @@ router.get("/home", async function (req, res) {
     var sql = "SELECT * FROM Account"
     connection.query(sql, (err, rows, field)=> {
       console.log(rows)
-      res.render('adminAccount', {result: rows})
+      res.render('./admin/adminAccount', {result: rows})
     })
 });
 
 // [✔] Add account page
 router.get("/home/add", async function (req, res) {
   
-    res.render('addEmp')
+    res.render('./admin/addEmp')
 });
 
 // [✔] POST: Create new accout

@@ -1,7 +1,6 @@
 var mysql = require('mysql')
 
 
-
 const getSqlConnection = () => {
 
     var connection = mysql.createConnection({
