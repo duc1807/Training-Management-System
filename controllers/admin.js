@@ -34,7 +34,12 @@ router.post("/home/add", async function (req, res) {
   let password = req.body.password
   let role = req.body.role
 
-  res.redirect("/admin/home")
+  let sql = `INSERT INTO Account (username, password, role) VALUES ('${ username}','${password}','${role}')`
+
+  connection.query(sql, (err) => {
+    if(err) throw err
+    res.redirect("/admin/home")
+  }) 
 });
 
 // POST: Edit account
