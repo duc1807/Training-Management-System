@@ -1,10 +1,10 @@
 # Learning Management System Web Application
 The web application project of Learning Portal Management System.
 Used technologies/techniques: 
-    - [x] Nodejs
-    - [x] SQL (phpmyadmin.co)
-    - [x] HTML/CSS 
-    - [x] Wireframe (figma.com)
+- [x] Nodejs
+- [x] SQL (phpmyadmin.co)
+- [x] HTML/CSS 
+- [x] Wireframe (figma.com)
 
 ## FEATURES
 
