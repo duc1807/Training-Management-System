@@ -1,3 +1,4 @@
+const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const ObjectId = require("mongodb").ObjectId;
@@ -27,6 +28,12 @@ router.get("/home", async function (req, res) {
     })
 });
 
+// Add account page
+router.get("/home/add", async function (req, res) {
+  
+    res.render('addEmp')
+});
+
 // POST: Create new accout
 router.post("/home/add", async function (req, res) {
   // Receive information from hbs
@@ -34,12 +41,20 @@ router.post("/home/add", async function (req, res) {
   let password = req.body.password
   let role = req.body.role
 
-  let sql = `INSERT INTO Account (username, password, role) VALUES ('${ username}','${password}','${role}')`
+  let sqlCheckAcc = `SELECT * FROM Account WHERE username='${username}'`
+  connection.query(sqlCheckAcc, (err, row, fields) => {
+    if (row == "")
+    {
+      let sql = `INSERT INTO Account (username, password, role) VALUES ('${ username}','${password}','${role}')`
 
-  connection.query(sql, (err) => {
-    if(err) throw err
-    res.redirect("/admin/home")
-  }) 
+      connection.query(sql, (err) => {
+        if(err) throw err
+        res.redirect("/admin/home")
+      }) 
+    }
+    else res.redirect("/admin/home")
+  })
+
 });
 
 // POST: Edit account
@@ -51,7 +66,7 @@ router.post("/home/edit", async function (req, res) {
   let password = req.body.password
   let role = req.body.role
 
-  let sql = `UPDATE Account SET username='${username}', password='${password}', role='${role}' WHERE user_id ='6'`
+  let sql = `UPDATE Account SET username='${username}', password='${password}', role='${role}' WHERE user_id ='${id}'`
   connection.query(sql, (err) => {
     if (err) throw err
     res.redirect('/admin/home')
