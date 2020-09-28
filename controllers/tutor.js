@@ -23,9 +23,6 @@ router.get('/home', (req, res) => {
   let id = null 
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`
 
-  var result = undefined
-  var account = undefined
-
   connection.query(sql, [id,id], (err, rows) => {
     if(err) throw err
 
@@ -46,19 +43,34 @@ router.post('/profile/edit/:id', (req, res) => {
     let phone = req.body.phone
     let email = req.body.email
 
-    let sql  = `UPDATE TutorAccount 
-                SET 
-                  name = '${name}'
-                  age = '${age}'
-                  type = '${type}'
-                  workingPlace = '${workingPlace}'
-                  phone = '${phone}'
-                  email = '${email}'
-                WHERE tutor_id = '${id}'`
+    let sqlCheck = `SELECT * FROM TutorAccount WHERE user_id = '${id}'`
 
-    connection.query(sql, (err) => {
-      if(err) throw err
-      res.redirect('/home')
+    connection.query(sqlCheck, (err, row) => {
+      if(row != "") {
+        let sql  = `UPDATE TutorAccount 
+                    SET 
+                      name = '${name}'
+                      age = '${age}'
+                      type = '${type}'
+                      workingPlace = '${workingPlace}'
+                      phone = '${phone}'
+                      email = '${email}'
+                    WHERE tutor_id = '${id}'`
+        connection.query(sql, (err) => {
+          if(err) throw err
+          res.redirect('/tutor/home')
+        })
+      }
+      else {
+        let sql  = `INSERT INTO TutorAccount 
+                    (tutor_id, name, age, type, workingPlace, phone, email)
+                    VALUES 
+                    (${id},'${name}',${age},'${type}','${workingPlace}',${phone},'${email}')`
+        connection.query(sql, (err) => {
+          if(err) throw err
+          res.redirect('/tutor/home')
+        })
+      }
     })
 })
 

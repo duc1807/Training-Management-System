@@ -1,11 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>Trainee account management</h1>
+    {{#each result}}
+    <div>
+        <p>{{username}}</p>
+        <p>{{password}}</p>
+        <p>{{dob}}</p>
+        <p>{{mainPL}}</p>
+        <p>{{expDetail}}</p>
+        <p>{{name}}</p>
+        <p>{{age}}</p>
+        <p>{{education}}</p>
+        <p>{{toeic}}</p>
+        <p>{{location}}</p>
+    </div>
+
+    <button onclick="show({{trainee_id}})">Edit</button>
+
+    <form method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
+        style="opacity: 0; width: 200; height:300">
+        <input value="{{username}}" name="username">
+        <input value="{{password}}" name="password">
+        <input value="{{dob}}" name="dob">
+        <input value="{{mainPl}}" name="mainPl">
+        <input value="{{expDetail}}" name="expDetail">
+        <input value="{{name}}" name="name">
+        <input value="{{age}}" name="age">
+        <input value="{{education}}" name="education">
+        <input value="{{toeic}}" name="toeic">
+        <input value="{{location}}" name="location">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="/staff/account/trainee/delete/{{trainee_id}}">Delete</a>
+
+    <br><br>
+
+    {{/each}}
+    <script>
+        function show(id) {
+            console.log('ok')
+            console.log(id)
+            document.getElementById(id).style.opacity = 1
+        }
+
+    </script>
 </body>
+
 </html>

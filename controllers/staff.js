@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 // [✔] Connect to database
-var mysql = require('mysql')
+var mysql = require('mysql');
+const { use } = require("./admin");
 
 var connection = mysql.createConnection({
   host: 'sql12.freemysqlhosting.net',
@@ -24,15 +25,30 @@ router.get('/home', (req, res) => {
 
 //================================ GET: Trainee account management pages
 router.get('/account/trainee', (req, res) => {
-    res.render('./staff/accountTrainee')
+
+    let sql = `SELECT * FROM TraineeAccount`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        res.render('./staff/accountTrainee', {result: rows})
+    })
 })
 
-// POST: Add new trainee account
+//************************************************ */ TESTTTTTTTTTTTTTTTT
+
+router.get('/account/trainee/add', (req, res) => {
+    res.render('./staff/test/addTrainee')
+})
+//************************************************ */ TESTTTTTTTTTTTTTTTT
+
+
+// POST: Add trainee account
 router.post('/account/trainee/add', (req, res) => {
+
     let username = req.body.username
     let password = req.body.password
     let dob = req.body.dob
-    let mainPl = req.body.mainPl
+    let mainPL = req.body.mainPL
     let expDetail = req.body.expDetail
     let name = req.body.name
     let age = req.body.age
@@ -40,7 +56,10 @@ router.post('/account/trainee/add', (req, res) => {
     let toeic = req.body.toeic
     let location = req.body.location
 
-    let sql = null
+    let sql = `INSERT INTO TraineeAccount 
+                (username, password, dob, mainPL, expDetail, name, age, education, toeic, location)
+               VALUES (
+                   '${username}','${password}','${dob}','${mainPL}','${expDetail}','${name}',${age},'${education}',${toeic},'${location}')`
 
     connection.query(sql, (err) => {
         if(err) throw err
@@ -48,7 +67,7 @@ router.post('/account/trainee/add', (req, res) => {
     })
 })
 
-// POST: Add new trainee account
+// POST: Edit trainee account
 router.post('/account/trainee/edit/:id', (req, res) => {
     let id = req.params.id
 
@@ -63,7 +82,9 @@ router.post('/account/trainee/edit/:id', (req, res) => {
     let toeic = req.body.toeic
     let location = req.body.location
 
-    let sql = null
+    let sql = `UPDATE TraineeAccount 
+               SET username = '${username}',password = '${password}',dob = '${dob}',mainPL = '${mainPl}',expDetail = '${expDetail}',name = '${name}',age = '${age}',education = '${education}',toeic = '${toeic}' ,location = '${location}'
+               WHERE trainee_id = ${id}`
 
     connection.query(sql, (err) => {
         if(err) throw err
@@ -71,11 +92,11 @@ router.post('/account/trainee/edit/:id', (req, res) => {
     })
 })
 
-// POST: Delete trainee account
-router.post('/account/trainee/delete/:id', (req, res) => {
+// GET: Delete trainee account
+router.get('/account/trainee/delete/:id', (req, res) => {
     let id = req.params.id
 
-    let sql = `DELETE FROM trainee WHERE user_id='${id}`
+    let sql = `DELETE FROM TraineeAccount WHERE trainee_id='${id}'`
 
     connection.query(sql, (err) => {
         if(err) throw err
