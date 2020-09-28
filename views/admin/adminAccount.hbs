@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>all account</h1>
+    <form method="POST" action="/admin/home/search" id='{{user_id}}'>
+        <input placeholder="Search for account" name="key">
+        <button type="submit">Submit</button>
+    </form>
+
     {{#each result}}
     <div>
         <p>{{username}}</p>
@@ -15,7 +22,8 @@
         <a href="/admin/home/delete/{{user_id}}">delete</a>
         <button onclick="getAcc({{user_id}},'{{username}}', '{{password}}', '{{role}}')">Edit</button>
 
-        <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}' style="opacity: 0; width: 200; height:300">
+        <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}'
+            style="opacity: 0; width: 200; height:300">
             <input value="{{username}}" name="username">
             <input value="{{password}}" name="password">
             <input value="{{role}}" name="role">
@@ -32,4 +40,5 @@
     </script>
 
 </body>
+
 </html>

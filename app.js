@@ -29,11 +29,13 @@ app.use(session
 var controllerIndex = require("./controllers/index")
 var controllerAdmin = require("./controllers/admin")
 var controllerStaff = require("./controllers/staff")
+var controllerTutor = require("./controllers/tutor")
 
 // Initialize the controller with its path
 app.use("/", controllerIndex)
 app.use("/admin", controllerAdmin)
-app.use("/staff", controllerStaff);
+app.use("/staff", controllerStaff)
+app.use("/tutor", controllerTutor)
 
 // Initialize the environment port | default port for the server
 app.listen(process.env.PORT || 8080, function () {

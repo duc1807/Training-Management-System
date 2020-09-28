@@ -27,7 +27,7 @@ router.get("/home", async function (req, res) {
     })
 });
 
-// [✔] Add account page
+// [✔] Create account page
 router.get("/home/add", async function (req, res) {
   
     res.render('./admin/addEmp')
@@ -84,14 +84,17 @@ router.get("/home/delete/:id", async function (req, res) {
 });
 
 // [✔] POST: Search for account
-router.get("/home/search", async function (req, res) {
+router.post("/home/search", async function (req, res) {
   // Get account id from hbs
   let key = req.body.key
+  console.log(key)
 
   let sql = `SELECT * FROM Account WHERE username LIKE '%${key}%'`
   connection.query(sql, (err,rows, field) => {
     if (err) throw err
     console.log(rows)
+    let result = rows
+    res.render('./admin/adminAccount', {result: result})
   })
 });
 
