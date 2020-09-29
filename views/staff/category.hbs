@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>Category</h1>
+
+    <form method="POST" action="/staff/category/search">
+        <input type="text" name="key">
+        <button type="submit">Search</button>
+    </form>
+
+    {{#each result}}
+    <div>
+        <p>{{name}}</p>
+        <p>{{description}}</p>
+        <button onclick="show({{category_id}})">Edit</button>
+
+        <form method="POST" action="/staff/category/edit/{{category_id}}" id='{{category_id}}'
+            style="opacity: 0; width: 200; height:300">
+            <input value="{{name}}" name="name">
+            <input value="{{description}}" name="description">
+            <button type="submit">Confirm</button>
+        </form>
+
+        <a href="/staff/category/delete/{{category_id}}">Delete</a>
+
+    </div>
+    <br><br>
+    {{/each}}
+    <script>
+        function show(id) {
+            console.log('ok')
+            console.log(id)
+            document.getElementById(id).style.opacity = 1
+        }
+    </script>
+
 </body>
+
 </html>

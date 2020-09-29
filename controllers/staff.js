@@ -23,7 +23,7 @@ router.get('/home', (req, res) => {
     res.render('./staff/home')
 })
 
-//================================ GET: Trainee account management pages
+//==================================================== GET: Trainee account management pages
 router.get('/account/trainee', (req, res) => {
 
     let sql = `SELECT * FROM TraineeAccount`
@@ -34,12 +34,12 @@ router.get('/account/trainee', (req, res) => {
     })
 })
 
-//************************************************ */ TESTTTTTTTTTTTTTTTT
+//************************************************ */ TEST
 
 router.get('/account/trainee/add', (req, res) => {
     res.render('./staff/test/addTrainee')
 })
-//************************************************ */ TESTTTTTTTTTTTTTTTT
+//************************************************ */ TEST
 
 
 // POST: Add trainee account
@@ -104,22 +104,103 @@ router.get('/account/trainee/delete/:id', (req, res) => {
     })
 })
 
-//================================ End of Trainee account management pages
+//========================================================= End of Trainee account management pages
 
 // GET: Trainer account management
 router.get('/account/trainer', (req, res) => {
     res.render('./staff/accountTrainer')
 })
 
+//==================================================== GET: Category management pages
+
 // GET: Category management
 router.get('/category', (req, res) => {
-    res.render('./staff/category')
+    let sql = `SELECT * FROM Category`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        res.render('./staff/category', { result: rows })
+    })  
 })
+//* TEST
+router.get('/category/add', (req, res) => {
+    res.render('./staff/test/addCategory')
+})
+
+// POST: Add new category
+router.post('/category/add', (req, res) => {
+    let name = req.body.name
+    let description = req.body.description
+
+    let sql = `INSERT INTO Category (name, description) VALUES ('${name}', '${description}')`
+
+    connection.query(sql, (err) => {
+        if(err) throw err
+        res.redirect('/staff/category')
+    })
+})
+
+// POST: Edit category
+router.post('/category/edit/:id', (req, res) => {
+
+    let id = req.params.id
+
+    let name = req.body.name
+    let description = req.body.description
+
+    let sql = `UPDATE Category SET name = '${name}', description = '${description}' WHERE category_id = ${id}`
+
+    connection.query(sql, (err) => {
+        if(err) throw err
+        res.redirect('/staff/category')
+    })
+})
+
+// GET: Delete category
+router.get('/category/delete/:id', (req, res) => {
+
+    let id = req.params.id
+
+    let sql = `DELETE FROM Category WHERE category_id = ${id}`
+
+    connection.query(sql, (err) => {
+        if(err) throw err
+        res.redirect('/staff/category')
+    })
+})
+
+// POST: Search category
+router.post('/category/search', (req, res) => {
+    let key = req.body.key
+
+    let sql = `SELECT * FROM Category WHERE name LIKE '%${key}%'`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        res.render('./staff/category', { result: rows })
+    })
+})
+
+//========================================================= End of Category management pages
+
+
+
+
+
+
+
+//========================================================= Course management pages
 
 // GET: Courses of category
 router.get('/category/course', (req, res) => {
     res.render('./staff/course')
 })
+
+//========================================================= End of Course management pages
+
+
+
+
 
 // GET: Topics of course
 router.get('/category/course/topic', (req, res) => {
