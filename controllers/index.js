@@ -24,7 +24,7 @@ connection.connect(function(err){
 // GET: Login
 router.get("/", async function (req, res) {
   try {  
-    res.render("test");
+    res.render("./index/test");
   } catch (err) {
     throw err;
   }
@@ -38,9 +38,9 @@ router.post("/", async (req, res) => {
   var sql = `SELECT * FROM Account WHERE username="${username}" AND password="${password}"`
   connection.query(sql, (err, row, fields) => {
     if(row != "") {
-      res.render("home")
+      res.render("./admin/adminAccount")
     }
-    else res.render("test", {warning: "Incorrect username or password"})
+    else res.render("./index/test", {warning: "Incorrect username or password"})
   })
 });
 
