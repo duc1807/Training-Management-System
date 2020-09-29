@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
   var sql = `SELECT * FROM Account WHERE username="${username}" AND password="${password}"`
   connection.query(sql, (err, row, fields) => {
     if(row != "") {
-      res.render("./admin/adminAccount")
+      res.redirect("./admin/home")
     }
     else res.render("./index/test", {warning: "Incorrect username or password"})
   })

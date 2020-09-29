@@ -1,3 +1,4 @@
+const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 
@@ -11,6 +12,7 @@ var connection = mysql.createConnection({
   password: 'vHENizWluh',
   database: 'sql12367447',
   port: 3306,
+  multipleStatements: true
 })
 
 connection.connect(function(err){
@@ -111,6 +113,7 @@ router.get('/account/trainer', (req, res) => {
     res.render('./staff/accountTrainer')
 })
 
+
 //==================================================== GET: Category management pages
 
 // GET: Category management
@@ -122,6 +125,26 @@ router.get('/category', (req, res) => {
         res.render('./staff/category', { result: rows })
     })  
 })
+
+// GET: Redirect to courses of selected category
+router.get('/category/redirect/:id', (req,res) => {
+
+    let id = req.params.id
+
+    let sql =  `SELECT *, TutorAccount.name 
+                FROM Course 
+                INNER JOIN TutorAccount ON Course.tutor_id = TutorAccount.tutor_id 
+                WHERE category_id = ${id}; 
+                SELECT * 
+                FROM TutorAccount`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        console.log(rows)
+        res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: rows[0][0]['category_id']})
+    })
+})
+
 //* TEST
 router.get('/category/add', (req, res) => {
     res.render('./staff/test/addCategory')
@@ -193,7 +216,44 @@ router.post('/category/search', (req, res) => {
 
 // GET: Courses of category
 router.get('/category/course', (req, res) => {
-    res.render('./staff/course')
+
+    let sql = `SELECT * FROM Course`
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        res.render('./staff/course', { result: rows})
+    })
+})
+
+// POST: Add new Course
+router.post('/category/course/add', (req, res) => {
+
+    let category_id = req.body.category_id
+    let name = req.body.courseName
+    let description = req.body.description
+    let tutor_id = req.body.tutor
+
+    let sql =  `INSERT INTO Course (courseName, description, category_id, tutor_id)
+                VALUES ('${name}','${description}', ${category_id}, ${tutor_id})`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        console.log(rows)
+        res.redirect(`/staff/category/redirect/${category_id}`)
+    })
+})
+
+router.get('/category/course/delete/:id', (req,res) => {
+    let id = req.params.id
+
+    let sql = `SELECT category_id FROM Course WHERE course_id = ${id}; DELETE FROM Course WHERE course_id = ${id}`
+    connection.query(sql, (err, row) => {
+        if(err) throw err
+        console.log('Day nay')
+        console.log(row)
+        console.log('rows 0')
+        console.log(row[0][0]['category_id'])
+        res.redirect(`/staff/category/redirect/${row[0][0]['category_id']}`)
+    })
 })
 
 //========================================================= End of Course management pages

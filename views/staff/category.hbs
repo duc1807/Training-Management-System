@@ -19,6 +19,8 @@
     <div>
         <p>{{name}}</p>
         <p>{{description}}</p>
+        <a href="/staff/category/redirect/{{category_id}}">Go to courses of {{name}}</a>
+        <br><br>
         <button onclick="show({{category_id}})">Edit</button>
 
         <form method="POST" action="/staff/category/edit/{{category_id}}" id='{{category_id}}'
