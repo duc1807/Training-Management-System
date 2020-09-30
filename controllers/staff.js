@@ -142,8 +142,9 @@ router.get('/category/redirect/:id', (req,res) => {
         if(err) throw err
         console.log('rows')
         console.log(rows[0])
-        if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
-        else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
+        // if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
+        // else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
+        res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
     })
 })
 
