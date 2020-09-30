@@ -140,8 +140,10 @@ router.get('/category/redirect/:id', (req,res) => {
 
     connection.query(sql, (err, rows) => {
         if(err) throw err
-        console.log(rows)
-        res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: rows[0][0]['category_id']})
+        console.log('rows')
+        console.log(rows[0])
+        if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
+        else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
     })
 })
 
