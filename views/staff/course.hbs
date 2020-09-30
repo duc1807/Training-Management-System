@@ -15,8 +15,9 @@
         <input type="text" name="courseName">
         <input type="text" name="description">
         <select id="tutor" name='tutor'>
+            <option value="" disabled selected hidden>Choose Tutor...</option>
             {{#each tutor}}
-                <option value="{{tutor_id}}">{{name}}</option>
+            <option value="{{tutor_id}}">{{name}}</option>
             {{/each}}
         </select>
         <button type="submit">Add course</button>
@@ -31,8 +32,40 @@
         <p>{{description}}</p>
         <button onclick="show({{course_id}})">Edit</button>
         <a href="/staff/category/course/delete/{{course_id}}">Delete</a>
+        <br><br>
+
+        <form method="POST" action="/staff/category/course/edit/{{course_id}}" id='{{course_id}}'
+            style="opacity: 0; width: 200; height:300">
+            <input type="hidden" name="category_id" value="{{../category}}">
+            <input value="{{courseName}}" name="courseName">
+
+            <select id="tutor" name='tutor'>
+                <optgroup label="Current tutor">
+                    <option selected value="{{tutor_id}}">{{name}}</option>
+                </optgroup>
+
+                <optgroup label="All tutor">
+                    {{#each ../tutor}}
+                    <option value="{{tutor_id}}">{{name}}</option>
+                    {{/each}}
+                </optgroup>
+            </select>
+
+            <input value="{{description}}" name="description">
+
+            <button type="submit">Submit</button>
+        </form>
     </div>
     {{/each}}
+
+    <script>
+        function show(id) {
+            console.log('ok')
+            console.log(id)
+            document.getElementById(id).style.opacity = 1
+        }
+
+    </script>
 </body>
 
 </html>

@@ -140,8 +140,7 @@ router.get('/category/redirect/:id', (req,res) => {
 
     connection.query(sql, (err, rows) => {
         if(err) throw err
-        console.log('rows')
-        console.log(rows[0])
+ 
         // if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
         // else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
         res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
@@ -245,6 +244,26 @@ router.post('/category/course/add', (req, res) => {
     })
 })
 
+router.post('/category/course/edit/:id', (req, res) => {
+
+    let category_id = req.body.category_id
+
+    let course_id = req.params.id
+    let name = req.body.courseName
+    let description = req.body.description
+    let tutor_id = req.body.tutor
+
+    let sql =  `UPDATE Course SET courseName='${name}', description='${description}', tutor_id=${tutor_id}
+                WHERE course_id = ${course_id}`
+
+    connection.query(sql, (err, rows) => {
+        if(err) throw err
+        console.log(rows)
+        res.redirect(`/staff/category/redirect/${category_id}`)
+    })
+})
+
+// GET: Delete a course
 router.get('/category/course/delete/:id', (req,res) => {
     let id = req.params.id
 

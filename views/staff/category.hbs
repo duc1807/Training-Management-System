@@ -10,6 +10,13 @@
 <body>
     <h1>Category</h1>
 
+    <form method="POST" action="/staff/category/add">
+        <input type="text" name="name">
+        <input type="text" name="description">
+        <button type="submit">Add</button>
+    </form>
+    <br><br>
+
     <form method="POST" action="/staff/category/search">
         <input type="text" name="key">
         <button type="submit">Search</button>
