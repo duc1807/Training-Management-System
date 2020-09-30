@@ -8,8 +8,12 @@
 <body>
     <h1>Trainer Home</h1>
     
+    {{#each result}}
     <div>
-
+        <p>{{courseName}}</p>
+        <p>{{tutor_id}}</p>
+        <p>{{description}}</p>
     </div>
+    {{/each}}
 </body>
 </html>
