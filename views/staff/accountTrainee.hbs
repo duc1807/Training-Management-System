@@ -23,11 +23,11 @@
         <input type="text" name="location" >
         <select id="course_id" name='course_id'>
             <option value="" disabled selected hidden>Choose course...</option>
-            {{#each category}}
+            {{#each test}}
             <optgroup label="{{name}}">
-
-                    <option value="{{course_id}}">{{courseName}}</option>
-
+                {{#each this.description}}
+                    <option value="{{course_id}}">{{namee}}</option>
+                {{/each}}
             </optgroup>
             {{/each}}
             

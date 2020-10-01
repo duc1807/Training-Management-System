@@ -38,7 +38,40 @@ router.get("/account/trainee", (req, res) => {
   connection.query(sql, (err, rows) => {
     if (err) throw err;
     console.log(rows[2])
-    res.render("./staff/accountTrainee", { result: rows[0], course: rows[1], category: rows[2] });
+
+    var category = []
+    var isExisted = null
+
+    for (var i = 0; i < rows[2].length; i++)
+    {
+      console.log(rows[2][i]['name'])
+      for(var e = 0; e <= category.length; e++)
+      {
+        isExisted = false
+        if(rows[2][i]['name'] == category[e]) 
+        {
+          isExisted = true
+          console.log('true')
+          break
+        }       
+      }
+      if(!isExisted) category.push(rows[2][i]['name'])
+       
+      var o = [
+        {
+          name: 'Intern',
+          description: [{namee: 'testtt'}, {namee: 'test1'}]
+
+        },
+         {
+          name: 'Extern',
+          description: [{namee: 'testtt2'}, {namee: 'test3'}]
+        }
+      
+      ]
+    }
+    console.log(category)
+    res.render("./staff/accountTrainee", { result: rows[0], course: rows[1], category: rows[2], type: category, test: o });
   });
 });
 
