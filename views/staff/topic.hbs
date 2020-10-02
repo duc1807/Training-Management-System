@@ -6,6 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Topic</h1>
+    <h2>Topic</h2>
+    <h1>{{coursename}}</h1>
+    {{#each result}}
+   <p> Topic: {{topicName}}</p> 
+   <p>Description: {{description}} </p> 
+    <p>Tutor: {{name}}</p>
+    {{/each}}
 </body>
 </html>
