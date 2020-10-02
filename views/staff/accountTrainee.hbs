@@ -10,30 +10,37 @@
 <body>
     <h1>Trainee account management</h1>
     <br><br>
-        <form method="POST" action="/staff/account/trainee/add">
-        <input type="text" name="username" >
-        <input type="text" name="password" >
+    <form method="POST" action="/staff/account/trainee/add">
+        <input type="text" name="username">
+        <input type="text" name="password">
         <input type="date" name="dob">
-        <input type="text" name="mainPL" >
-        <input type="text" name="expDetail" >
-        <input type="text" name="name" >
-        <input type="text" name="age" >
-        <input type="text" name="education" >
-        <input type="text" name="toeic" >
-        <input type="text" name="location" >
+        <input type="text" name="mainPL">
+        <input type="text" name="expDetail">
+        <input type="text" name="name">
+        <input type="text" name="age">
+        <input type="text" name="education">
+        <input type="text" name="toeic">
+        <input type="text" name="location">
         <select id="course_id" name='course_id'>
             <option value="" disabled selected hidden>Choose course...</option>
             {{#each type}}
             <optgroup label="{{name}}">
                 {{#each this.description}}
-                    <option value="{{course_id}}">{{courseName}}</option>
+                <option value="{{course_id}}">{{courseName}}</option>
                 {{/each}}
             </optgroup>
             {{/each}}
-            
+
         </select>
-        <button type="submit">Add</button> 
+        <button type="submit">Add</button>
     </form>
+    <br><br>
+
+    <form method="POST" action="/staff/account/trainee/search">
+        <input type="text" name="key">
+        <button type="submit">Search</button>
+    </form>
+
     <br><br>
     {{#each result}}
     <div>
@@ -51,7 +58,7 @@
     </div>
 
     <button onclick="show({{trainee_id}})">Edit</button> <br><br>
-        <a href="/staff/account/trainee/delete/{{trainee_id}}">Delete</a>
+    <a href="/staff/account/trainee/delete/{{trainee_id}}">Delete</a>
 
 
     <form method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
@@ -68,12 +75,12 @@
         <input value="{{location}}" name="location">
         <select id="course_id" name='course_id'>
             <optgroup label="Current course">
-            <option value="{{course_id}}" selected>{{courseName}}</option>
+                <option value="{{course_id}}" selected>{{courseName}}</option>
             </optgroup>
             {{#each ../type}}
             <optgroup label="{{name}}">
                 {{#each this.description}}
-                    <option value="{{course_id}}">{{courseName}}</option>
+                <option value="{{course_id}}">{{courseName}}</option>
                 {{/each}}
             </optgroup>
             {{/each}}

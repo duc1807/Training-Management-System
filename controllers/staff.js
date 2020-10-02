@@ -30,7 +30,6 @@ router.get("/account/trainee", (req, res) => {
   let sql = `SELECT *, Course.courseName 
              FROM TraineeAccount
              INNER JOIN Course ON TraineeAccount.course_id = Course.course_id;
-             SELECT * FROM Course;
              SELECT *, Course.courseName
              FROM Category
              INNER JOIN Course ON Category.category_id = Course.category_id;
@@ -42,34 +41,34 @@ router.get("/account/trainee", (req, res) => {
     var category = [] 
     var isExisted = null
 
-    for(f = 0; f < rows[3].length; f++)
+    for(f = 0; f < rows[2].length; f++)
     {
       category.push(
         {
-          name: rows[3][f]['name'],
+          name: rows[2][f]['name'],
           description: []
         })
     }
 
-    for (var i = 0; i < rows[2].length; i++)
+    for (var i = 0; i < rows[1].length; i++)
     {
       var description = []
       for(var e = 0; e < category.length; e++)
       {
         isExisted = false
-        if(rows[2][i]['name'] == category[e].name) 
+        if(rows[1][i]['name'] == category[e].name) 
         {
           isExisted = true
           category[e].description.push({
-            course_id: rows[2][i]['course_id'],
-            courseName: rows[2][i]['courseName']
+            course_id: rows[1][i]['course_id'],
+            courseName: rows[1][i]['courseName']
           })
           break
         }       
       }      
-      if (!isExisted) category.push({name: rows[2][i]['name'], description: description})
+      if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
     }
-    res.render("./staff/accountTrainee", { result: rows[0], course: rows[1], category: rows[2], type: category });
+    res.render("./staff/accountTrainee", { result: rows[0], category: rows[1], type: category });
   });
 });
 
@@ -140,6 +139,57 @@ router.get("/account/trainee/delete/:id", (req, res) => {
   connection.query(sql, (err) => {
     if (err) throw err;
     res.redirect("/staff/account/trainee");
+  });
+});
+
+router.post("/account/trainee/search", (req, res) => {
+  let key = req.body.key;
+
+  let sql = `SELECT *, Course.courseName 
+             FROM TraineeAccount 
+             INNER JOIN Course ON TraineeAccount.course_id = Course.course_id
+             WHERE username LIKE '%${key}%';
+             SELECT *, Course.courseName
+             FROM Category
+             INNER JOIN Course ON Category.category_id = Course.category_id;
+             SELECT * FROM Category`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err
+
+    console.log(rows[0])
+    var category = [] 
+    var isExisted = null
+
+    for(f = 0; f < rows[2].length; f++)
+    {
+      category.push(
+        {
+          name: rows[2][f]['name'],
+          description: []
+        })
+    }
+
+    for (var i = 0; i < rows[1].length; i++)
+    {
+      var description = []
+      for(var e = 0; e < category.length; e++)
+      {
+        isExisted = false
+        if(rows[1][i]['name'] == category[e].name) 
+        {
+          isExisted = true
+          category[e].description.push({
+            course_id: rows[1][i]['course_id'],
+            courseName: rows[1][i]['courseName']
+          })
+          break
+        }       
+      }      
+      if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
+    }
+
+    res.render("./staff/accountTrainee", {result: rows[0], category: rows[1], type: category });
   });
 });
 
