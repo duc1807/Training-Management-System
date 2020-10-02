@@ -188,7 +188,6 @@ router.post("/account/trainee/search", (req, res) => {
       }      
       if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
     }
-
     res.render("./staff/accountTrainee", {result: rows[0], category: rows[1], type: category });
   });
 });
@@ -403,19 +402,21 @@ router.get("/category/course/delete/:id", (req, res) => {
 router.get('/category/course/redirect/:id', (req, res) => {
     let course_id = req.params.id
     
-    let sql = `SELECT * FROM Topic WHERE course_id = ${course_id}`
+    let sql = `SELECT *,TutorAccount.name FROM Topic LEFT JOIN TutorAccount ON Topic.tutor_id = TutorAccount.tutor_id
+               WHERE course_id = ${course_id}; SELECT * FROM Course WHERE course_id = ${course_id}`
+    
 
     connection.query(sql, (err, rows) => {
         if(err) throw err
-        res.render('./staff/topic')
+        res.render('./staff/topic', { result: rows[0],coursename : rows[1][0].courseName })
     })
 })
 
 //========================================================= End of Course management pages
 
 // GET: Topics of course
-router.get("/category/course/topic", (req, res) => {
-  res.render("./staff/topic");
-});
+// router.get("/category/course/topic", (req, res) => {
+//   res.render("./staff/topic");
+// });
 
 module.exports = router;
