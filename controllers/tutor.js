@@ -34,14 +34,17 @@ router.get('/home', (req, res) => {
 
 // POST: Update profile
 router.post('/profile/edit/:id', (req, res) => {
-    let id = req.params.id
+  const { name, age, type, workingPlace, phone, email } = req.body
+  const id = req.params.id
 
-    let name = req.body.name
-    let age = req.body.age
-    let type = req.body.type
-    let workingPlace = req.body.workingPlace
-    let phone = req.body.phone
-    let email = req.body.email
+  // const sql = `UPDATE TutorAccount 
+  //              SET name = '${name}',
+  //                  age = '${age}',
+  //                  type = '${type}',
+  //                  workingPlace = '${workingPlace}',
+  //                  phone = '${phone}',
+  //                  email = '${email}'
+  //              WHERE tutor_id = ${id}`
 
     let sqlCheck = `SELECT * FROM TutorAccount WHERE user_id = '${id}'`
 
