@@ -33,45 +33,43 @@ router.get("/account/trainee", (req, res) => {
              SELECT * FROM Course;
              SELECT *, Course.courseName
              FROM Category
-             INNER JOIN Course ON Category.category_id = Course.category_id`;
+             INNER JOIN Course ON Category.category_id = Course.category_id;
+             SELECT * FROM Category`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows[2])
 
-    var category = []
+    var category = [] 
     var isExisted = null
+
+    for(f = 0; f < rows[3].length; f++)
+    {
+      category.push(
+        {
+          name: rows[3][f]['name'],
+          description: []
+        })
+    }
 
     for (var i = 0; i < rows[2].length; i++)
     {
-      console.log(rows[2][i]['name'])
-      for(var e = 0; e <= category.length; e++)
+      var description = []
+      for(var e = 0; e < category.length; e++)
       {
         isExisted = false
-        if(rows[2][i]['name'] == category[e]) 
+        if(rows[2][i]['name'] == category[e].name) 
         {
           isExisted = true
-          console.log('true')
+          category[e].description.push({
+            course_id: rows[2][i]['course_id'],
+            courseName: rows[2][i]['courseName']
+          })
           break
         }       
-      }
-      if(!isExisted) category.push(rows[2][i]['name'])
-       
-      var o = [
-        {
-          name: 'Intern',
-          description: [{namee: 'testtt'}, {namee: 'test1'}]
-
-        },
-         {
-          name: 'Extern',
-          description: [{namee: 'testtt2'}, {namee: 'test3'}]
-        }
-      
-      ]
+      }      
+      if (!isExisted) category.push({name: rows[2][i]['name'], description: description})
     }
-    console.log(category)
-    res.render("./staff/accountTrainee", { result: rows[0], course: rows[1], category: rows[2], type: category, test: o });
+    res.render("./staff/accountTrainee", { result: rows[0], course: rows[1], category: rows[2], type: category });
   });
 });
 
