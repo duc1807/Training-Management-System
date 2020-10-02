@@ -11,9 +11,16 @@
     <h1>all account</h1>
 
     <form method="POST" action="/admin/home/add">
-        <input name="username" type="text">
-        <input name="password" type="text">
-        <input name="role" type="text">
+        Username: <input name="username" type="text"><br><br>
+        Password: <input name="password" type="text"><br><br>
+        Role: <input name="role" type="radio" value="admin">
+              <label for="admin">Administrator</label>
+              <input name="role" type="radio" value="staff">
+              <label for="staff">Staff</label>
+              <input name="role" type="radio" value="trainer">
+              <label for="trainer">Trainer</label>
+
+        <br><br>
         <button type="submit">ok</button>
     </form>
     <br><br>

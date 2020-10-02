@@ -195,10 +195,50 @@ router.post("/account/trainee/search", (req, res) => {
 
 //========================================================= End of Trainee account management pages
 
+
+
+
+//========================================================= Trainer account management pages
+
 // GET: Trainer account management
 router.get("/account/trainer", (req, res) => {
-  res.render("./staff/accountTrainer");
+
+  const sql = `SELECT *, Account.username, Account.user_id
+              FROM TutorAccount
+              INNER JOIN Account ON TutorAccount.tutor_id = Account.user_id`
+
+  connection.query(sql, (err, rows) => {
+    if(err) throw err
+    res.render("./staff/accountTrainer", {result: rows});
+  })
 });
+
+// POST: Edit Trainer account
+router.post("/account/trainer/edit/:id", (req, res) => {
+  const { name, age, type, workingPlace, phone, email } = req.body
+  const id = req.params.id
+
+  const sql = `UPDATE TutorAccount 
+               SET name = '${name}',
+                   age = '${age}',
+                   type = '${type}',
+                   workingPlace = '${workingPlace}',
+                   phone = '${phone}',
+                   email = '${email}'
+               WHERE tutor_id = ${id}`
+
+  connection.query(sql, (err) => {
+    if(err) throw err
+    res.redirect("/staff/account/trainer");
+  })
+});
+
+//========================================================= End of Trainer account management pages
+
+
+
+
+
 
 //==================================================== GET: Category management pages
 
@@ -218,14 +258,14 @@ router.get("/category/redirect/:id", (req, res) => {
 
   let sql = `SELECT *, TutorAccount.name 
                 FROM Course 
-                INNER JOIN TutorAccount ON Course.tutor_id = TutorAccount.tutor_id 
+                LEFT JOIN TutorAccount ON Course.tutor_id = TutorAccount.tutor_id 
                 WHERE category_id = ${id}; 
                 SELECT * 
                 FROM TutorAccount`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-
+    console.log(rows)
     // if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
     // else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
     res.render("./staff/course", {
