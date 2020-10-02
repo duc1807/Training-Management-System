@@ -39,7 +39,7 @@ router.get("/account/trainee", (req, res) => {
     if (err) throw err;
 
     var category = [] 
-    var isExisted = null
+    // var isExisted = null
 
     for(f = 0; f < rows[2].length; f++)
     {
@@ -52,13 +52,13 @@ router.get("/account/trainee", (req, res) => {
 
     for (var i = 0; i < rows[1].length; i++)
     {
-      var description = []
+      // var description = []
       for(var e = 0; e < category.length; e++)
       {
-        isExisted = false
+        // isExisted = false
         if(rows[1][i]['name'] == category[e].name) 
         {
-          isExisted = true
+          // isExisted = true
           category[e].description.push({
             course_id: rows[1][i]['course_id'],
             courseName: rows[1][i]['courseName']
@@ -66,7 +66,7 @@ router.get("/account/trainee", (req, res) => {
           break
         }       
       }      
-      if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
+      // if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
     }
     res.render("./staff/accountTrainee", { result: rows[0], category: rows[1], type: category });
   });
