@@ -75,11 +75,17 @@ router.post("/", async (req, res) => {
 
         switch (row[0].role) {
           case "admin":
-            var email = ""
-            var otp = "1123"
-            //sendMail(email,otp)
+            var email = "bamboo.vennus@gmail.com"
+            var otp = (Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000)).toString()
+            sendMail(email,otp)
             res.render("./index/redirect", { otp: otp })
             break
+          case "staff":
+            res.redirect('/staff/home')
+            break
+          case "trainer":
+            res.redirect('/tutor/home')
+            break;
         }
         // if (row[0].role == "admin") {
         //   var email = "";

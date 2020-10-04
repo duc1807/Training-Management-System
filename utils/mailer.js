@@ -1,18 +1,20 @@
 const nodemailer = require("nodemailer");
 
 var transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  service: 'Gmail',
+  port: 465,
   auth: {
-    user: "ducdtgch18799@fpt.edu.vn",
-    pass: "duc123123",
+    user: "vuatrochoi.theblue@gmail.com",
+    pass: "123binh789",
   },
 })
 
 const sendMail = (email, otp) => {
   var details = {
-    from: "",
+    from: "vuatrochoi.theblue@gmail.com",
     to: email,
-    subject: "The logging in OTP code of Learning Management System is: ",
+    subject: "Ma otp cua binh fucking project manager : ",
     html: otp,
   }
 
