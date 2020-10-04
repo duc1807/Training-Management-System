@@ -1,10 +1,9 @@
-const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 // [✔] Connect to database
 var mysql = require("mysql");
-const { use } = require("./staff");
 
 var connection = mysql.createConnection({
   host: "sql12.freemysqlhosting.net",
@@ -41,32 +40,45 @@ router.post("/home/add", async function (req, res) {
   let role = req.body.role;
 
   let sqlCheckAcc = `SELECT * FROM Account WHERE username='${username}'`;
-  connection.query(sqlCheckAcc, (err, row, fields) => {
+  connection.query(sqlCheckAcc, async (err, row, fields) => {
+    const salt = await bcrypt.genSalt(10);
+
     if (row == "") {
       if (role == "trainer") {
-        let sql = `INSERT INTO Account (username, password, role) VALUES ('${username}','${password}','${role}')`;
+        try {
+          const hashedPassword = await bcrypt.hash(password, salt);
 
-        connection.query(sql, (err) => {
-          if (err) throw err;
-        });
+          let sql = `INSERT INTO Account (username, password, role) VALUES ('${username}','${hashedPassword}','${role}')`;
 
-        let sql2 = `SELECT * FROM Account WHERE username='${username}'`;
+          connection.query(sql, (err) => {
+            if (err) throw err;
+          });
 
-        connection.query(sql2, (err, row) => {
-          let sql3 = `INSERT INTO TutorAccount (tutor_id) VALUES (${row[0].user_id})`;
+          let sql2 = `SELECT * FROM Account WHERE username='${username}'`;
 
-          connection.query(sql3, (err) => {
+          connection.query(sql2, (err, row) => {
+            let sql3 = `INSERT INTO TutorAccount (tutor_id) VALUES (${row[0].user_id})`;
+
+            connection.query(sql3, (err) => {
+              if (err) throw err;
+              res.redirect("/admin/home");
+            });
+          });
+        } catch {
+          res.status(500).send();
+        }
+      } else {
+        try {
+          const hashedPassword = await bcrypt.hash(password, salt);
+          let sql = `INSERT INTO Account (username, password, role) VALUES ('${username}','${hashedPassword}','${role}')`;
+
+          connection.query(sql, (err) => {
             if (err) throw err;
             res.redirect("/admin/home");
           });
-        });
-      } else {
-        let sql = `INSERT INTO Account (username, password, role) VALUES ('${username}','${password}','${role}')`;
-
-        connection.query(sql, (err) => {
-          if (err) throw err;
-          res.redirect("/admin/home");
-        });
+        } catch {
+          res.status(500).send();
+        }
       }
     } else res.redirect("/admin/home");
   });
