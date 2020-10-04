@@ -8,10 +8,56 @@
 <body>
     <h2>Topic</h2>
     <h1>{{coursename}}</h1>
+
+<form method="POST" action="/staff/category/course/topic/add" style="width: 200; height:300">
+        <input type="hidden" name="course_id" value="{{course_id}}">
+        <input type="text" name="topicName">
+        <input type="text" name="description">
+        <select id="tutor" name='tutor'>
+            <option value="" disabled selected hidden>Choose Tutor...</option>
+            {{#each tutor}}
+            <option value="{{tutor_id}}">{{name}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">Add course</button>
+    </form>
     {{#each result}}
    <p> Topic: {{topicName}}</p> 
    <p>Description: {{description}} </p> 
     <p>Tutor: {{name}}</p>
+    <a href="/staff/category/course/topic/delete/{{id}}">Delete</a>
+    <button onclick="show({{id}})">Edit</button>
+
+
+ <form method="POST" action="/staff/category/course/topic/edit/{{id}}" id='{{id}}'
+            style="opacity: 0; width: 200; height:300">
+            <input type="hidden" name="course_id" value="{{../course_id}}">
+            <input value="{{topicName}}" name="topicName">
+
+            <select id="tutor" name='tutor'>
+                <optgroup label="Current tutor">
+                    <option selected value="{{tutor_id}}">{{name}}</option>
+                </optgroup>
+
+                <optgroup label="All tutor">
+                    {{#each ../tutor}}
+                    <option value="{{tutor_id}}">{{name}}</option>
+                    {{/each}}
+                </optgroup>
+            </select>
+
+            <input value="{{description}}" name="description">
+
+            <button type="submit">Submit</button>
+        </form>
     {{/each}}
+      <script>
+        function show(id) {
+            console.log('ok')
+            console.log(id)
+            document.getElementById(id).style.opacity = 1
+        }
+
+    </script>
 </body>
 </html>

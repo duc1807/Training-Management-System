@@ -339,15 +339,6 @@ router.post("/category/search", (req, res) => {
 
 //========================================================= Course management pages
 
-// GET: Courses of category
-router.get("/category/course", (req, res) => {
-  let sql = `SELECT * FROM Course`;
-  connection.query(sql, (err, rows) => {
-    if (err) throw err;
-    res.render("./staff/course", { result: rows });
-  });
-});
-
 // POST: Add new Course
 router.post("/category/course/add", (req, res) => {
   let category_id = req.body.category_id;
@@ -365,6 +356,7 @@ router.post("/category/course/add", (req, res) => {
   });
 });
 
+// post : edit course
 router.post("/category/course/edit/:id", (req, res) => {
   let category_id = req.body.category_id;
 
@@ -397,26 +389,67 @@ router.get("/category/course/delete/:id", (req, res) => {
     res.redirect(`/staff/category/redirect/${row[0][0]["category_id"]}`);
   });
 });
-
-// GET: Redirect to topics
+//========================================================= End of Course management pages
+// GET: show  topics of a course
 router.get('/category/course/redirect/:id', (req, res) => {
     let course_id = req.params.id
     
     let sql = `SELECT *,TutorAccount.name FROM Topic LEFT JOIN TutorAccount ON Topic.tutor_id = TutorAccount.tutor_id
-               WHERE course_id = ${course_id}; SELECT * FROM Course WHERE course_id = ${course_id}`
+               WHERE course_id = ${course_id}; SELECT * FROM Course WHERE course_id = ${course_id};SELECT * FROM TutorAccount`
     
 
     connection.query(sql, (err, rows) => {
         if(err) throw err
-        res.render('./staff/topic', { result: rows[0],coursename : rows[1][0].courseName })
+        console.log(rows[1][0].courseName)
+        res.render('./staff/topic', { result: rows[0],coursename : rows[1][0].courseName,tutor : rows[2],course_id : course_id})
     })
 })
 
-//========================================================= End of Course management pages
+//==========Add new topic
+router.post('/category/course/topic/add',(req,res) =>{
 
-// GET: Topics of course
-// router.get("/category/course/topic", (req, res) => {
-//   res.render("./staff/topic");
-// });
+  let name = req.body.topicName
+  let des = req.body.description
+  let tutor_id = req.body.tutor
+  let course_id = req.body.course_id
+
+  let sql = `INSERT INTO Topic ( topicName, description, tutor_id, course_id)
+                VALUES ('${name}','${des}', ${tutor_id}, ${course_id})`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    console.log(rows);
+    res.redirect(`/staff/category/course/redirect/${course_id}`);
+  });
+})
+//=====Delete topic
+router.get("/category/course/topic/delete/:id", (req, res) => {
+  let id = req.params.id;
+
+  let sql = `SELECT course_id FROM Topic WHERE id = ${id}; DELETE FROM Topic WHERE id = ${id}`;
+  connection.query(sql, (err, row) => {
+    if (err) throw err;
+    res.redirect(`/staff/category/course/redirect/${row[0][0]["course_id"]}`);
+  });
+});
+
+// ==== edit topic
+router.post("/category/course/topic/edit/:id", (req, res) => {
+  let course_id = req.body.course_id;
+
+  let id = req.params.id;
+  let name = req.body.topicName;
+  let description = req.body.description;
+  let tutor_id = req.body.tutor;
+
+  let sql = `UPDATE Topic SET topicName='${name}', description='${description}', tutor_id=${tutor_id}, course_id = ${course_id}
+                WHERE id = ${id}`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    console.log(rows);
+    res.redirect(`/staff/category/course/redirect/${course_id}`);
+  });
+});
 
 module.exports = router;
