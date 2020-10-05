@@ -1,0 +1,11 @@
+GET http://localhost:8080/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDE5MDM3OTd9.LxZu_qXMFMTEYAPIl_Ta41433YemNwKlegLU_BHuUGs
+
+### 
+POST http://localhost:8080/test
+Content-Type: application/json
+
+{
+    "username": "staff",
+    "id": "123"
+}

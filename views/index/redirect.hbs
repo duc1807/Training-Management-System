@@ -8,10 +8,10 @@
 <body>
         <form method="POST" action="/redirect">
             <p>OTP Code:</p>
-        <input type="hidden" name="otp" value="{{otp}}">
         <input autofocus type="text" name="otpInput">
         <button type="submit">Confirm</button>
         </form>
+        <p>{{warning}}</p>
     </div>
 </body>
 </html>

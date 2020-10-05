@@ -1,35 +1,15 @@
+require('dotenv').config()
+
 const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const sendMail = require("../utils/mailer");
-//TESTT
-// const nodemailer = require("nodemailer");
-// var transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//          user: 'ducdtgch18799@fpt.edu.vn',			//email ID
-//        pass: 'duc123123'				//Password
-//      }
-//  });
+const jwt = require("jsonwebtoken");
 
-//  function sendMail(email , otp){
-// 	var details = {
-// 		from: 'ducdtgch18799@fpt.edu.vn', // sender address same as above
-// 		to: email, 					// Receiver's email id
-// 		subject: 'Your demo OTP is ', // Subject of the mail.
-// 		html: otp					// Sending OTP
-// 	};
 
-// 	transporter.sendMail(details, function (error, data) {
-// 		if(error)
-// 			console.log(error)
-// 		else
-//       console.log(data);
-//       console.log('SENT')
-// 		});
-// 	}
+global.otpCheck = undefined;
 
 // Initialize connection to mySQL
 var mysql = require("mysql");
@@ -47,7 +27,7 @@ connection.connect(function (err) {
   else console.log("Connected");
 });
 
-// ======================== Index Page
+// ================================================================= Index Page
 
 // GET: Login
 router.get("/", async function (req, res) {
@@ -63,37 +43,38 @@ router.post("/", async (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
 
-  //var sql = `SELECT * FROM Account WHERE username="${username}" AND password="${hashedPassword}"`
-
   var sql = `SELECT * FROM Account WHERE username="${username}"`;
 
   connection.query(sql, async (err, row, fields) => {
-    console.log(row[0]["password"]);
-
     try {
       if (await bcrypt.compare(password, row[0].password)) {
-
+        
+        const user = {
+          user_id: row[0].user_id,
+          username: row[0].username,
+          role: row[0].role
+        }
+        console.log(user)
         switch (row[0].role) {
           case "admin":
-            var email = "bamboo.vennus@gmail.com"
-            var otp = (Math.floor(Math.random() * ((9999 - 1000 + 1)) + 1000)).toString()
-            sendMail(email,otp)
-            res.render("./index/redirect", { otp: otp })
-            break
+            const salt = await bcrypt.genSalt(10);
+            const otp = Math.floor(
+              Math.random() * (9999 - 1000 + 1) + 1000
+            ).toString();
+            const email = "bamboo.vennus@gmail.com";
+            otpCheck = await bcrypt.hash(otp, salt);
+            sendMail(email, otp);
+            console.log(otp)
+            res.render("./index/redirect");
+            break;
           case "staff":
             res.redirect('/staff/home')
             break
           case "trainer":
-            res.redirect('/tutor/home')
+
+            res.redirect("/tutor/home");
             break;
         }
-        // if (row[0].role == "admin") {
-        //   var email = "";
-        //   var otp = "1123";
-        //   //sendMail(email,otp);
-        //   res.render("./index/redirect", { otp: otp });
-        // } else {
-        // }
       } else
         res.render("./index/test", {
           warning: "Incorrect username or password",
@@ -104,12 +85,14 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.post("/redirect", (req, res) => {
-  const otp = req.body.otp;
+router.post("/redirect", async (req, res) => {
   const otpInput = req.body.otpInput;
 
-  if (otp == otpInput) res.redirect("/admin/home");
-  else res.render("./index/test", { warning: "Invalid OTP" });
+  if (await bcrypt.compare(otpInput, otpCheck)) {
+    res.redirect("/admin/home");
+    otpCheck = undefined;
+  } else res.render("./index/redirect", { warning: "Invalid OTP" });
 });
+
 
 module.exports = router;

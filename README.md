@@ -12,7 +12,7 @@ The web application project of Learning Portal Management System.
 ## FEATURES
 
 #### For Admin: 
-- [x] Login, logout
+- [x] Login (Using OTP code), logout
 - [x] CRUD training staff accounts
 - [x] CRUD trainer accounts
 - [x] Search for account by username / role
