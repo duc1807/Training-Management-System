@@ -14,7 +14,7 @@ const sendMail = (email, otp) => {
   var details = {
     from: "vuatrochoi.theblue@gmail.com",
     to: email,
-    subject: "Ma otp cua binh fucking project manager : ",
+    subject: "Ma otp cua gui cho binh dep trai la : ",
     html: otp,
   }
 
