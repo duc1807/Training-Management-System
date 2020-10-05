@@ -3,7 +3,8 @@ const express = require("express");
 const engines = require("consolidate");
 const app = express();
 var session = require('express-session');
-
+const cookieParser = require('cookie-parser'); 
+app.use(cookieParser()); 
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));

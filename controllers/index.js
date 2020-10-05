@@ -1,13 +1,11 @@
 require('dotenv').config()
 
-const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const sendMail = require("../utils/mailer");
 const jwt = require("jsonwebtoken");
-
 
 global.otpCheck = undefined;
 
@@ -54,7 +52,7 @@ router.post("/", async (req, res) => {
           username: row[0].username,
           role: row[0].role
         }
-        console.log(user)
+        
         switch (row[0].role) {
           case "admin":
             const salt = await bcrypt.genSalt(10);
@@ -64,12 +62,15 @@ router.post("/", async (req, res) => {
             const email = "bamboo.vennus@gmail.com";
             otpCheck = await bcrypt.hash(otp, salt);
             sendMail(email, otp);
-            console.log(otp)
+            console.log('OTP Code: ', otp)
             res.render("./index/redirect");
             break;
           case "staff":
-            res.redirect('/staff/home')
-            break
+
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5s'})
+            res.cookie('token', accessToken)
+            res.redirect('/test')
+            break;
           case "trainer":
 
             res.redirect("/tutor/home");
@@ -94,5 +95,25 @@ router.post("/redirect", async (req, res) => {
   } else res.render("./index/redirect", { warning: "Invalid OTP" });
 });
 
+router.get('/test', authenToken, (req,res) => {
+  console.log("Req cuua test: ", req.user.role)
+  res.json({})
+})
+
+function authenToken(req, res, next) {
+
+  const token = req.cookies.token
+  if(token == null) 
+  {
+    console.log('Null token')
+    res.sendStatus(401)
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    req.user = user
+    next()
+  })
+}
 
 module.exports = router;

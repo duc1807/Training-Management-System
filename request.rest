@@ -1,5 +1,5 @@
 GET http://localhost:8080/test
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MDE5MDM3OTd9.LxZu_qXMFMTEYAPIl_Ta41433YemNwKlegLU_BHuUGs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTIzIiwidXNlcm5hbWUiOiJEdWMiLCJpYXQiOjE2MDE5MTY1MzIsImV4cCI6MTYwMTkxNjU0N30.dY6cEKY4MwXusLGH9zmb5MtS8oCb_ITw_ZpBMm8aLPc
 
 ### 
 POST http://localhost:8080/test
@@ -9,3 +9,16 @@ Content-Type: application/json
     "username": "staff",
     "id": "123"
 }
+
+###
+POST http://localhost:8080/
+Content-Type: application/json
+
+{
+    "username": "staff",
+    "password": "staff"
+}
+
+###
+GET http://localhost:8080/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkR1YyIsInBhc3N3b3JkIjoxMjMxMjMsImlhdCI6MTYwMTkwNjE0Mn0.SAhxdc4K8S7WeZlyqmEvX9bczng0RiQDY-LNB5uAG9c
