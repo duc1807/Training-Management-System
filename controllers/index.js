@@ -1,12 +1,16 @@
-require('dotenv').config()
+require("dotenv").config();
 
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const bcrypt = require("bcrypt");
-const sendMail = require("../utils/mailer");
 const jwt = require("jsonwebtoken");
 
+/* Import module form other files */
+const sendMail = require("../utils/mailer");
+
+/* Initialize global var */
+global.user = undefined;
 global.otpCheck = undefined;
 
 // Initialize connection to mySQL
@@ -40,22 +44,17 @@ router.get("/", async function (req, res) {
 router.post("/", async (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
-
   var sql = `SELECT * FROM Account WHERE username="${username}"`;
 
   connection.query(sql, async (err, row, fields) => {
     try {
       if (await bcrypt.compare(password, row[0].password)) {
-        
-        const user = {
+        user = {
           user_id: row[0].user_id,
           username: row[0].username,
-          role: row[0].role
-        }
+          role: row[0].role,
+        };
 
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
-        res.cookie('token', accessToken, {httpOnly: true})
-        
         switch (row[0].role) {
           case "admin":
             const salt = await bcrypt.genSalt(10);
@@ -65,15 +64,23 @@ router.post("/", async (req, res) => {
             const email = "bamboo.vennus@gmail.com";
             otpCheck = await bcrypt.hash(otp, salt);
             sendMail(email, otp);
-            console.log('OTP Code: ', otp)
+            console.log("OTP Code: ", otp);
             res.render("./index/redirect");
             break;
           case "staff":
-
-            res.redirect('/staff/home')
+            var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+              expiresIn: "1h",
+            });
+            user = undefined;
+            res.cookie("token", accessToken, { httpOnly: true });
+            res.redirect("/staff/home");
             break;
           case "trainer":
-
+            var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+              expiresIn: "1h",
+            });
+            user = undefined;
+            res.cookie("token", accessToken, { httpOnly: true });
             res.redirect("/tutor/home");
             break;
         }
@@ -91,29 +98,15 @@ router.post("/redirect", async (req, res) => {
   const otpInput = req.body.otpInput;
 
   if (await bcrypt.compare(otpInput, otpCheck)) {
-    res.redirect("/admin/home");
+    var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+    user = undefined;
     otpCheck = undefined;
+
+    res.cookie("token", accessToken, { httpOnly: true });
+    res.redirect("/admin/home");
   } else res.render("./index/redirect", { warning: "Invalid OTP" });
 });
-
-router.get('/test', authenToken, (req,res) => {
-  console.log("Req cuua test: ", req.user.role)
-  res.json({})
-})
-
-function authenToken(req, res, next) {
-
-  const token = req.cookies['token']
-  if(token == null) 
-  {
-    res.sendStatus(401)
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
-    req.user = user
-    next()
-  })
-}
 
 module.exports = router;
