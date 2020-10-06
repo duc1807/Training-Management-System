@@ -35,7 +35,7 @@ connection.connect(function (err) {
 // GET: Login
 router.get("/", async function (req, res) {
   try {
-    res.render("./index/test");
+    res.render("./index/login");
   } catch (err) {
     throw err;
   }
@@ -43,11 +43,11 @@ router.get("/", async function (req, res) {
 
 // POST: Login
 router.post("/", async (req, res) => {
-  const { username, password } = req.body
+  const { username, password } = req.body;
   const sql = `SELECT * FROM Account WHERE username="${username}"`;
 
   connection.query(sql, async (err, row, fields) => {
-    try {
+    if (row != "") {
       if (await bcrypt.compare(password, row[0].password)) {
         user = {
           user_id: row[0].user_id,
@@ -85,11 +85,13 @@ router.post("/", async (req, res) => {
             break;
         }
       } else
-        res.render("./index/test", {
+        res.render("./index/login", {
           warning: "Incorrect username or password",
         });
-    } catch {
-      res.status(500).send();
+    } else {
+      res.render("./index/login", {
+        warning: "Incorrect username or password",
+      });
     }
   });
 });
