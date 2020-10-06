@@ -1,10 +1,13 @@
 const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+
 
 // [✔] Connect to database
 var mysql = require("mysql");
-const { use } = require("./admin");
+
+router.use(staffValidation)
 
 var connection = mysql.createConnection({
   host: "sql12.freemysqlhosting.net",
@@ -451,5 +454,19 @@ router.post("/category/course/topic/edit/:id", (req, res) => {
     res.redirect(`/staff/category/course/redirect/${course_id}`);
   });
 });
+
+function staffValidation(req, res, next) {
+  const token = req.cookies['token']
+  if(!token) 
+  {
+    res.sendStatus(401)
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    if(user.role != 'staff') res.sendStatus(403)
+    next()
+  })
+}
 
 module.exports = router;

@@ -7,5 +7,33 @@
 </head>
 <body>
     <h1>Trainer Profile</h1>
+    <div>
+        <p>{{result.name}}</p>
+        <p>{{result.age}}</p>
+        <p>{{result.type}}</p>
+        <p>{{result.workingPlace}}</p>
+        <p>{{result.phone}}</p>
+        <p>{{result.email}}</p>
+        {{!-- <a href="/staff/account/trainer/delete{{user_id}}">delete</a> <br><br> --}}
+        <button onclick="show({{result.tutor_id}})">Edit</button>
+
+        <form method="POST" action="/tutor/profile/edit/{{result.tutor_id}}" id='{{result.tutor_id}}'
+            style="opacity: 0; width: 200; height:300">
+            <input value="{{result.name}}" name="name">
+            <input value="{{result.age}}" name="age">
+            <input value="{{result.type}}" name="type">
+            <input value="{{result.workingPlace}}" name="workingPlace">
+            <input value="{{result.phone}}" name="phone">
+            <input value="{{result.email}}" name="email">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <br><br>
+    <script>
+        function show(id) {
+            document.getElementById(id).style.opacity = 1
+        }
+    </script>
 </body>
 </html>

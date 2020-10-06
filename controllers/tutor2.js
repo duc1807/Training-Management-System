@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require('jsonwebtoken')
+
+router.use(trainerValidation)
 
 // [✔] Connect to database
 var mysql = require('mysql')
@@ -10,6 +13,7 @@ var connection = mysql.createConnection({
   password: 'vHENizWluh',
   database: 'sql12367447',
   port: 3306,
+  multipleStatements: true
 })
 
 connection.connect(function(err){
@@ -18,9 +22,10 @@ connection.connect(function(err){
 })
 
 // GET: Home
-router.get('/home/:id', (req, res) => {
+router.get('/home', (req, res) => {
 
-  let id = null 
+  let id = req.user.user_id  
+
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`
 
   connection.query(sql, [id,id], (err, rows) => {
@@ -73,5 +78,20 @@ router.post('/profile/edit/:id', (req, res) => {
       }
     })
 })
+
+function trainerValidation(req, res, next) {
+  const token = req.cookies['token']
+  if(!token) 
+  {
+    res.sendStatus(401)
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    req.user = user
+    if(user.role != 'trainer') res.sendStatus(403)
+    next()
+  })
+}
 
 module.exports = router

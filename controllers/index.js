@@ -52,6 +52,9 @@ router.post("/", async (req, res) => {
           username: row[0].username,
           role: row[0].role
         }
+
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
+        res.cookie('token', accessToken, {httpOnly: true})
         
         switch (row[0].role) {
           case "admin":
@@ -67,9 +70,7 @@ router.post("/", async (req, res) => {
             break;
           case "staff":
 
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '5s'})
-            res.cookie('token', accessToken)
-            res.redirect('/test')
+            res.redirect('/staff/home')
             break;
           case "trainer":
 
@@ -102,10 +103,9 @@ router.get('/test', authenToken, (req,res) => {
 
 function authenToken(req, res, next) {
 
-  const token = req.cookies.token
+  const token = req.cookies['token']
   if(token == null) 
   {
-    console.log('Null token')
     res.sendStatus(401)
   }
 

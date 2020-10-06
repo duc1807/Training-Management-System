@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require('jsonwebtoken')
+
+router.use(trainerValidation)
 
 // [✔] Connect to database
 var mysql = require('mysql')
@@ -10,6 +13,7 @@ var connection = mysql.createConnection({
   password: 'vHENizWluh',
   database: 'sql12367447',
   port: 3306,
+  multipleStatements: true
 })
 
 connection.connect(function(err){
@@ -20,31 +24,39 @@ connection.connect(function(err){
 // GET: Home
 router.get('/home', (req, res) => {
 
-  let id = null 
+  let id = req.user.user_id  
+
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`
 
   connection.query(sql, [id,id], (err, rows) => {
     if(err) throw err
+    res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name, course_id: rows[0][0].course_id})
+  })    
+})
 
-    res.render('./tutor/home', {result: rows[0], account: rows[1]})
-  })   
+// GET: Profile
+router.get('/profile', (req, res) => {
 
+  let id = req.user.user_id  
   
+  let sql = `SELECT * FROM TutorAccount WHERE tutor_id = ${id}`
+
+  connection.query(sql, (err, rows) => {
+    if(err) throw err
+    res.render('./tutor/profile', {result: rows[0]})
+  })    
 })
 
 // POST: Update profile
 router.post('/profile/edit/:id', (req, res) => {
-  const { name, age, type, workingPlace, phone, email } = req.body
-  const id = req.params.id
-
-  // const sql = `UPDATE TutorAccount 
-  //              SET name = '${name}',
-  //                  age = '${age}',
-  //                  type = '${type}',
-  //                  workingPlace = '${workingPlace}',
-  //                  phone = '${phone}',
-  //                  email = '${email}'
-  //              WHERE tutor_id = ${id}`
+    let id = req.params.id
+    console.log(id)
+    let name = req.body.name
+    let age = req.body.age
+    let type = req.body.type
+    let workingPlace = req.body.workingPlace
+    let phone = req.body.phone
+    let email = req.body.email
 
     let sqlCheck = `SELECT * FROM TutorAccount WHERE user_id = '${id}'`
 
@@ -52,16 +64,16 @@ router.post('/profile/edit/:id', (req, res) => {
       if(row != "") {
         let sql  = `UPDATE TutorAccount 
                     SET 
-                      name = '${name}'
-                      age = '${age}'
-                      type = '${type}'
-                      workingPlace = '${workingPlace}'
-                      phone = '${phone}'
+                      name = '${name}',
+                      age = '${age}',
+                      type = '${type}',
+                      workingPlace = '${workingPlace}',
+                      phone = '${phone}',
                       email = '${email}'
-                    WHERE tutor_id = '${id}'`
+                    WHERE tutor_id = ${id}`
         connection.query(sql, (err) => {
           if(err) throw err
-          res.redirect('/tutor/home')
+          res.redirect('/tutor/profile')
         })
       }
       else {
@@ -76,5 +88,35 @@ router.post('/profile/edit/:id', (req, res) => {
       }
     })
 })
+
+router.get('/topic/redirect/:id', (req,res) => {
+  const id = req.params.id
+
+  const sql = `SELECT *, name
+               FROM Topic
+               LEFT JOIN TutorAccount ON Topic.tutor_id = TutorAccount.tutor_id
+               WHERE course_id = ${id}; SELECT * FROM Course WHERE course_id = ${id}`
+
+  connection.query(sql, (err, rows) => {
+    if(err) throw err
+    res.render('./tutor/topic', {result: rows[0], courseName: rows[1][0].courseName})
+
+  })
+})
+
+function trainerValidation(req, res, next) {
+  const token = req.cookies['token']
+  if(!token) 
+  {
+    res.sendStatus(401)
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403)
+    req.user = user
+    if(user.role != 'trainer') res.sendStatus(403)
+    next()
+  })
+}
 
 module.exports = router
