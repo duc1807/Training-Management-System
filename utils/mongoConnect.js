@@ -1,6 +1,6 @@
 // Declare the connection to database
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://duc:duc123123@cluster0-l46rb.azure.mongodb.net/ATNCompany?retryWrites=true&w=majority";
+const uri = "mongodb+srv://duc:<password>@cluster0-l46rb.azure.mongodb.net/ATNCompany?retryWrites=true&w=majority";
 
 let connectionPromises = null
 

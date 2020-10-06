@@ -1,10 +1,11 @@
 require("dotenv").config();
 
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
+const router = express.Router();
 
 /* Import module form other files */
 const sendMail = require("../utils/mailer");
@@ -14,9 +15,9 @@ global.user = undefined;
 global.otpCheck = undefined;
 
 // Initialize connection to mySQL
-var mysql = require("mysql");
+const mysql = require("mysql");
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   host: "sql12.freemysqlhosting.net",
   user: "sql12367447",
   password: "vHENizWluh",
@@ -42,9 +43,8 @@ router.get("/", async function (req, res) {
 
 // POST: Login
 router.post("/", async (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-  var sql = `SELECT * FROM Account WHERE username="${username}"`;
+  const { username, password } = req.body
+  const sql = `SELECT * FROM Account WHERE username="${username}"`;
 
   connection.query(sql, async (err, row, fields) => {
     try {
@@ -95,7 +95,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/redirect", async (req, res) => {
-  const otpInput = req.body.otpInput;
+  const { otpInput } = req.body;
 
   if (await bcrypt.compare(otpInput, otpCheck)) {
     var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {

@@ -2,7 +2,7 @@
 const express = require("express");
 const engines = require("consolidate");
 const app = express();
-var session = require('express-session');
+const session = require('express-session');
 const cookieParser = require('cookie-parser'); 
 app.use(cookieParser()); 
 
@@ -42,5 +42,5 @@ app.use("/tutor2",controllertutor2)
 
 // Initialize the environment port | default port for the server
 app.listen(process.env.PORT || 8080, function () {
-  console.log("Server listening on port 8080");
+  console.log("Server running on port 8080");
 });

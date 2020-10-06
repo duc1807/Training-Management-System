@@ -1,9 +1,12 @@
 const express = require("express");
-const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const router = express.Router();
+
+// Use middleware for validation
 router.use(adminValidation)
+
 // [✔] Connect to database
 var mysql = require("mysql");
 
@@ -17,14 +20,13 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (!!err) console.log(err);
-  else console.log("Connected");
+  else console.log(`Connected to ${connection.config.host}`);
 });
 
 // [✔] GET: Admin homepage
 router.get("/home", async function (req, res) {
   var sql = "SELECT * FROM Account";
   connection.query(sql, (err, rows, field) => {
-    console.log(rows);
     res.render("./admin/adminAccount", { result: rows });
   });
 });
@@ -95,7 +97,10 @@ router.post("/home/edit/:id", async function (req, res) {
   let password = req.body.password;
   let role = req.body.role;
 
-  let sql = `UPDATE Account SET username='${username}', password='${password}', role='${role}' WHERE user_id ='${id}'`;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  let sql = `UPDATE Account SET username='${username}', password='${hashedPassword}', role='${role}' WHERE user_id ='${id}'`;
   connection.query(sql, (err) => {
     if (err) throw err;
     res.redirect("/admin/home");
@@ -117,12 +122,10 @@ router.get("/home/delete/:id", async function (req, res) {
 router.post("/home/search", async function (req, res) {
   // Get account id from hbs
   let key = req.body.key;
-  console.log(key);
 
   let sql = `SELECT * FROM Account WHERE username LIKE '%${key}%'`;
   connection.query(sql, (err, rows, field) => {
     if (err) throw err;
-    console.log(rows);
     let result = rows;
     res.render("./admin/adminAccount", { result: result });
   });
