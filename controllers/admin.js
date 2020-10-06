@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 // Use middleware for validation
-router.use(adminValidation)
+router.use(adminValidation);
 
 // [✔] Connect to database
 var mysql = require("mysql");
@@ -27,21 +27,15 @@ connection.connect(function (err) {
 router.get("/home", async function (req, res) {
   var sql = "SELECT * FROM Account";
   connection.query(sql, (err, rows, field) => {
-    res.render("./admin/adminAccount", { result: rows });
+    res.render("./admin/adminAccount", { result: rows, warningMessage: req.session.warningMessage })
+    req.session.warningMessage = undefined;
   });
-});
-
-// [✔] Create account page
-router.get("/home/add", async function (req, res) {
-  res.render("./admin/addEmp");
 });
 
 // [✔] POST: Create new accout
 router.post("/home/add", async function (req, res) {
   // Receive information from hbs
-  let username = req.body.username;
-  let password = req.body.password;
-  let role = req.body.role;
+  const { username, password, role } = req.body;
 
   let sqlCheckAcc = `SELECT * FROM Account WHERE username='${username}'`;
   connection.query(sqlCheckAcc, async (err, row, fields) => {
@@ -91,26 +85,45 @@ router.post("/home/add", async function (req, res) {
 // POST: Edit account
 router.post("/home/edit/:id", async function (req, res) {
   // Get account id from hbs
-  let id = req.params.id;
+  const id = req.params.id;
 
-  let username = req.body.username;
-  let password = req.body.password;
-  let role = req.body.role;
+  const { username, password, role } = req.body;
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  let sql = `UPDATE Account SET username='${username}', password='${hashedPassword}', role='${role}' WHERE user_id ='${id}'`;
-  connection.query(sql, (err) => {
-    if (err) throw err;
-    res.redirect("/admin/home");
+  let sqlCheckAcc = `SELECT * FROM Account WHERE username='${username}' OR user_id = ${id}`;
+  connection.query(sqlCheckAcc, (err, row) => {
+    if (row.length <2) {
+      if(!password) {
+        var sql = `UPDATE Account 
+        SET username='${username}',       
+        role='${role}' 
+        WHERE user_id ='${id}'`;
+      }
+      else {
+        var sql = `UPDATE Account 
+        SET username='${username}',  
+        password='${hashedPassword}',
+        role='${role}' 
+        WHERE user_id ='${id}'`;
+      }   
+      
+      connection.query(sql, (err) => {
+        if (err) throw err;
+        res.redirect("/admin/home");
+      });
+
+    } else {
+      req.session.warningMessage = "Invalid username, this username has existed!"
+      res.redirect('/admin/home')
+    }
   });
 });
 
 // [✔] DELETE: Delete account
 router.get("/home/delete/:id", async function (req, res) {
   let id = req.params.id;
-  console.log(id);
   let sql = `DELETE FROM Account WHERE user_id='${id}'`;
   connection.query(sql, (err) => {
     if (err) throw err;
@@ -126,23 +139,21 @@ router.post("/home/search", async function (req, res) {
   let sql = `SELECT * FROM Account WHERE username LIKE '%${key}%'`;
   connection.query(sql, (err, rows, field) => {
     if (err) throw err;
-    let result = rows;
-    res.render("./admin/adminAccount", { result: result });
+    res.render("./admin/adminAccount", { result: rows });
   });
 });
 
 function adminValidation(req, res, next) {
-  const token = req.cookies['token']
-  if(!token) 
-  {
-    res.sendStatus(401)
+  const token = req.cookies["token"];
+  if (!token) {
+    res.sendStatus(401);
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
-    if(user.role != 'admin') res.sendStatus(403)
-    next()
-  })
+    if (err) return res.sendStatus(403);
+    if (user.role != "admin") res.sendStatus(403);
+    next();
+  });
 }
 
 module.exports = router;
