@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+     <link rel="stylesheet" href="/styles/index/login.css">
+    <title>Login</title>
 </head>
 <body>
-        <form method="POST" action="/">
-            <p>Username:</p>
-        <input autofocus type="text" name="username">
-        <p>Password:</p>
-        <input type="text" name="password" >
-        <button type="submit">Click</button>
+    <header>
+        <img src="https://i.chungta.vn/2017/12/25/LogoFPT-2017-copy-3042-1513928-4697-9171-1514166704.jpg">
+        <h1>FPT Training Portal</h1>
+    </header>
+    <main>
+        <div id="background">        
+        <form id = "form"method="POST" action="/">
+            <h2>Login</h2>
+            <h3>Username:</h3>
+            <input autofocus type="text" name="username">
+            <h3>Password:</h3>
+            <input type="text" name="password" >
+            <button type="submit">Login</button>
         </form>
-        <p>{{warning}}</p>
-    </div>
+            <p>{{warning}}</p>
+        </div>
+
+    </main>
 </body>
 </html>
