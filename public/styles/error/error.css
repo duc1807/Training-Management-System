@@ -1,0 +1,72 @@
+body {
+    background-image: url(https://www.officelovin.com/wp-content/uploads/2019/01/talent-works-office-2.jpg); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    font-size: 25;
+}
+
+#logo {
+    position: absolute;
+    width: 12%;
+    height: 12%;
+    border-radius: 6px;
+}
+
+#container {
+    width: 50%;
+    height: 20vw;
+    margin-top: 12%;
+
+    border-radius: 20px;
+
+    box-shadow: 2px 3px 20px 20px rgb(0, 0, 0);
+    overflow: visible;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#insideContainer {
+    width: 95.5%;
+    height: 90%;
+    background-color: rgb(226, 215, 200);
+    border-radius: 7px;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+#line {
+    width: 0.4%;
+    height: 80%;
+    align-self: center;
+    background-color: rgb(226, 163, 163);
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(226, 215, 200);
+    padding: 10px;
+    font-size: 1.2vw;
+}
+
+.contentRight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+}
+
+#warningImg {
+    width: 60%;
+    height: auto;
+}
