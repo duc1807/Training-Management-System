@@ -1,12 +1,11 @@
-const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-
 // [✔] Connect to database
 var mysql = require("mysql");
 
+// Use middle to authorization
 router.use(staffValidation)
 
 var connection = mysql.createConnection({
@@ -25,7 +24,7 @@ connection.connect(function (err) {
 
 // GET: Home
 router.get("/home", (req, res) => {
-  res.render("./staff/home");
+  res.render("./staff/home")
 });
 
 //==================================================== GET: Trainee account management pages
@@ -39,67 +38,60 @@ router.get("/account/trainee", (req, res) => {
              SELECT * FROM Category`;
 
   connection.query(sql, (err, rows) => {
-    if (err) throw err;
+    if (err) throw err
+    const category = getCategory(rows[1], rows[2])
 
-    var category = [] 
-    // var isExisted = null
+    // var category = [] 
 
-    for(f = 0; f < rows[2].length; f++)
-    {
-      category.push(
-        {
-          name: rows[2][f]['name'],
-          description: []
-        })
-    }
+    // for(f = 0; f < rows[2].length; f++)
+    // {
+    //   category.push(
+    //     {
+    //       name: rows[2][f]['name'],
+    //       description: []
+    //     })
+    // }
 
-    for (var i = 0; i < rows[1].length; i++)
-    {
-      // var description = []
-      for(var e = 0; e < category.length; e++)
-      {
-        // isExisted = false
-        if(rows[1][i]['name'] == category[e].name) 
-        {
-          // isExisted = true
-          category[e].description.push({
-            course_id: rows[1][i]['course_id'],
-            courseName: rows[1][i]['courseName']
-          })
-          break
-        }       
-      }      
-      // if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
-    }
-    res.render("./staff/accountTrainee", { result: rows[0], category: rows[1], type: category });
+    // for (var i = 0; i < rows[1].length; i++)
+    // {
+    //   // var description = []
+    //   for(var e = 0; e < category.length; e++)
+    //   {
+    //     // isExisted = false
+    //     if(rows[1][i]['name'] == category[e].name) 
+    //     {
+    //       // isExisted = true
+    //       category[e].description.push({
+    //         course_id: rows[1][i]['course_id'],
+    //         courseName: rows[1][i]['courseName']
+    //       })
+    //       break
+    //     }       
+    //   }      
+    // }
+    res.render("./staff/accountTrainee", { result: rows[0], category: rows[1], type: category })
   });
 });
 
-//************************************************ */ TEST
-
-router.get("/account/trainee/add", (req, res) => {
-  res.render("./staff/test/addTrainee");
-});
-//************************************************ */ TEST
-
 // POST: Add trainee account
 router.post("/account/trainee/add", (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
-  let dob = req.body.dob;
-  let mainPL = req.body.mainPL;
-  let expDetail = req.body.expDetail;
-  let name = req.body.name;
-  let age = req.body.age;
-  let education = req.body.education;
-  let toeic = req.body.toeic;
-  let location = req.body.location;
-  let course_id = req.body.course_id;
+  // let username = req.body.username;
+  // let password = req.body.password;
+  // let dob = req.body.dob;
+  // let mainPL = req.body.mainPL;
+  // let expDetail = req.body.expDetail;
+  // let name = req.body.name;
+  // let age = req.body.age;
+  // let education = req.body.education;
+  // let toeic = req.body.toeic;
+  // let location = req.body.location;
+  // let course_id = req.body.course_id;
+
+  const { username, password, dob, mainPL, expDetail, name, age, education, toeic, location, course_id } = req.body
 
   let sql = `INSERT INTO TraineeAccount 
-                (username, password, dob, mainPL, expDetail, name, age, education, toeic, location, course_id)
-               VALUES (
-                   '${username}','${password}','${dob}','${mainPL}','${expDetail}','${name}',${age},'${education}','${toeic}','${location}', ${course_id})`;
+             (username, password, dob, mainPL, expDetail, name, age, education, toeic, location, course_id)
+             VALUES ('${username}','${password}','${dob}','${mainPL}','${expDetail}','${name}',${age},'${education}','${toeic}','${location}', ${course_id})`;
 
   connection.query(sql, (err) => {
     if (err) throw err;
@@ -109,23 +101,34 @@ router.post("/account/trainee/add", (req, res) => {
 
 // POST: Edit trainee account
 router.post("/account/trainee/edit/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
-  let username = req.body.username;
-  let password = req.body.password;
-  let dob = req.body.dob;
-  let mainPL = req.body.mainPL;
-  let expDetail = req.body.expDetail;
-  let name = req.body.name;
-  let age = req.body.age;
-  let education = req.body.education;
-  let toeic = req.body.toeic;
-  let location = req.body.location;
-  let course_id = req.body.course_id;
+  // let username = req.body.username;
+  // let password = req.body.password;
+  // let dob = req.body.dob;
+  // let mainPL = req.body.mainPL;
+  // let expDetail = req.body.expDetail;
+  // let name = req.body.name;
+  // let age = req.body.age;
+  // let education = req.body.education;
+  // let toeic = req.body.toeic;
+  // let location = req.body.location;
+  // let course_id = req.body.course_id;
 
-  let sql = `UPDATE TraineeAccount 
-               SET username = '${username}',password = '${password}',dob = '${dob}',mainPL = '${mainPL}',expDetail = '${expDetail}',name = '${name}',age = '${age}',education = '${education}',toeic = '${toeic}' ,location = '${location}', course_id = ${course_id}
-               WHERE trainee_id = ${id}`;
+  const { username, password, dob, mainPL, expDetail, name, age, education, toeic, location, course_id } = req.body
+
+  let sql = `UPDATE TraineeAccount SET 
+                username = '${username}',
+                password = '${password}',
+                dob = '${dob}',mainPL = '${mainPL}',
+                expDetail = '${expDetail}',
+                name = '${name}',
+                age = '${age}',
+                education = '${education}',
+                toeic = '${toeic}' ,
+                location = '${location}', 
+                course_id = ${course_id}
+              WHERE trainee_id = ${id}`;
 
   connection.query(sql, (err) => {
     if (err) throw err;
@@ -135,7 +138,7 @@ router.post("/account/trainee/edit/:id", (req, res) => {
 
 // GET: Delete trainee account
 router.get("/account/trainee/delete/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
   let sql = `DELETE FROM TraineeAccount WHERE trainee_id='${id}'`;
 
@@ -146,7 +149,7 @@ router.get("/account/trainee/delete/:id", (req, res) => {
 });
 
 router.post("/account/trainee/search", (req, res) => {
-  let key = req.body.key;
+  const key = req.body.key
 
   let sql = `SELECT *, Course.courseName 
              FROM TraineeAccount 
@@ -159,39 +162,38 @@ router.post("/account/trainee/search", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err
+    const category = getCategory(rows[1], rows[2])
+    // var category = [] 
+    // var isExisted = null
 
-    console.log(rows[0])
-    var category = [] 
-    var isExisted = null
+    // for(f = 0; f < rows[2].length; f++)
+    // {
+    //   category.push(
+    //     {
+    //       name: rows[2][f]['name'],
+    //       description: []
+    //     })
+    // }
 
-    for(f = 0; f < rows[2].length; f++)
-    {
-      category.push(
-        {
-          name: rows[2][f]['name'],
-          description: []
-        })
-    }
-
-    for (var i = 0; i < rows[1].length; i++)
-    {
-      var description = []
-      for(var e = 0; e < category.length; e++)
-      {
-        isExisted = false
-        if(rows[1][i]['name'] == category[e].name) 
-        {
-          isExisted = true
-          category[e].description.push({
-            course_id: rows[1][i]['course_id'],
-            courseName: rows[1][i]['courseName']
-          })
-          break
-        }       
-      }      
-      if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
-    }
-    res.render("./staff/accountTrainee", {result: rows[0], category: rows[1], type: category });
+    // for (var i = 0; i < rows[1].length; i++)
+    // {
+    //   var description = []
+    //   for(var e = 0; e < category.length; e++)
+    //   {
+    //     isExisted = false
+    //     if(rows[1][i]['name'] == category[e].name) 
+    //     {
+    //       isExisted = true
+    //       category[e].description.push({
+    //         course_id: rows[1][i]['course_id'],
+    //         courseName: rows[1][i]['courseName']
+    //       })
+    //       break
+    //     }       
+    //   }      
+    //   if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
+    // }
+    res.render("./staff/accountTrainee", {result: rows[0], category: rows[1], type: category })
   });
 });
 
@@ -256,7 +258,7 @@ router.get("/category", (req, res) => {
 
 // GET: Redirect to courses of selected category
 router.get("/category/redirect/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
   let sql = `SELECT *, TutorAccount.name 
                 FROM Course 
@@ -267,7 +269,7 @@ router.get("/category/redirect/:id", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows)
+
     // if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
     // else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
     res.render("./staff/course", {
@@ -279,15 +281,9 @@ router.get("/category/redirect/:id", (req, res) => {
   });
 });
 
-//* TEST
-router.get("/category/add", (req, res) => {
-  res.render("./staff/test/addCategory");
-});
-
 // POST: Add new category
 router.post("/category/add", (req, res) => {
-  let name = req.body.name;
-  let description = req.body.description;
+  const { name, description } = req.body
 
   let sql = `INSERT INTO Category (name, description) VALUES ('${name}', '${description}')`;
 
@@ -299,10 +295,9 @@ router.post("/category/add", (req, res) => {
 
 // POST: Edit category
 router.post("/category/edit/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
-  let name = req.body.name;
-  let description = req.body.description;
+  const { name, description } = req.body
 
   let sql = `UPDATE Category SET name = '${name}', description = '${description}' WHERE category_id = ${id}`;
 
@@ -314,7 +309,7 @@ router.post("/category/edit/:id", (req, res) => {
 
 // GET: Delete category
 router.get("/category/delete/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
   let sql = `DELETE FROM Category WHERE category_id = ${id}`;
 
@@ -326,7 +321,7 @@ router.get("/category/delete/:id", (req, res) => {
 
 // POST: Search category
 router.post("/category/search", (req, res) => {
-  let key = req.body.key;
+  const key = req.body.key;
 
   let sql = `SELECT * FROM Category WHERE name LIKE '%${key}%'`;
 
@@ -344,90 +339,75 @@ router.post("/category/search", (req, res) => {
 
 // POST: Add new Course
 router.post("/category/course/add", (req, res) => {
-  let category_id = req.body.category_id;
-  let name = req.body.courseName;
-  let description = req.body.description;
-  let tutor_id = req.body.tutor;
+
+  const { category_id, courseName, description, tutor} = req.body
 
   let sql = `INSERT INTO Course (courseName, description, category_id, tutor_id)
-                VALUES ('${name}','${description}', ${category_id}, ${tutor_id})`;
+             VALUES ('${courseName}','${description}', ${category_id}, ${tutor})`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows);
     res.redirect(`/staff/category/redirect/${category_id}`);
   });
 });
 
 // post : edit course
 router.post("/category/course/edit/:id", (req, res) => {
-  let category_id = req.body.category_id;
 
-  let course_id = req.params.id;
-  let name = req.body.courseName;
-  let description = req.body.description;
-  let tutor_id = req.body.tutor;
+  const course_id = req.params.id;
 
-  let sql = `UPDATE Course SET courseName='${name}', description='${description}', tutor_id=${tutor_id}
+  const { category_id, courseName, description, tutor } = req.body
+
+  let sql = `UPDATE Course SET courseName='${courseName}', description='${description}', tutor_id=${tutor}
                 WHERE course_id = ${course_id}`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows);
     res.redirect(`/staff/category/redirect/${category_id}`);
   });
 });
 
 // GET: Delete a course
 router.get("/category/course/delete/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
   let sql = `SELECT category_id FROM Course WHERE course_id = ${id}; DELETE FROM Course WHERE course_id = ${id}`;
   connection.query(sql, (err, row) => {
     if (err) throw err;
-    console.log("Day nay");
-    console.log(row);
-    console.log("rows 0");
-    console.log(row[0][0]["category_id"]);
     res.redirect(`/staff/category/redirect/${row[0][0]["category_id"]}`);
   });
 });
 //========================================================= End of Course management pages
+
 // GET: show  topics of a course
 router.get('/category/course/redirect/:id', (req, res) => {
-    let course_id = req.params.id
+    const course_id = req.params.id
     
     let sql = `SELECT *,TutorAccount.name FROM Topic LEFT JOIN TutorAccount ON Topic.tutor_id = TutorAccount.tutor_id
                WHERE course_id = ${course_id}; SELECT * FROM Course WHERE course_id = ${course_id};SELECT * FROM TutorAccount`
     
-
     connection.query(sql, (err, rows) => {
         if(err) throw err
-        console.log(rows[1][0].courseName)
         res.render('./staff/topic', { result: rows[0],coursename : rows[1][0].courseName,tutor : rows[2],course_id : course_id})
     })
 })
 
-//==========Add new topic
+// POST: Add new topic
 router.post('/category/course/topic/add',(req,res) =>{
 
-  let name = req.body.topicName
-  let des = req.body.description
-  let tutor_id = req.body.tutor
-  let course_id = req.body.course_id
+  const { topicName, description, tutor, course_id } = req.body
 
   let sql = `INSERT INTO Topic ( topicName, description, tutor_id, course_id)
-                VALUES ('${name}','${des}', ${tutor_id}, ${course_id})`;
+                VALUES ('${topicName}','${description}', ${tutor}, ${course_id})`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows);
     res.redirect(`/staff/category/course/redirect/${course_id}`);
   });
 })
-//=====Delete topic
+// GET: Delete topic
 router.get("/category/course/topic/delete/:id", (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
 
   let sql = `SELECT course_id FROM Topic WHERE id = ${id}; DELETE FROM Topic WHERE id = ${id}`;
   connection.query(sql, (err, row) => {
@@ -438,19 +418,20 @@ router.get("/category/course/topic/delete/:id", (req, res) => {
 
 // ==== edit topic
 router.post("/category/course/topic/edit/:id", (req, res) => {
-  let course_id = req.body.course_id;
 
-  let id = req.params.id;
-  let name = req.body.topicName;
-  let description = req.body.description;
-  let tutor_id = req.body.tutor;
+  const id = req.params.id;
 
-  let sql = `UPDATE Topic SET topicName='${name}', description='${description}', tutor_id=${tutor_id}, course_id = ${course_id}
-                WHERE id = ${id}`;
+  const { course_id, topicName, description, tutor } = req.body
+
+  let sql = `UPDATE Topic SET 
+              topicName='${topicName}', 
+              description='${description}', 
+              tutor_id=${tutor}, 
+              course_id = ${course_id}
+             WHERE id = ${id}`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    console.log(rows);
     res.redirect(`/staff/category/course/redirect/${course_id}`);
   });
 });
@@ -467,6 +448,37 @@ function staffValidation(req, res, next) {
     if(user.role != 'staff') res.redirect('/status/401')
     next()
   })
+}
+
+function getCategory(rows1, rows2) {
+  var category = []
+  for(f = 0; f < rows2.length; f++)
+  {
+    category.push(
+      {
+        name: rows2[f]['name'],
+        description: []
+      })
+  }
+
+  for (var i = 0; i < rows1.length; i++)
+  {
+    // var description = []
+    for(var e = 0; e < category.length; e++)
+    {
+      // isExisted = false
+      if(rows1[i]['name'] == category[e].name) 
+      {
+        // isExisted = true
+        category[e].description.push({
+          course_id: rows1[i]['course_id'],
+          courseName: rows1[i]['courseName']
+        })
+        break
+      }       
+    }      
+  }
+  return category
 }
 
 module.exports = router;
