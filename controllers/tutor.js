@@ -51,13 +51,8 @@ router.get('/profile', (req, res) => {
 // POST: Update profile
 router.post('/profile/edit/:id', (req, res) => {
     let id = req.params.id
-    console.log(id)
-    let name = req.body.name
-    let age = req.body.age
-    let type = req.body.type
-    let workingPlace = req.body.workingPlace
-    let phone = req.body.phone
-    let email = req.body.email
+
+    const { name, age, type, workingPlace, phone, email } = req.body
 
     let sqlCheck = `SELECT * FROM TutorAccount WHERE user_id = '${id}'`
 
@@ -101,7 +96,6 @@ router.get('/topic/redirect/:id', (req,res) => {
   connection.query(sql, (err, rows) => {
     if(err) throw err
     res.render('./tutor/topic', {result: rows[0], courseName: rows[1][0].courseName})
-
   })
 })
 
@@ -109,13 +103,13 @@ function trainerValidation(req, res, next) {
   const token = req.cookies['token']
   if(!token) 
   {
-    res.sendStatus(401)
+    res.redirect('/status/401')
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403)
+    if (err) return res.redirect('/status/401')
     req.user = user
-    if(user.role != 'trainer') res.sendStatus(403)
+    if(user.role != 'trainer') res.redirect('/status/401')
     next()
   })
 }

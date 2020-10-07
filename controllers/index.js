@@ -111,4 +111,10 @@ router.post("/redirect", async (req, res) => {
   } else res.render("./index/redirect", { warning: "Invalid OTP" });
 });
 
+// GET: Status pages
+router.get("/status/:id", function (req, res) {
+  let status = req.params.id;
+  res.render(`./status/${status}`);
+});
+
 module.exports = router;
