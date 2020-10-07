@@ -5,7 +5,7 @@ The web application project of Learning Portal Management System.
 - [x] Nodejs
 - [x] Javascript
 - [x] HTML/CSS
-
+<p>&nbsp;</p>
 - [x] SQL (phpmyadmin.co)
 - [x] Wireframe (figma.com)
 
