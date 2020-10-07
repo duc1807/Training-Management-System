@@ -25,7 +25,6 @@ connection.connect(function(err){
 router.get('/home', (req, res) => {
 
   let id = req.user.user_id  
-  console.log("OK")
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`
 
   connection.query(sql, [id,id], (err, rows) => {

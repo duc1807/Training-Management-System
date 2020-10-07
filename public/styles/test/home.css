@@ -1,0 +1,123 @@
+body {
+    width: auto;
+    height: auto;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex: 1;
+}
+
+#leftView {
+    position: fixed;
+    width: 20%;
+    height: 48.7vw;
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+#rightView {
+    width: 80%;
+    min-height: 48.7vw;
+    height: fit-content;
+    background-color: white;
+    margin-left: 20%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15vw;
+}
+
+#leftView-top {
+    flex: 7;
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+#leftView-bottom {
+    flex: 4;
+    background-color: red;
+    align-items: flex-start;
+}
+
+#logo {
+    width: 60%;
+    height: auto;
+    margin-top: 10%;
+    align-self: center;
+    border-radius: 20px;
+}
+
+nav ul a {
+    text-decoration: none;
+    color: black;
+}
+
+#leftView-top nav ul {
+    padding: 0;
+    margin: 0;
+    width: 17vw;
+    margin-top: 30%;
+}
+
+#leftView-bottom nav ul {
+    padding: 0;
+    margin: 0;
+    width: 17vw;
+    margin-top: 30%;
+}
+
+nav ul li {
+    font-size: 1.2vw;
+    text-decoration: none;
+    display: block;
+    width: 18vw;
+    height: 2vw;
+    padding: 10px 0px 10px 20px;
+    border: 2px solid black;
+    font-size: 20px;
+    margin-top: 15px;
+    transition-property: width;
+    transition: 0.25s;
+    margin-left: 3%;
+    border-radius: 6px;
+}
+
+nav ul a li:hover {
+    cursor: pointer;
+    background-color: rgb(78, 78, 163);
+    width: 19.5vw;
+}
+
+/* Right view style */
+#container {
+    width: 80%;
+    height: fit-content;
+    background-color: lightskyblue;
+    margin-bottom: 10vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#content {
+    border: 1px solid black;
+    width: 27vw;
+    height: 12vw;
+    padding: 10px;
+    margin: 22px;
+    border-radius: 6px;
+    transition: 0.5s;
+    text-decoration: none;
+    color: black;
+}
+
+#content:hover {
+    cursor: pointer;
+    background-color: rgb(0,0,0, 0.3);
+}
+
