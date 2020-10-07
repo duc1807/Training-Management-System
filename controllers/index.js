@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
   const sql = `SELECT * FROM Account WHERE username="${username}"`;
 
   connection.query(sql, async (err, row, fields) => {
-    if (row != "") {
+    if (row && row.length) {
       if (await bcrypt.compare(password, row[0].password)) {
         user = {
           user_id: row[0].user_id,
@@ -86,11 +86,11 @@ router.post("/", async (req, res) => {
         }
       } else
         res.render("./index/login", {
-          warning: "Incorrect username or password",
+          warning: "Incorrect password",
         });
     } else {
       res.render("./index/login", {
-        warning: "Incorrect username or password",
+        warning: "Incorrect account",
       });
     }
   });

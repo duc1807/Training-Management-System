@@ -25,12 +25,12 @@ connection.connect(function(err){
 router.get('/home', (req, res) => {
 
   let id = req.user.user_id  
-
+  console.log("OK")
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`
 
   connection.query(sql, [id,id], (err, rows) => {
     if(err) throw err
-    if(rows[0] == "") res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name})
+    else if(rows[0] == "" && rows[1].length) res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name})
     else res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name, course_id: rows[0][0].course_id})
   })    
 })
@@ -110,7 +110,7 @@ function trainerValidation(req, res, next) {
     if (err) return res.redirect('/status/401')
     req.user = user
     if(user.role != 'trainer') res.redirect('/status/401')
-    next()
+    else next()
   })
 }
 

@@ -79,9 +79,8 @@ body {
     font-size: 4vw;
     margin-top: 4%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: rgb(190, 51, 51);
-    text-shadow: 6px 6px 10px #807979;
-    -webkit-text-stroke: 2px rgb(116, 1, 1);
+    color: rgb(129, 21, 21);
+    text-shadow: 6px 6px 20px #807979;  
 }
 
 .contentRight {
