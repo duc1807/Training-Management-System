@@ -30,7 +30,8 @@ router.get('/home', (req, res) => {
 
   connection.query(sql, [id,id], (err, rows) => {
     if(err) throw err
-    res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name, course_id: rows[0][0].course_id})
+    if(rows[0] == "") res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name})
+    else res.render('./tutor/home', {result: rows[0], tutorName: rows[1][0].name, course_id: rows[0][0].course_id})
   })    
 })
 
