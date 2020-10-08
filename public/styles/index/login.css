@@ -53,8 +53,8 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(https://nhanlucnganhluat.vn/uploads/images/74c337f8/720-400/2018-11/cong-ty-tnhh-phan-mem-fpt-softwave-vingarden-1.jpg);
-    background-size: cover;
+    background-image: url(https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-9/118579673_104310894747759_6933131481337172275_o.jpg?_nc_cat=101&_nc_sid=09cbfe&_nc_ohc=vjwuzhHmb8gAX8xtWdz&_nc_ht=scontent.fhan2-1.fna&oh=6fa515161f4eeab1773e5b809fcefeef&oe=5FA3B484);
+    background-size: contain;
     background-attachment: fixed;
     background-repeat: no-repeat;
   }
@@ -66,7 +66,7 @@ header {
     padding-left: 4rem;
     background: white;
     width: 600px;
-    margin-left: 21rem;
+    margin-left: 35rem;
     margin-top: 5rem;
     border-radius: 10px;
     height: 300px;
