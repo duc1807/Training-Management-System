@@ -85,7 +85,7 @@ router.get('/test', (req,res) => {
   connection.query(sql, (err, rows) => {
     if(err) throw err
 
-    res.render('./tutor2/home', {result: rows})
+    res.render('./tutor2/home', {result: rows, active: { home: true, profile: false }, partials : { menuPartial : '../partials/navigation'}})
   })
 
 })

@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/trainer/home.css">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
     <title>Document</title>
 </head>
+
 <body>
-    <h1>Trainer Profile</h1>
-    <div>
-        <p>{{result.name}}</p>
-        <p>{{result.age}}</p>
-        <p>{{result.type}}</p>
-        <p>{{result.workingPlace}}</p>
-        <p>{{result.phone}}</p>
-        <p>{{result.email}}</p>
-        {{!-- <a href="/staff/account/trainer/delete{{user_id}}">delete</a> <br><br> --}}
-        <button onclick="show({{result.tutor_id}})">Edit</button>
+    {{> menuPartial parameter=active}}
+    <div id="rightView">
+        <h1>Trainer Profile</h1>
+        <div>
+            <p>{{result.name}}</p>
+            <p>{{result.age}}</p>
+            <p>{{result.type}}</p>
+            <p>{{result.workingPlace}}</p>
+            <p>{{result.phone}}</p>
+            <p>{{result.email}}</p>
+            {{!-- <a href="/staff/account/trainer/delete{{user_id}}">delete</a> <br><br> --}}
+            <button onclick="show({{result.tutor_id}})">Edit</button>
 
-        <form method="POST" action="/tutor/profile/edit/{{result.tutor_id}}" id='{{result.tutor_id}}'
-            style="opacity: 0; width: 200; height:300">
-            <input value="{{result.name}}" name="name">
-            <input value="{{result.age}}" name="age">
-            <input value="{{result.type}}" name="type">
-            <input value="{{result.workingPlace}}" name="workingPlace">
-            <input value="{{result.phone}}" name="phone">
-            <input value="{{result.email}}" name="email">
+            <form method="POST" action="/tutor/profile/edit/{{result.tutor_id}}" id='{{result.tutor_id}}'
+                style="opacity: 0; width: 200; height:300">
+                <input value="{{result.name}}" name="name">
+                <input value="{{result.age}}" name="age">
+                <input value="{{result.type}}" name="type">
+                <input value="{{result.workingPlace}}" name="workingPlace">
+                <input value="{{result.phone}}" name="phone">
+                <input value="{{result.email}}" name="email">
 
-            <button type="submit">Submit</button>
-        </form>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </div>
     <br><br>
     <script>
@@ -36,4 +44,5 @@
         }
     </script>
 </body>
+
 </html>
