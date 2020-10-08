@@ -3,9 +3,11 @@
     height: 20vw;
     background-color: #d7d2cc;
     margin-bottom: 10vw;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     align-self: center;
     border-top-right-radius: 10px;
+}
+
+#inp {
+    background-color: transparent;
+    border: 0;
 }

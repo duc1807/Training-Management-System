@@ -14,15 +14,16 @@
 <body>
     {{> menuPartial parameter=active}}
     <div id="rightView">
+        <img id="workspace-img"
+            src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
         <h1>Trainer Profile</h1>
         <div id="profileContainer">
-            <p>{{result.name}}</p>
-            <p>{{result.age}}</p>
-            <p>{{result.type}}</p>
-            <p>{{result.workingPlace}}</p>
-            <p>{{result.phone}}</p>
-            <p>{{result.email}}</p>
-            {{!-- <a href="/staff/account/trainer/delete{{user_id}}">delete</a> <br><br> --}}
+            <p><b>Trainer name:</b> {{result.name}}</p>
+            <p><b>Age:</b> {{result.age}}</p>
+            <p><b>Position:</b> {{result.type}}</p>
+            <p><b>Working place:</b> {{result.workingPlace}}</p>
+            <p><b>Phone number:</b> {{result.phone}}</p>
+            <p><b>Email:</b> {{result.email}}</p>
             <button onclick="show({{result.tutor_id}})">Edit</button>
 
             <form method="POST" action="/tutor/profile/edit/{{result.tutor_id}}" id='{{result.tutor_id}}'
