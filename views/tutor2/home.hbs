@@ -18,7 +18,7 @@
                 src="https://i.chungta.vn/2017/12/25/LogoFPT-2017-copy-3042-1513928-4697-9171-1514166704.jpg">
             <nav>
                 <ul>
-                    <a href="#home"><li><i class="fas fa-home" id="icon"></i><b>Home</b></li></a>
+                    <a href="#home"><li class="active"><i class="fas fa-home" id="icon"></i><b>Home</b></li></a>
                     <a href="#profile"><li><i class="fas fa-user-circle" id="icon"></i><b>Profile</b></li></a>
                 </ul>
             </nav>
@@ -34,6 +34,9 @@
     </div>
 
     <div id="rightView">
+        <div id="blurBackground"></div>
+        <img id="workspace-img" src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
+        <h1>All courses</h1>
         <div id="container">
             {{#each result}}
             <a id="content" href='#{{course_id}}'>

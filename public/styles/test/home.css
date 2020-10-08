@@ -17,6 +17,7 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1;
+    z-index: 2;
 }
 
 #rightView {
@@ -26,8 +27,10 @@ body {
     background-color: rgb(235, 235, 235);
     margin-left: 20%;
     display: flex;
-    justify-content: center;
     padding-top: 15vw;
+    z-index: 1;
+    position: absolute;
+    flex-direction: column;
 }
 
 #leftView-top {
@@ -86,14 +89,22 @@ nav ul li {
     transition: 0.25s;
     margin-left: 3%;
     border-radius: 6px;
-    color: white;
+    color: #f0f0f0;
     overflow: hidden;
     background-color: black;
 }
 
 nav ul a li:hover {
     cursor: pointer;
-    background-color: rgb(47, 47, 175);
+    background-color: rgb(77, 77, 179);
+    width: 15.5vw;
+    box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
+    padding-left: 70px;
+}
+
+.active {
+    cursor: pointer;
+    background-color: rgb(194, 101, 40);
     width: 15.5vw;
     box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
     padding-left: 70px;
@@ -109,11 +120,13 @@ nav ul a li:hover {
 #container {
     width: 80%;
     height: fit-content;
-    background-color: white;
+    background-color: #d7d2cc;
     margin-bottom: 10vw;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-self: center;
+    border-top-right-radius: 10px;
 }
 
 #content {
@@ -138,4 +151,24 @@ nav ul a li:hover {
     padding: 0 20px 0 0;
     margin-left: -55px;
 }
+
+#workspace-img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    z-index: -2;
+    top: 0;
+}
+
+#rightView h1 {
+    color: brown;
+    background-color:#d7d2cc;
+    padding: 0 7% 0 3%;
+    width: fit-content;
+    font-size: 3.5vw;
+    margin: -6% 0 0 10%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
 
