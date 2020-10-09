@@ -1,21 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/trainer/home.css">
+    <link rel="stylesheet" href="/styles/trainer/profile.css">
+    <link rel="stylesheet" href="/styles/trainer/topic.css">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+
     <title>Document</title>
 </head>
+
 <body>
-    <h1>All Topics of course {{courseName}}</h1>
-    
-    {{#each result}}
-    <div>
-        <p>Name: {{topicName}}</p>
-        <p>Tutor: {{name}}</p>
-        <p>Description: {{description}}</p>
+    {{> menuPartial parameter=active}}
+
+    <div id="rightView">
+        <a href="/tutor/home">
+            <div id="backBtn">
+                <p>Back</p>
+            </div>
+        </a>
+
+        <img id="workspace-img"
+            src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
+        <h1>Topics of {{courseName}}</h1>
+        <div id="container">
+            {{#each result}}
+            <div id="contentTopic" href="/tutor/topic/redirect/{{course_id}}">
+                <p>Topic: {{topicName}}</p>
+                <p>Trainer: {{name}}</p>
+                <p>Description: {{description}}</p>
+            </div>
+            {{/each}}
+        </div>
+
     </div>
-    <br><br>
-    {{/each}}
-    <br><br><br>
 </body>
+
 </html>

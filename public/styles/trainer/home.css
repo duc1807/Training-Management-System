@@ -90,7 +90,9 @@ nav ul a li:hover {
     background-color: rgb(194, 101, 40);
     width: 15.5vw;
     box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
-    padding-left: 70px;
+    padding-left: 70px; 
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 
 .active {
@@ -100,6 +102,8 @@ nav ul a li:hover {
     width: 15.5vw;
     box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
     padding-left: 70px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
 }
 
 #leftView-bottom nav ul a li:hover {
@@ -133,7 +137,7 @@ nav ul a li:hover {
     font-size: 1.4vw;
     border: 4px solid rgb(161, 54, 54);
     background-color: rgb(235, 235, 235);
-    width: 27vw;
+    width: 26.6vw;
     height: 12vw;
     padding: 10px;
     margin: 22px;
