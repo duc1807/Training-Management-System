@@ -52,7 +52,7 @@ nav ul a {
 #leftView-top nav ul {
     padding: 0;
     margin: 0;
-    width: 17vw;
+    /* width: 17vw; */
     margin-top: 30%;
 }
 
@@ -73,7 +73,7 @@ nav ul li {
     height: 2vw;
     padding: 10px 0px 10px 20px;
     border: 2px solid black;
-    font-size: 17px;
+    font-size: 1.22vw;
     margin-top: 15px;
     transition-property: width;
     transition: 0.25s;
@@ -86,7 +86,8 @@ nav ul li {
 
 nav ul a li:hover {
     cursor: pointer;
-    background-color: rgb(77, 77, 179);
+    /* background-color: rgb(77, 77, 179); */
+    background-color: rgb(194, 101, 40);
     width: 15.5vw;
     box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
     padding-left: 70px;
@@ -94,6 +95,7 @@ nav ul a li:hover {
 
 .active {
     cursor: pointer;
+    /* background-color: rgb(77, 77, 179); */
     background-color: rgb(194, 101, 40);
     width: 15.5vw;
     box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
@@ -107,7 +109,7 @@ nav ul a li:hover {
 }
 
 #icon {
-    font-size: 25px;
+    font-size: 2vw;
     padding: 0 20px 0 0;
     margin-left: -55px;
 }
@@ -123,10 +125,14 @@ nav ul a li:hover {
     flex-wrap: wrap;
     align-self: center;
     border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 15px 20px 10px -10px rgb(0, 0, 0, 0.4)
 }
 
 #content {
-    border: 1px solid black;
+    font-size: 1.4vw;
+    border: 4px solid rgb(161, 54, 54);
+    background-color: rgb(235, 235, 235);
     width: 27vw;
     height: 12vw;
     padding: 10px;
@@ -139,7 +145,7 @@ nav ul a li:hover {
 
 #content:hover {
     cursor: pointer;
-    background-color: rgb(0,0,0, 0.3);
+    background-color: rgb(0,0,0, 0.1);
 }
 
 #workspace-img {
@@ -148,6 +154,7 @@ nav ul a li:hover {
     height: 48.7vw;
     z-index: -2;
     top: 0;
+    filter: blur(3px);
 }
 
 #rightView h1 {

@@ -13,7 +13,7 @@
 
 <body>
     {{> menuPartial parameter=active}}
-    <div id="rightView">
+    {{!-- <div id="rightView">
         <img id="workspace-img"
             src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
         <h1>Trainer Profile</h1>
@@ -21,8 +21,8 @@
             <p><b>Trainer name:</b> {{result.name}}</p>
             <p><b>Age:</b> {{result.age}}</p>
             <p><b>Position:</b> {{result.type}}</p>
-            <p><b>Working place:</b> {{result.workingPlace}}</p>
             <p><b>Phone number:</b> {{result.phone}}</p>
+            <p><b>Working place:</b> {{result.workingPlace}}</p>
             <p><b>Email:</b> {{result.email}}</p>
             <button onclick="show({{result.tutor_id}})">Edit</button>
 
@@ -38,11 +38,62 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
-    </div>
+    </div> 
+    
     <br><br>
     <script>
         function show(id) {
             document.getElementById(id).style.opacity = 1
+        }
+    </script>
+    --}}
+
+
+
+    <div id="rightView">
+        <img id="workspace-img"
+            src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
+        <h1>Trainer Profile</h1>
+
+        <div id="profileContainer">
+            <form method="POST" action="/tutor/profile/edit/{{result.tutor_id}}" id='{{result.tutor_id}}'
+                style="width: 200; height:300">
+                <div id="leftContainer">
+                    <b>Name: <input class="input" value="{{result.name}}" name="name"></b>
+                    <b>Age:  <input class="input" value="{{result.age}}" name="age"></b>
+                    <b>Phone: <input class="input" value="0{{result.phone}}" name="phone"></b>
+                    <b>Email: <input class="input" value="{{result.email}}" name="email"></b>
+                </div>
+
+                <div id="rightContainer">
+                    <b>Position: <input disabled class="input" value="{{result.type}}"></b>
+                    <b>Working place: <input disabled class="input" value="{{result.workingPlace}}"></b>
+                    <div id="btnContainer">
+                        <button disabled="true" id="cancelBtn" class="btn cancelBtn" onclick="reset('{{result.tutor_id}}')">✘</button>
+                        <button disabled="true" id="submitBtn" class="btn submitBtn" type="submit">✔</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <br><br>
+    <script>
+        const input = document.getElementsByClassName("input")
+        for (var i = 0; i < input.length; i++) {
+            input[i].addEventListener("change", function () {
+                const cancelBtn = document.getElementById("cancelBtn")
+                const submitBtn = document.getElementById("submitBtn")
+
+                cancelBtn.disabled = false
+                cancelBtn.style.backgroundColor = "#cc3300"
+                submitBtn.disabled = false
+                submitBtn.style.backgroundColor = "#1c9942"
+            });
+        }
+
+        function reset(id) {
+            document.getElementById(id).reset()
         }
     </script>
 </body>

@@ -63,7 +63,7 @@ router.get("/profile", (req, res) => {
 router.post("/profile/edit/:id", (req, res) => {
   let id = req.params.id;
 
-  const { name, age, type, workingPlace, phone, email } = req.body;
+  const { name, age, phone, email } = req.body;
 
   let sqlCheck = `SELECT * FROM TutorAccount WHERE user_id = '${id}'`;
 
@@ -73,8 +73,6 @@ router.post("/profile/edit/:id", (req, res) => {
                     SET 
                       name = '${name}',
                       age = '${age}',
-                      type = '${type}',
-                      workingPlace = '${workingPlace}',
                       phone = '${phone}',
                       email = '${email}'
                     WHERE tutor_id = ${id}`;
@@ -84,9 +82,9 @@ router.post("/profile/edit/:id", (req, res) => {
       });
     } else {
       let sql = `INSERT INTO TutorAccount 
-                    (tutor_id, name, age, type, workingPlace, phone, email)
+                    (tutor_id, name, age, phone, email)
                     VALUES 
-                    (${id},'${name}',${age},'${type}','${workingPlace}',${phone},'${email}')`;
+                    (${id},'${name}',${age},${phone},'${email}')`;
       connection.query(sql, (err) => {
         if (err) throw err;
         res.redirect("/tutor/home");
