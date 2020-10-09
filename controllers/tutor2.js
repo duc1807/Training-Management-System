@@ -78,8 +78,16 @@ router.post('/profile/edit/:id', (req, res) => {
 })
 
 
-router.get('/err', (req,res) => {
-  res.render('./tutor2/err')
+router.get('/test', (req,res) => {
+
+  let sql = `SELECT * FROM Course`
+
+  connection.query(sql, (err, rows) => {
+    if(err) throw err
+
+    res.render('./tutor2/home', {result: rows, active: { home: true, profile: false }, partials : { menuPartial : '../partials/navigation'}})
+  })
+
 })
 
 module.exports = router
