@@ -1,0 +1,118 @@
+body {
+    width: auto;
+    height: auto;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex: 1;
+    font-family: "Open Sans";
+  }
+  
+  /* Left navigation */
+  
+  #leftView {
+    position: fixed;
+    width: 20%;
+    height: 48.7vw;
+    background-color: rgb(59, 41, 44);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    z-index: 2;
+  }
+  
+  #leftView-top {
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  #leftView-bottom {
+    flex: 4;
+    align-items: flex-start;
+  }
+  
+  #logo {
+    width: 60%;
+    height: auto;
+    margin-top: 10%;
+    align-self: center;
+    border-radius: 8px;
+  }
+  
+  nav ul a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  #leftView-top nav ul {
+    padding: 0;
+    margin: 0;
+    /* width: 17vw; */
+    margin-top: 6vw;
+  }
+  
+  #leftView-bottom nav ul {
+    padding: 0;
+    margin: 0;
+    width: 17vw;
+    margin-top: 5.8vw;
+  }
+  
+  nav ul li {
+    font-size: 1.2vw;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 17vw;
+    height: 2vw;
+    padding: 0.7vw 0 0.7vw 1.4vw;
+    border: 2px solid black;
+    font-size: 1.22vw;
+    margin-top: 1.35vw;
+    transition-property: width;
+    transition: 0.25s;
+    margin-left: 0.45vw;
+    border-radius: 6px;
+    color: #f0f0f0;
+    overflow: hidden;
+    background-color: black;
+  }
+  
+  nav ul a li:hover {
+    cursor: pointer;
+    /* background-color: rgb(77, 77, 179); */
+    background-color: rgb(194, 101, 40);
+    width: 15.5vw;
+    box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
+    padding-left: 4.9vw;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+  
+  .active {
+    cursor: pointer;
+    /* background-color: rgb(77, 77, 179); */
+    background-color: rgb(194, 101, 40);
+    width: 15.5vw;
+    box-shadow: 2px 3px 10px 3px rgb(0, 0, 0);
+    padding-left: 4.9vw;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+  
+  #leftView-bottom nav ul a li:hover {
+    cursor: pointer;
+    background-color: rgb(144, 70, 70);
+    width: 15.5vw;
+  }
+  
+  #icon {
+    font-size: 2vw;
+    padding: 0 1.4vw 0 0;
+    margin-left: -3.7vw;
+  }

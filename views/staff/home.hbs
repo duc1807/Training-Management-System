@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
+    <link rel="stylesheet" href="/styles/staff/home.css">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+    
+    <title>Staff Homepage</title>
 </head>
-<body>
+{{!-- <body>
     <h1>Staff home</h1>
     <a href="/staff/account/trainee">Go to trainee management</a><br><br>
     <a href="/staff/category">Go to category</a><br><br>
     <a href="/staff/account/trainer">Go to trainer management</a><br><br>
+</body> --}}
+
+<body>
+    {{> menuPartial parameter=active}}
+
+    <div id="rightView">
+        <div id="blurBackground"></div>
+        <img id="staff-workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
+        <h1>All courses</h1>
+        <div id="container">
+            {{#each result}}
+            <a id="content" href="/tutor/topic/redirect/{{course_id}}">
+                <p>{{courseName}}</p>
+                <p>{{../tutorName}}</p>
+                <p>{{description}}</p>
+            </a>
+            {{/each}}
+        </div>
+
+    </div>
+
+
 </body>
+
 </html>

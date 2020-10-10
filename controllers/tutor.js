@@ -39,7 +39,7 @@ router.get("/home", (req, res) => {
         tutorName: rows[1][0].name,
         course_id: rows[0][0].course_id,
         active: { home: true, profile: false },
-        partials: { menuPartial: "../partials/navigation" },
+        partials: { menuPartial: "../partials/trainer_nav" },
       });
   });
 });
@@ -55,7 +55,7 @@ router.get("/profile", (req, res) => {
     res.render("./tutor/profile", { 
       result: rows[0],
       active: { home: false, profile: true },
-      partials: { menuPartial: "../partials/navigation" },});
+      partials: { menuPartial: "../partials/trainer_nav" }});
   });
 });
 

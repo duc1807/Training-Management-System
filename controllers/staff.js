@@ -1,9 +1,12 @@
 const express = require("express");
+const { partials } = require("handlebars");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
 // [✔] Connect to database
 var mysql = require("mysql");
+
+const MENU_PARTIAL = { menuPartial: "../partials/staff_nav" };
 
 // Use middle to authorization
 router.use(staffValidation);
@@ -24,7 +27,10 @@ connection.connect(function (err) {
 
 // GET: Home
 router.get("/home", (req, res) => {
-  res.render("./staff/home");
+  res.render("./staff/home", {
+    active: { home: true },
+    partials: MENU_PARTIAL,
+  });
 });
 
 //==================================================== GET: Trainee account management pages
@@ -73,6 +79,8 @@ router.get("/account/trainee", (req, res) => {
       result: rows[0],
       category: rows[1],
       type: category,
+      active: { trainee: true },
+    partials: MENU_PARTIAL,
     });
   });
 });
@@ -241,7 +249,8 @@ router.get("/account/trainer", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/accountTrainer", { result: rows });
+    res.render("./staff/accountTrainer", { result: rows, active: { trainer: true },
+    partials: MENU_PARTIAL});
   });
 });
 
@@ -275,7 +284,8 @@ router.get("/category", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/category", { result: rows });
+    res.render("./staff/category", { result: rows,active: { training: true },
+    partials: MENU_PARTIAL });
   });
 });
 
@@ -364,6 +374,8 @@ router.get("/category/redirect/:id", (req, res) => {
       tutor: rows[1],
       joined: rows[2],
       category: id,
+
+     partials: MENU_PARTIAL,
     });
   });
 });
@@ -453,8 +465,8 @@ router.get("/category/course/redirect/:id", (req, res) => {
 // POST: Add new topic
 router.post("/category/course/topic/add", (req, res) => {
   const { topicName, description, course_id } = req.body;
-  var tutor = req.body.tutor
-  if (!tutor) tutor = null
+  var tutor = req.body.tutor;
+  if (!tutor) tutor = null;
 
   let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}'`;
 
@@ -486,30 +498,28 @@ router.get("/category/course/topic/delete/:id", (req, res) => {
 
 // POST: Edit topic
 router.post("/category/course/topic/edit/:id", (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
 
-  const { course_id, topicName, description, tutor } = req.body
+  const { course_id, topicName, description, tutor } = req.body;
 
-  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' OR id=${id}`
+  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' OR id=${id}`;
 
   connection.query(sqlCheck, (err, rows) => {
-    if (err) throw err
-    if(rows && rows.length < 2)
-    {
+    if (err) throw err;
+    if (rows && rows.length < 2) {
       let sql = `UPDATE Topic SET 
                   topicName='${topicName}', 
                   description='${description}', 
                   tutor_id=${tutor}, 
                   course_id = ${course_id}
-                 WHERE id = ${id}`
-    
-      connection.query(sql, (err, rows) => {
-        if (err) throw err
-        res.redirect(`/staff/category/course/redirect/${course_id}`)
-      });
-    } else res.redirect(`/staff/category/course/redirect/${course_id}`)
-  })
+                 WHERE id = ${id}`;
 
+      connection.query(sql, (err, rows) => {
+        if (err) throw err;
+        res.redirect(`/staff/category/course/redirect/${course_id}`);
+      });
+    } else res.redirect(`/staff/category/course/redirect/${course_id}`);
+  });
 });
 
 function staffValidation(req, res, next) {

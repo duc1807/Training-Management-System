@@ -21,11 +21,10 @@
     width: 80%;
     height: 12vw;
     padding: 10px;
-
     color: rgb(126, 53, 53);
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid rgb(189, 159, 159);
+    border-bottom: 1px solid rgb(200, 176, 176);
     align-items: center;
 }
 
