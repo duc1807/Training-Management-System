@@ -4,10 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
+    <link rel="stylesheet" href="/styles/staff/trainee.css">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+
+    <title>Trainee management page</title>
 </head>
 
-<body>
+{{!-- <body>
     <h1>Trainee account management</h1>
     <br><br>
     <form method="POST" action="/staff/account/trainee/add">
@@ -99,6 +104,50 @@
         }
 
     </script>
+</body> --}}
+
+<body>
+    {{> menuPartial parameter=active}}
+
+    <div id="rightView">
+        <div id="blurBackground"></div>
+        <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
+        <h1>Trainee Management</h1>
+
+        <div id="addBtn"><i class="fas fa-user-plus" id="addIcon"></i></div>
+        <div id="container">
+            {{#each result}}
+            <form method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
+                style="width: 200; height:300">
+                <input value="{{username}}" name="username">
+                <input value="{{password}}" name="password">
+                <input value="{{dob}}" type="date" name="dob">
+                <input value="{{mainPL}}" name="mainPL">
+                <input value="{{expDetail}}" name="expDetail">
+                <input value="{{name}}" name="name">
+                <input value="{{age}}" name="age">
+                <input value="{{education}}" name="education">
+                <input value="{{toeic}}" name="toeic">
+                <input value="{{location}}" name="location">
+                <select id="course_id" name='course_id'>
+                    <optgroup label="Current course">
+                        <option value="{{course_id}}" selected>{{courseName}}</option>
+                    </optgroup>
+                    {{#each ../type}}
+                    <optgroup label="{{name}}">
+                        {{#each this.description}}
+                        <option value="{{course_id}}">{{courseName}}</option>
+                        {{/each}}
+                    </optgroup>
+                    {{/each}}
+                </select>
+
+                <button type="submit">Submit</button>
+            </form>
+            {{/each}}
+        </div>
+    </div>
 </body>
+
 
 </html>

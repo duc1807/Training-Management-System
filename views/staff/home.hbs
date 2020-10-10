@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <link rel="stylesheet" href="/styles/staff/home.css">
     <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
-    
+
     <title>Staff Homepage</title>
 </head>
 {{!-- <body>
@@ -23,15 +24,27 @@
     <div id="rightView">
         <div id="blurBackground"></div>
         <img id="staff-workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
-        <h1>All courses</h1>
+        {{!-- <h1>Home</h1> --}}
         <div id="container">
-            {{#each result}}
-            <a id="content" href="/tutor/topic/redirect/{{course_id}}">
-                <p>{{courseName}}</p>
-                <p>{{../tutorName}}</p>
-                <p>{{description}}</p>
+
+            <a id="content" href="/staff/account/trainee">
+                <div>
+                    <p>Trainee Account</p>
+                </div>
             </a>
-            {{/each}}
+
+            <a id="content" href="/staff/account/trainer">
+                <div>
+                    <p>Trainer account</p>
+                </div>
+            </a>
+
+            <a id="content" href="/staff/category">
+                <div>
+                    <p>Training Information</p>
+                </div>
+            </a>
+
         </div>
 
     </div>

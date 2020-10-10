@@ -1,0 +1,109 @@
+#rightView {
+  width: 80%;
+  min-height: 33.804vw;
+  height: fit-content;
+  background-color: rgb(235, 235, 235);
+  margin-left: 20%;
+  display: flex;
+  padding-top: 15vw;
+  z-index: 1;
+  position: absolute;
+  flex-direction: column;
+}
+
+#rightView h1 {
+  color: brown;
+  background-color: #d7d2cc;
+  padding: 0 7% 0 3%;
+  width: fit-content;
+  font-size: 3.5vw;
+  margin: -6% 0 0 10%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#container {
+  width: 80%;
+  min-height: 20vw;
+  height: fit-content;
+  background-color: #d7d2cc;
+  margin-bottom: 10vw;
+  align-self: center;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  float: 1s;
+  z-index: 2;
+  box-shadow: 14px 12px 10px -5px rgb(0, 0, 0, 0.4);
+  padding: 2vw 0 4vw 0;
+}
+
+#acontainer form {
+  width: 100%;
+  font-family: "Open Sans";
+  font-size: 1.4vw;
+  padding: 1vw 2vw 1vw 2vw;
+}
+
+b {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Utilities */
+
+#blurBackground {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  min-height: 48.7vw;
+  background-color: rgb(0, 0, 0, 0.3);
+}
+
+#workspace-img {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: -2;
+  filter: blur(3px);
+  top: -8vw;
+}
+
+#addBtn {
+    position: fixed;
+    width: 5vw;
+    height: 5vw;
+    top: 33%;
+    left: 92%;
+    background-color: #a59b8e;
+    z-index: 1;
+    box-shadow: 3px 4px 8px rgb(0, 0, 0, 0.4);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: 0.4s;
+    /* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#666), color-stop(12.5%, #a59b8e), color-stop(100%, #a59b8e)); webkit */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#addBtn:hover {
+    background:#d7d2cc;
+    cursor: pointer;
+    box-shadow: 12px 8px 8px rgb(0, 0, 0, 0.4);
+    z-index: 4;
+}
+#addBtn:hover #addIcon {
+    color:#7c3131;
+    transform: scale(1.16);
+}
+
+#addIcon {
+    font-size: 1.5vw;
+    color: #747272;
+    transition: 0.4s;
+}
