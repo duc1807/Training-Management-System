@@ -28,5 +28,6 @@ The web application project of Learning Portal Management System.
 
 #### For Trainer: 
 - [x] Login, logout
-- [x] View assigned courses
+- [x] View and search for assigned courses
+- [x] View and search for topics
 - [x] Edit profile
