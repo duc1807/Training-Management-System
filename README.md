@@ -20,7 +20,7 @@ The web application project of Learning Portal Management System.
 #### For Training staff: 
 - [x] Login, logout
 - [x] CRUD trainee accounts
-- [x] CRUD trainers profile
+- [x] Read and Update trainer profiles
 - [x] CRUD course categories
 - [x] CRUD courses
 - [x] CRUD topics
