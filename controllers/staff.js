@@ -80,7 +80,7 @@ router.get("/account/trainee", (req, res) => {
       category: rows[1],
       type: category,
       active: { trainee: true },
-    partials: MENU_PARTIAL,
+      partials: MENU_PARTIAL,
     });
   });
 });
@@ -249,8 +249,11 @@ router.get("/account/trainer", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/accountTrainer", { result: rows, active: { trainer: true },
-    partials: MENU_PARTIAL});
+    res.render("./staff/accountTrainer", {
+      result: rows,
+      active: { trainer: true },
+      partials: MENU_PARTIAL,
+    });
   });
 });
 
@@ -274,6 +277,24 @@ router.post("/account/trainer/edit/:id", (req, res) => {
   });
 });
 
+// GET: Delete trainer information
+router.get("/account/trainer/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE TutorAccount
+               SET name = ${null},
+                  age = ${null},
+                  type = ${null},
+                  workingPlace = ${null},
+                  phone = ${null},
+                  email = ${null}
+                WHERE tutor_id = ${id}`;
+
+  connection.query(sql, (err) => {
+    if (err) throw err;
+    res.redirect("/staff/account/trainer");
+  });
+});
+
 //========================================================= End of Trainer account management pages
 
 //==================================================== GET: Category management pages
@@ -284,8 +305,11 @@ router.get("/category", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/category", { result: rows,active: { training: true },
-    partials: MENU_PARTIAL });
+    res.render("./staff/category", {
+      result: rows,
+      active: { training: true },
+      partials: MENU_PARTIAL,
+    });
   });
 });
 
@@ -375,7 +399,7 @@ router.get("/category/redirect/:id", (req, res) => {
       joined: rows[2],
       category: id,
 
-     partials: MENU_PARTIAL,
+      partials: MENU_PARTIAL,
     });
   });
 });

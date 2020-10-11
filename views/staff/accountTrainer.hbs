@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
+    <link rel="stylesheet" href="/styles/staff/trainer.css">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+
     <title>Document</title>
 </head>
-<body>
+{{!-- <body>
     <h1>Trainer account management</h1>
     <br><br>
 
@@ -19,7 +24,6 @@
         <p>{{workingPlace}}</p>
         <p>{{phone}}</p>
         <p>{{email}}</p>
-        {{!-- <a href="/staff/account/trainer/delete{{user_id}}">delete</a> <br><br> --}}
         <button onclick="show({{user_id}})">Edit</button>
 
         <form method="POST" action="/staff/account/trainer/edit/{{user_id}}" id='{{user_id}}'
@@ -42,5 +46,147 @@
             document.getElementById(id).style.opacity = 1
         }
     </script>
+</body> --}}
+
+
+<body>
+    {{> menuPartial parameter=active}}
+
+    <div id="rightView">
+        <div id="blurBackground"></div>
+        <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
+        <h1>Trainer Management</h1>
+
+        <div id="container">
+
+            <div id="searchContainer">
+                <form autocomplete="off" method="POST" action="/staff/account/trainee/search">
+                    <i id="searchIcon" class="fas fa-search"></i>
+                    <input id="searchInput" name="key">
+                </form>
+            </div>
+
+            <div id="contentContainer">
+                {{#each result}}
+                <form autocomplete="off" method="POST" action="/staff/account/trainer/edit/{{user_id}}"
+                    id='{{user_id}}' style="width: 200; height:300">
+                    <div id="formContent">
+                        <div id="form-left">
+                            <b>
+                                <p>Name: <input placeholder="Username: {{username}}" class="input{{@index}}" value="{{name}}" name="name"></p>
+                            </b>
+                            <b>
+                                <p>Age: <input class="input{{@index}}" value="{{age}}" name="age"></p>
+                            </b>
+                            <b>
+                                <p>Type: <input class="input{{@index}}" value="{{type}}" name="type"></p>
+                            </b>
+
+                        </div>
+
+                        <div id="form-right">
+                            <span>
+                                <p><b>Working place: </b></p><input class="input{{@index}}"
+                                    value="{{workingPlace}}" name="workingPlace">
+                            </span>
+
+                            <span>
+                                <p><b>Phone: </b></p><input class="input{{@index}}" value="{{#if phone}}0{{phone}}{{/if}}"
+                                    name="phone">
+                            </span>
+
+                            <span>
+                                <p><b>Email: </b></p><input value="{{email}}" class="input{{@index}}"
+                                    name="email">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div id="formBtn">
+
+                        <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{user_id}}')"><i
+                                class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
+                            <p>Cancel</p>
+                        </div>
+                        <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
+                            type="submit">Confirm</button>
+                        <a href="/staff/account/trainer/delete/{{user_id}}" class="btn deleteBtn" id="deleteBtn"><div>
+                            <p>Delete info</p>
+                        </div></a>
+                    </div>
+
+                    <div id="line"></div>
+                </form>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const total = document.getElementsByTagName("form")
+        for (var a = 0; a < total.length; a++) {
+            const submitBtn = document.getElementById("submitBtn" + a)
+            const cancelBtn = document.getElementById("cancelBtn" + a)
+            const icon = document.getElementById("iconBack" + a)
+
+            const input = document.getElementsByClassName("input" + a)
+            for (var i = 0; i < input.length; i++) {
+                input[i].addEventListener("change", function () {
+
+                    cancelBtn.disabled = false
+                    cancelBtn.style.cursor = "pointer"
+                    cancelBtn.style.opacity = "1"
+                    cancelBtn.style.zIndex = 2
+
+                    submitBtn.disabled = false
+                    submitBtn.style.cursor = "pointer"
+                    submitBtn.style.backgroundColor = "rgb(115, 70, 160)"
+
+                    submitBtn.addEventListener("mouseover", () => {
+                        submitBtn.style.transform = "scale(1.1)"
+                    })
+
+                    submitBtn.addEventListener("mouseleave", () => {
+                        submitBtn.style.transform = "scale(1)"
+                    })
+
+                    cancelBtn.addEventListener("click", () => {
+                        submitBtn.disabled = true
+                        submitBtn.style.cursor = "not-allowed"
+                        submitBtn.style.backgroundColor = "rgb(178, 153, 206)"
+
+                        cancelBtn.disabled = true
+                        cancelBtn.style.cursor = "not-allowed"
+                        cancelBtn.style.opacity = "0"
+                        cancelBtn.style.zIndex = -2
+                    })
+
+                    cancelBtn.addEventListener("mouseover", function () {
+                        icon.style.transform = "rotate(-120deg)"
+                    })
+
+                    cancelBtn.addEventListener("mouseleave", function () {
+                        icon.style.transform = "rotate(120deg)"
+                    })
+                });
+            }
+        }
+
+
+        function reset(id) {
+            document.getElementById(id).reset()
+        }
+    </script>
+    <script>
+        document.getElementById("searchInput").addEventListener("focus", () => {
+            document.getElementById("searchIcon").style.color = "rebeccapurple"
+        })
+
+        document.getElementById("searchInput").addEventListener("focusout", () => {
+            document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
+        })
+    </script>
+
 </body>
+
 </html>
