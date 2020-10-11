@@ -86,10 +86,14 @@
 }
 
 .submitBtn {
-  background-color: rgb(168, 140, 197);
+  background-color: rgb(178, 153, 206);
   cursor: not-allowed;
   transition: 0.3s;
   margin-left: 2.4vw;
+}
+
+#dateInput {
+  width: 9vw !important;
 }
 
 .cancelBtn {

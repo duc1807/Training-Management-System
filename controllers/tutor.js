@@ -44,6 +44,30 @@ router.get("/home", (req, res) => {
   });
 });
 
+// POST: Search for courses
+router.post("/search", (req, res) => {
+  let key = req.body.key;
+  const id = req.user.user_id;
+  let sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%' AND tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`;
+
+  connection.query(sql, [id, id], (err, rows) => {
+    if (err) throw err;
+    else if (rows[0] == "" && rows[1].length)
+      res.render("./tutor/home", {
+        result: rows[0],
+        tutorName: rows[1][0].name,
+      });
+    else
+      res.render("./tutor/home", {
+        result: rows[0],
+        tutorName: rows[1][0].name,
+        course_id: rows[0][0].course_id,
+        active: { home: true, profile: false },
+        partials: { menuPartial: "../partials/trainer_nav" },
+      });
+  });
+});
+
 // GET: Profile
 router.get("/profile", (req, res) => {
   let id = req.user.user_id;

@@ -117,7 +117,7 @@
         <div id="addBtn"><i class="fas fa-user-plus" id="addIcon"></i></div>
         <div id="container">
             {{#each result}}
-            <form method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
+            <form autocomplete="off" method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
                 style="width: 200; height:300">
                 <div id="formContent">
                     <div id="form-left">
@@ -152,7 +152,7 @@
                             <p><b>TOEIC Score: </b></p><input class="input{{@index}}" value="{{toeic}}" name="toeic">
                         </span>
                         <span>
-                            <p><b>Date of birth: </b></p><input class="input{{@index}}" value="{{dob}}" type="date"
+                            <p><b>Date of birth: </b></p><input id="dateInput" class="input{{@index}}" value="{{dob}}" type="date"
                                 name="dob">
                         </span>
 
@@ -201,11 +201,11 @@
     <script>
         const total = document.getElementsByTagName("form")
         for (var a = 0; a < total.length; a++) {
-            const input = document.getElementsByClassName("input" + a)
             const submitBtn = document.getElementById("submitBtn" + a)
             const cancelBtn = document.getElementById("cancelBtn" + a)
             const icon = document.getElementById("iconBack" + a)
 
+            const input = document.getElementsByClassName("input" + a)
             for (var i = 0; i < input.length; i++) {
                 input[i].addEventListener("change", function () {
 
@@ -216,7 +216,7 @@
 
                     submitBtn.disabled = false
                     submitBtn.style.cursor = "pointer"
-                    submitBtn.style.backgroundColor = "rebeccapurple"
+                    submitBtn.style.backgroundColor = "rgb(115, 70, 160)"
 
                     submitBtn.addEventListener("mouseover", () => {
                         submitBtn.style.transform = "scale(1.1)"
@@ -229,7 +229,7 @@
                     cancelBtn.addEventListener("click", () => {
                         submitBtn.disabled = true
                         submitBtn.style.cursor = "not-allowed"
-                        submitBtn.style.backgroundColor = "rgb(168, 140, 197)"
+                        submitBtn.style.backgroundColor = "rgb(178, 153, 206)"
 
                         cancelBtn.disabled = true
                         cancelBtn.style.cursor = "not-allowed"
