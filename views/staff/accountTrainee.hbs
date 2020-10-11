@@ -119,34 +119,141 @@
             {{#each result}}
             <form method="POST" action="/staff/account/trainee/edit/{{trainee_id}}" id='{{trainee_id}}'
                 style="width: 200; height:300">
-                <input value="{{username}}" name="username">
-                <input value="{{password}}" name="password">
-                <input value="{{dob}}" type="date" name="dob">
-                <input value="{{mainPL}}" name="mainPL">
-                <input value="{{expDetail}}" name="expDetail">
-                <input value="{{name}}" name="name">
-                <input value="{{age}}" name="age">
-                <input value="{{education}}" name="education">
-                <input value="{{toeic}}" name="toeic">
-                <input value="{{location}}" name="location">
-                <select id="course_id" name='course_id'>
-                    <optgroup label="Current course">
-                        <option value="{{course_id}}" selected>{{courseName}}</option>
-                    </optgroup>
-                    {{#each ../type}}
-                    <optgroup label="{{name}}">
-                        {{#each this.description}}
-                        <option value="{{course_id}}">{{courseName}}</option>
-                        {{/each}}
-                    </optgroup>
-                    {{/each}}
-                </select>
+                <div id="formContent">
+                    <div id="form-left">
+                        <b>
+                            <p>Name: <input class="input{{@index}}" value="{{name}}" name="name"></p>
+                        </b>
+                        <b>
+                            <p>Age: <input class="input{{@index}}" value="{{age}}" name="age"></p>
+                        </b>
+                        <b>
+                            <p>Username: <input class="input{{@index}}" value="{{username}}" name="username"></p>
+                        </b>
+                        <b>
+                            <p>Password: <input class="input{{@index}}" value="{{password}}" name="password"></p>
+                        </b>
+                        <b>
+                            <p>Education: <input class="input{{@index}}" value="{{education}}" name="education"></p>
+                        </b>
+                        <b>
+                            <p>Location: <input class="input{{@index}}" value="{{location}}" name="location"></p>
+                        </b>
 
-                <button type="submit">Submit</button>
+                    </div>
+
+                    <div id="form-right">
+                        <span>
+                            <p><b>Main programming language: </b></p><input class="input{{@index}}" value="{{mainPL}}"
+                                name="mainPL">
+                        </span>
+
+                        <span>
+                            <p><b>TOEIC Score: </b></p><input class="input{{@index}}" value="{{toeic}}" name="toeic">
+                        </span>
+                        <span>
+                            <p><b>Date of birth: </b></p><input class="input{{@index}}" value="{{dob}}" type="date"
+                                name="dob">
+                        </span>
+
+                        <span>
+                            <p><b>Class: </b></p><select class="input{{@index}}" id="course_id" name='course_id'>
+                                <optgroup label="Current course">
+                                    <option value="{{course_id}}" selected>{{courseName}}</option>
+                                </optgroup>
+                                {{#each ../type}}
+                                <optgroup label="{{name}}">
+                                    {{#each this.description}}
+                                    <option value="{{course_id}}">{{courseName}}</option>
+                                    {{/each}}
+                                </optgroup>
+                                {{/each}}
+                            </select>
+
+                        </span>
+
+                        <span>
+                            <p><b>Experience detail: </b></p><textarea class="input{{@index}}"
+                                name="expDetail">{{expDetail}}</textarea>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="formBtn">
+
+                    <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{trainee_id}}')"><i
+                            class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
+                        <p>Cancel</p>
+                    </div>
+                    <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
+                        type="submit">Confirm</button>
+                    <div class="btn deleteBtn" id="deleteBtn">
+                        <p>Delete</p>
+                    </div>
+                </div>
+
+                <div id="line"></div>
             </form>
             {{/each}}
         </div>
     </div>
+
+    <script>
+        const total = document.getElementsByTagName("form")
+        for (var a = 0; a < total.length; a++) {
+            const input = document.getElementsByClassName("input" + a)
+            const submitBtn = document.getElementById("submitBtn" + a)
+            const cancelBtn = document.getElementById("cancelBtn" + a)
+            const icon = document.getElementById("iconBack" + a)
+
+            for (var i = 0; i < input.length; i++) {
+                input[i].addEventListener("change", function () {
+
+                    cancelBtn.disabled = false
+                    cancelBtn.style.cursor = "pointer"
+                    cancelBtn.style.opacity = "1"
+                    cancelBtn.style.zIndex = 2
+
+                    submitBtn.disabled = false
+                    submitBtn.style.cursor = "pointer"
+                    submitBtn.style.backgroundColor = "rebeccapurple"
+
+                    submitBtn.addEventListener("mouseover", () => {
+                        submitBtn.style.transform = "scale(1.1)"
+                    })
+
+                    submitBtn.addEventListener("mouseleave", () => {
+                        submitBtn.style.transform = "scale(1)"
+                    })
+
+                    cancelBtn.addEventListener("click", () => {
+                        submitBtn.disabled = true
+                        submitBtn.style.cursor = "not-allowed"
+                        submitBtn.style.backgroundColor = "rgb(168, 140, 197)"
+
+                        cancelBtn.disabled = true
+                        cancelBtn.style.cursor = "not-allowed"
+                        cancelBtn.style.opacity = "0"
+                        cancelBtn.style.zIndex = -2
+                    })
+
+                    cancelBtn.addEventListener("mouseover", function () {
+                        icon.style.transform = "rotate(-120deg)"
+                    })
+
+                    cancelBtn.addEventListener("mouseleave", function () {
+                        icon.style.transform = "rotate(120deg)"
+                    })
+                });
+            }
+        }
+
+
+        function reset(id) {
+            document.getElementById(id).reset()
+        }
+    </script>
+
 </body>
 
 
