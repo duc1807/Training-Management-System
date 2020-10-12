@@ -114,7 +114,7 @@
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Trainee Management</h1>
 
-        <div id="addBtn"><i class="fas fa-user-plus" id="addIcon"></i></div>
+        <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
         <div id="container">
 
             <div id="searchContainer">
@@ -167,7 +167,7 @@
                             </span>
 
                             <span>
-                                <p><b>Class: </b></p><select class="input{{@index}}" id="course_id" name='course_id'>
+                                <p><b>Class: </b></p><select class="input{{@index}}" id="selectInput" name='course_id'>
                                     <optgroup label="Current course">
                                         <option value="{{course_id}}" selected>{{courseName}}</option>
                                     </optgroup>
@@ -197,9 +197,9 @@
                         </div>
                         <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
                             type="submit">Confirm</button>
-                        <div class="btn deleteBtn" id="deleteBtn">
+                        <a href="/staff/account/trainee/delete/{{trainee_id}}" class="btn deleteBtn" id="deleteBtn"><div>
                             <p>Delete</p>
-                        </div>
+                        </div></a>
                     </div>
 
                     <div id="line"></div>
@@ -246,7 +246,7 @@
                             <p><b>TOEIC Score: </b></p><input class="input{{@index}}" value="{{toeic}}" name="toeic">
                         </span>
                         <span>
-                            <p><b>Date of birth: </b></p><input id="dateInput" class="input{{@index}}" value="{{dob}}"
+                            <p><b>Date of birth: </b></p><input id="addDateInput" class="input{{@index}}" value="{{dob}}"
                                 type="date" name="dob">
                         </span>
 
@@ -289,6 +289,9 @@
 
     <script>
         const total = document.getElementsByTagName("form")
+        const form = document.getElementById('addForm')
+        const addFormContainer = document.getElementById('addFormContainer')
+
         for (var a = 0; a < total.length; a++) {
             const submitBtn = document.getElementById("submitBtn" + a)
             const cancelBtn = document.getElementById("cancelBtn" + a)
@@ -337,8 +340,17 @@
             }
         }
 
-
+        function showAddForm() {   
+            addFormContainer.style.zIndex = 5       
+            form.style.zIndex = 5
+            addFormContainer.style.opacity = 1
+            form.style.opacity = 1
+        }
         function reset(id) {
+            form.style.opacity = 0
+            addFormContainer.style.opacity = 0
+            form.style.zIndex = -2
+            addFormContainer.style.zIndex = -2    
             document.getElementById(id).reset()
         }
     </script>
