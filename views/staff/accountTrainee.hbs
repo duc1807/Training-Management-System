@@ -207,7 +207,82 @@
                 {{/each}}
             </div>
         </div>
+
+        <div id="addFormContainer">
+            <form autocomplete="off" method="POST" action="/staff/account/trainee/add" id='addForm'
+                style="width: 200; height:300">
+                <div id="addFormContent">
+                    <div id="form-left">
+                        <b>
+                            <p>Name: <input class="input{{@index}}" value="{{name}}" name="name"></p>
+                        </b>
+                        <b>
+                            <p>Age: <input class="input{{@index}}" value="{{age}}" name="age"></p>
+                        </b>
+                        <b>
+                            <p>Username: <input class="input{{@index}}" value="{{username}}" name="username"></p>
+                        </b>
+                        <b>
+                            <p>Password: <input class="input{{@index}}" value="{{password}}" name="password"></p>
+                        </b>
+                        <b>
+                            <p>Education: <input class="input{{@index}}" value="{{education}}" name="education"></p>
+                        </b>
+                        <b>
+                            <p>Location: <input class="input{{@index}}" value="{{location}}" name="location"></p>
+                        </b>
+
+                    </div>
+
+                    <div id="form-right">
+                        <span>
+                            <p><b>Main programming language: </b></p><input class="input{{@index}}" value="{{mainPL}}"
+                                name="mainPL">
+                        </span>
+
+                        <span>
+                            <p><b>TOEIC Score: </b></p><input class="input{{@index}}" value="{{toeic}}" name="toeic">
+                        </span>
+                        <span>
+                            <p><b>Date of birth: </b></p><input id="dateInput" class="input{{@index}}" value="{{dob}}"
+                                type="date" name="dob">
+                        </span>
+
+                        <span>
+                            <p><b>Class: </b></p><select class="input{{@index}}" id="course_id" name='course_id'>
+                                <optgroup label="Current course">
+                                    <option value="{{course_id}}" selected>{{courseName}}</option>
+                                </optgroup>
+                                {{#each ../type}}
+                                <optgroup label="{{name}}">
+                                    {{#each this.description}}
+                                    <option value="{{course_id}}">{{courseName}}</option>
+                                    {{/each}}
+                                </optgroup>
+                                {{/each}}
+                            </select>
+
+                        </span>
+
+                        <span>
+                            <p><b>Experience detail: </b></p><textarea class="input{{@index}}"
+                                name="expDetail">{{expDetail}}</textarea>
+                        </span>
+                    </div>
+                </div>
+
+                <div id="addFormBtn">
+                    <button class="btn submitBtnAddForm" type="submit">Create</button>
+                    <div class="btn cancelBtnAddForm" id="deleteBtn" onclick="reset('addForm')">
+                        <p>Cancel</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
+
+
 
     <script>
         const total = document.getElementsByTagName("form")
