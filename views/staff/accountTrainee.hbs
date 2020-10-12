@@ -211,6 +211,8 @@
         <div id="addFormContainer">
             <form autocomplete="off" method="POST" action="/staff/account/trainee/add" id='addForm'
                 style="width: 200; height:300">
+                <h2 id="addTitle">Create new trainee account</h2>
+
                 <div id="addFormContent">
                     <div id="form-left">
                         <b>
@@ -249,17 +251,18 @@
                         </span>
 
                         <span>
-                            <p><b>Class: </b></p><select class="input{{@index}}" id="course_id" name='course_id'>
-                                <optgroup label="Current course">
-                                    <option value="{{course_id}}" selected>{{courseName}}</option>
-                                </optgroup>
-                                {{#each ../type}}
+                            <p><b>Class: </b></p>
+
+                            <select class="input{{@index}}" id="course_id" name='course_id'>
+                                <option value="" disabled selected hidden>Choose course...</option>
+                                {{#each type}}
                                 <optgroup label="{{name}}">
                                     {{#each this.description}}
                                     <option value="{{course_id}}">{{courseName}}</option>
                                     {{/each}}
                                 </optgroup>
                                 {{/each}}
+
                             </select>
 
                         </span>
