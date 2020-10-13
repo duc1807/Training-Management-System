@@ -119,7 +119,6 @@ router.post("/account/trainee/add", (req, res) => {
 
   connection.query(sql, (err) => {
     if (err) throw err;
-    res.redirect("/staff/account/trainee");
   });
 });
 

@@ -58,9 +58,9 @@ b {
   border: 0px;
   /* border-bottom: 2.5px solid blue;
   border-bottom-style: outset; */
-  -webkit-box-shadow: inset 0px -0.24vw 0px 0px rgba(145, 87, 87, 1);
-  -moz-box-shadow: inset 0px -0.24vw 0px 0px rgba(145, 87, 87, 1);
-  box-shadow: inset 0px -0.24vw 0px 0px rgba(145, 87, 87, 1);
+  -webkit-box-shadow: inset 0px -0.16vw 0px 0px rgba(145, 87, 87, 1);
+  -moz-box-shadow: inset 0px -0.16vw 0px 0px rgba(145, 87, 87, 1);
+  box-shadow: inset 0px -0.16vw 0px 0px rgba(145, 87, 87, 1);
   background-color: #d3cdc6;
   transition: 0.5s;
 }
