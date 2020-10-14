@@ -12,7 +12,7 @@ The web application project of Learning Portal Management System.
 ## FEATURES
 
 #### For Admin: 
-- [x] Login (Using OTP code), logout
+- [x] Login, logout
 - [x] CRUD training staff accounts
 - [x] CRUD trainer accounts
 - [x] Search for account by username / role
@@ -29,5 +29,11 @@ The web application project of Learning Portal Management System.
 #### For Trainer: 
 - [x] Login, logout
 - [x] View and search for assigned courses
-- [x] View and search for topics
+- [x] View for topics of courses
 - [x] Edit profile
+
+#### Others:
+- Authenticate & authorize accounts
+- Using OTP code to login (admin only)
+
+
