@@ -118,16 +118,17 @@
         <div id="container">
 
             <div id="searchContainer">
-                <form autocomplete="off" method="POST" action="/staff/account/trainee/search">
+                <form id="searchForm" autocomplete="off" method="POST" action="/staff/account/trainee/search">
                     <i id="searchIcon" class="fas fa-search"></i>
                     <input id="searchInput" name="key">
+                    <i onclick="resetSearchForm()" id="resetSearchIcon" class="fas fa-times-circle"></i>
                 </form>
-            </div>
-
+            </div><br>
             <div id="contentContainer">
                 {{#each result}}
                 <form autocomplete="off" method="POST" action="/staff/account/trainee/edit/{{trainee_id}}"
                     id='{{trainee_id}}' style="width: 200; height:300">
+                    <h3>Trainee ID: {{trainee_id}}</h3>
                     <div id="formContent">
                         <div id="form-left">
                             <b>
@@ -291,8 +292,20 @@
         const total = document.getElementsByTagName("form")
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
+        const searchForm = document.getElementById("searchForm")
 
-        for (var a = 0; a < tal.length; a++) {
+        searchForm.addEventListener("focusin", function() {
+            document.getElementById("resetSearchIcon").style.zIndex = 1
+            document.getElementById("resetSearchIcon").style.opacity = 1
+        })
+
+        searchForm.addEventListener("focusout", function() {
+            document.getElementById("resetSearchIcon").style.opacity = 0
+            document.getElementById("resetSearchIcon").style.zIndex = -1
+
+        })
+
+        for (var a = 0; a < total.length; a++) {
             const submitBtn = document.getElementById("submitBtn" + a)
             const cancelBtn = document.getElementById("cancelBtn" + a)
             const icon = document.getElementById("iconBack" + a)
@@ -353,6 +366,7 @@
             addFormContainer.style.zIndex = -2    
             document.getElementById(id).reset()
         }
+        
     </script>
     <script>
         document.getElementById("searchInput").addEventListener("focus", () => {
@@ -362,6 +376,9 @@
         document.getElementById("searchInput").addEventListener("focusout", () => {
             document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
         })
+        function resetSearchForm() {
+            document.getElementById("searchForm").reset()
+        }
     </script>
 
 </body>
