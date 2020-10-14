@@ -296,7 +296,8 @@ router.get("/account/trainer/delete/:id", (req, res) => {
 
 //========================================================= End of Trainer account management pages
 
-//==================================================== GET: Category management pages
+
+//====================================================  Category management pages
 
 // GET: Category management
 router.get("/category", (req, res) => {
