@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/shared/navbar.css">
     <link rel="stylesheet" href="/styles/staff/category.css">
-    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico" type="image/gif" sizes="16x16">
+    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico"
+        type="image/gif" sizes="16x16">
     <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
 
@@ -22,9 +23,34 @@
         <h1>Course categories</h1>
 
         <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
+
         <div id="addFormContainer">
+            <form autocomplete="off" method="POST" action="/staff/category/add" id='addForm'
+                style="width: 200; height:300">
+                <h2 id="addTitle">Create new category</h2>
+
+                <div id="addFormContent">
+                    <div id="form-left">
+                        <b>
+                            <p>Category name: <input class="input{{@index}}" value="{{name}}" name="name"></p>
+                        </b>
+                        <b>
+                            <p>Description: <textarea class="input{{@index}}"
+                                name="description" placeholder="Category description..."></textarea></p>
+                        </b>
+
+                    </div>
+
+                    <div id="form-right">
+                        <button class="btn submitBtnAddForm" type="submit">Create</button>
+                        <div class="btn cancelBtnAddForm" id="deleteBtn" onclick="resetAddForm()">
+                            <p>Cancel</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
- 
+
         <div id="container">
 
             <div id="searchContainer">
@@ -115,8 +141,8 @@
     <script>
 
         const total = document.getElementsByTagName("form")
-        //const form = document.getElementById('addForm')
-        //const addFormContainer = document.getElementById('addFormContainer')
+        form = document.getElementById('addForm')
+        addFormContainer = document.getElementById('addFormContainer')
         const searchForm = document.getElementById("searchForm")
 
         searchForm.addEventListener("focusin", function () {
@@ -184,6 +210,14 @@
             addFormContainer.style.opacity = 1
             form.style.opacity = 1
         }
+        function resetAddForm() {
+            form.style.opacity = 0
+            addFormContainer.style.opacity = 0
+            form.style.zIndex = -6
+            addFormContainer.style.zIndex = -6
+            document.getElementById('addForm').reset()
+        }
+
         function reset(id) {
             document.getElementById(id).reset()
         }
