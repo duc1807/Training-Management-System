@@ -46,6 +46,7 @@
   display: flex;
   align-self: flex-end;
   justify-content: flex-end;
+  align-items: center;
   padding-right: 2vw;
 }
 
@@ -63,7 +64,7 @@
   z-index: 4;
   top: 18vw;
   font-size: 1.5vw;
-  right: 35vw;
+  right: 35.6vw;
   color: rgb(160, 152, 168);
   transition: 0.3s;
 }
@@ -74,11 +75,11 @@
   font-weight: bold;
   font-size: 1.3vw;
   height: 3.2vw;
-  width: 20vw;
+  width: 18vw;
   border: none;
   outline: none;
   background-color: #d3cdc6;
-  padding: 0 1vw 0 4vw;
+  padding: 0 3.6vw 0 4vw;
 }
 
 #searchContainer input:focus {
@@ -484,4 +485,20 @@ b {
 #addFormContent select {
   background-color: #d8d8d5 !important;
 }
+
+#resetSearchIcon {
+  position: absolute;
+  align-self: center;
+  z-index: -1;
+  opacity: 0;
+  font-size: 1.5vw;
+  left: 63.6vw;
+  cursor: pointer;
+  color: rgb(151, 151, 151);
+  transition: 0.3s;
+}
+#resetSearchIcon:hover {
+  transform: scale(1.1);
+}
+
 
