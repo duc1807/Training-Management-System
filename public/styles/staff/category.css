@@ -210,7 +210,7 @@ input:focus, textarea:focus {
 }
 
 #formBtn {
-  padding: 2.5vw 5vw 2.4vw 3vw;
+  padding: 2.5vw 5.5vw 2.4vw 3vw;
   display: flex;
   justify-content: flex-end;
 }
@@ -255,7 +255,7 @@ input:focus, textarea:focus {
 }
 
 .cancelBtn {
-  background-color: rgb(202, 202, 202);
+  background-color: rgb(195, 195, 195);
   cursor: not-allowed;
   transition: 0.3s;
   border-radius: 30px;

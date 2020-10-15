@@ -24,13 +24,13 @@
         <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
         <div id="addFormContainer">
         </div>
-        </form>
+ 
         <div id="container">
 
             <div id="searchContainer">
-                <form id="searchForm" autocomplete="off" method="POST" action="/staff/account/trainee/search">
+                <form id="searchForm" autocomplete="off" method="POST" action="/staff/category/search">
                     <i id="searchIcon" class="fas fa-search"></i>
-                    <input id="searchInput" name="key">
+                    <input id="searchInput" name="key" value={{key}}>
                 </form>
             </div>
 
@@ -112,7 +112,6 @@
         <br><br>
         {{/each}} --}}
 
-    </div>
     <script>
 
         const total = document.getElementsByTagName("form")

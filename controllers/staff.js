@@ -373,7 +373,7 @@ router.post("/category/search", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/category", { result: rows });
+    res.render("./staff/category", { result: rows, key: key });
   });
 });
 
@@ -465,6 +465,19 @@ router.get("/category/course/delete/:id", (req, res) => {
     res.redirect(`/staff/category/redirect/${row[0][0]["category_id"]}`);
   });
 });
+
+// POST: Search courses
+router.post("/category/course/search", (req, res) => {
+  const key = req.body.key;
+
+  let sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%'`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    res.render("./staff/course", { result: rows, key: key });
+  });
+});
+
 //========================================================= End of Course management pages
 
 //========================================================= Topic management pages
