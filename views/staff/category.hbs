@@ -35,10 +35,9 @@
                             <p>Category name: <input class="input{{@index}}" value="{{name}}" name="name"></p>
                         </b>
                         <b>
-                            <p>Description: <textarea class="input{{@index}}"
-                                name="description" placeholder="Category description..."></textarea></p>
+                            <p>Description: <textarea class="input{{@index}}" name="description"
+                                    placeholder="Category description..."></textarea></p>
                         </b>
-
                     </div>
 
                     <div id="form-right">
@@ -52,7 +51,6 @@
         </div>
 
         <div id="container">
-
             <div id="searchContainer">
                 <form id="searchForm" autocomplete="off" method="POST" action="/staff/category/search">
                     <i id="searchIcon" class="fas fa-search"></i>
@@ -83,7 +81,6 @@
                     </div>
 
                     <div id="formBtn">
-
                         <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{category_id}}')"><i
                                 class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
                             <p>Cancel</p>

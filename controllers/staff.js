@@ -183,6 +183,7 @@ router.get("/account/trainee/delete/:id", (req, res) => {
   });
 });
 
+// POST: Search for trainee accounts
 router.post("/account/trainee/search", (req, res) => {
   const key = req.body.key;
 
@@ -232,6 +233,7 @@ router.post("/account/trainee/search", (req, res) => {
       result: rows[0],
       category: rows[1],
       type: category,
+      key: key
     });
   });
 });

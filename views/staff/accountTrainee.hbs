@@ -121,7 +121,7 @@
             <div id="searchContainer">
                 <form id="searchForm" autocomplete="off" method="POST" action="/staff/account/trainee/search">
                     <i id="searchIcon" class="fas fa-search"></i>
-                    <input id="searchInput" name="key">
+                    <input id="searchInput" name="key" value={{key}}>
                     <i onclick="resetSearchForm()" id="resetSearchIcon" class="fas fa-times-circle"></i>
                 </form>
             </div><br>
@@ -294,15 +294,25 @@
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
         const searchForm = document.getElementById("searchForm")
+        const resetSearchIcon = document.getElementById("resetSearchIcon")
+
+        const searchValue = document.getElementById("searchInput").value
+        if(searchValue.length > 0) {
+            resetSearchIcon.style.zIndex = 1
+            resetSearchIcon.style.opacity = 1
+        } else {
+            resetSearchIcon.style.opacity = 0
+            resetSearchIcon.style.zIndex = -1
+        }
 
         searchForm.addEventListener("focusin", function() {
-            document.getElementById("resetSearchIcon").style.zIndex = 1
-            document.getElementById("resetSearchIcon").style.opacity = 1
+            resetSearchIcon.style.zIndex = 1
+            resetSearchIcon.style.opacity = 1
         })
 
         searchForm.addEventListener("focusout", function() {
-            document.getElementById("resetSearchIcon").style.opacity = 0
-            document.getElementById("resetSearchIcon").style.zIndex = -1
+            resetSearchIcon.style.opacity = 0
+            resetSearchIcon.style.zIndex = -1
 
         })
 
@@ -379,6 +389,7 @@
         })
         function resetSearchForm() {
             document.getElementById("searchForm").reset()
+            window.location.href = "/staff/account/trainee"
         }
     </script>
 
