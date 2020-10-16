@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
+// Using middleware for authorization
 router.use(trainerValidation);
+
+// Using partial view (navigation)
+const MENU_PARTIAL = "../partials/trainer_nav"
 
 // [✔] Connect to database
 var mysql = require("mysql");
@@ -21,17 +25,22 @@ connection.connect(function (err) {
   else console.log("Connected");
 });
 
-// GET: Home
+// GET: Homepage of trainer
 router.get("/home", (req, res) => {
   let id = req.user.user_id;
+  // Query all the course that taken by trainer and trainer information
   let sql = `SELECT * FROM Course WHERE tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`;
 
   connection.query(sql, [id, id], (err, rows) => {
     if (err) throw err;
+    // If the trainer has not been signed to any course, the course_id is ignored
     else if (rows[0] == "" && rows[1].length)
       res.render("./tutor/home", {
         result: rows[0],
         tutorName: rows[1][0].name,
+        active: { home: true, profile: false },
+        // send the path of partial view
+        partials: { menuPartial: MENU_PARTIAL },
       });
     else
       res.render("./tutor/home", {
@@ -39,7 +48,7 @@ router.get("/home", (req, res) => {
         tutorName: rows[1][0].name,
         course_id: rows[0][0].course_id,
         active: { home: true, profile: false },
-        partials: { menuPartial: "../partials/trainer_nav" },
+        partials: { menuPartial: MENU_PARTIAL },
       });
   });
 });
@@ -47,7 +56,9 @@ router.get("/home", (req, res) => {
 // POST: Search for courses
 router.post("/search", (req, res) => {
   let key = req.body.key;
+  // Take the id of the current logged in trainer account
   const id = req.user.user_id;
+  // Take all the courses that taken by the trainer
   let sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%' AND tutor_id = ?; SELECT * FROM TutorAccount WHERE tutor_id = ?`;
 
   connection.query(sql, [id, id], (err, rows) => {
@@ -56,6 +67,8 @@ router.post("/search", (req, res) => {
       res.render("./tutor/home", {
         result: rows[0],
         tutorName: rows[1][0].name,
+        active: { home: true, profile: false },
+        partials: { menuPartial: MENU_PARTIAL },
       });
     else
       res.render("./tutor/home", {
@@ -63,13 +76,14 @@ router.post("/search", (req, res) => {
         tutorName: rows[1][0].name,
         course_id: rows[0][0].course_id,
         active: { home: true, profile: false },
-        partials: { menuPartial: "../partials/trainer_nav" },
+        partials: { menuPartial: MENU_PARTIAL },
       });
   });
 });
 
 // GET: Profile
 router.get("/profile", (req, res) => {
+  // Take the id of the current logged in trainer account
   let id = req.user.user_id;
 
   let sql = `SELECT * FROM TutorAccount WHERE tutor_id = ${id}`;
@@ -79,7 +93,7 @@ router.get("/profile", (req, res) => {
     res.render("./tutor/profile", { 
       result: rows[0],
       active: { home: false, profile: true },
-      partials: { menuPartial: "../partials/trainer_nav" }});
+      partials: { menuPartial: MENU_PARTIAL }});
   });
 });
 
@@ -134,14 +148,18 @@ router.get("/topic/redirect/:id", (req, res) => {
   });
 });
 
+// Middleware for validation 
 function trainerValidation(req, res, next) {
+  // Retrieve token from cookies
   const token = req.cookies["token"];
+  // If the token is not existed, throw 401 error
   if (!token) {
     res.redirect("/status/401");
   }
-
+  // Verify token to check if its expired or not
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.redirect("/status/401");
+    // Assign the payload to the HTTP Request
     req.user = user;
     if (user.role != "trainer") res.redirect("/status/401");
     else next();

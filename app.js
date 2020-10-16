@@ -1,12 +1,12 @@
 // Import framework/Library
 const express = require("express");
 const engines = require("consolidate");
-const app = express();
 const session = require('express-session');
+const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser'); 
-app.use(cookieParser()); 
 
-var bodyParser = require("body-parser");
+const app = express();
+app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create public directory to storing static files
@@ -31,14 +31,12 @@ var controllerIndex = require("./controllers/index")
 var controllerAdmin = require("./controllers/admin")
 var controllerStaff = require("./controllers/staff")
 var controllerTutor = require("./controllers/tutor")
-var controllertutor2 = require("./controllers/tutor2")
 
 // Initialize the controller with its path
 app.use("/", controllerIndex)
 app.use("/admin", controllerAdmin)
 app.use("/staff", controllerStaff)
 app.use("/tutor", controllerTutor)
-app.use("/tutor2",controllertutor2)
 
 // Initialize the environment port | default port for the server
 app.listen(process.env.PORT || 8080, function () {
