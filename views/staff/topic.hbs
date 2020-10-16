@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
+    <link rel="stylesheet" href="/styles/staff/topic.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico"
+        type="image/gif" sizes="16x16">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
     <title>FPT Training Portal - Topics</title>
 </head>
-<body>
+{{!-- <body>
     <h2>Topic</h2>
     <h1>{{coursename}}</h1>
 
@@ -60,5 +66,248 @@
         }
 
     </script>
+</body> --}}
+
+<body onload="setHistory()">
+    {{> menuPartial parameter=active}}
+
+    <div id="rightView">
+        <a onclick="windowRedirect()">
+            <div id="backBtn">
+                <i class="fas fa-caret-left"></i>
+                <p>Back</p>
+            </div>
+        </a>
+
+        <div id="blurBackground"></div>
+        <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
+        <h1>Topics</h1>
+
+        <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
+        <div id="addFormContainer">
+            <form autocomplete="off" method="POST" action="/staff/category/course/topic/add" id='addForm'
+                style="width: 200; height:300">
+                <h2 id="addTitle">Create new topic</h2>
+                <input type="hidden" name="course_id" value="{{course_id}}">
+                <div id="addFormContent">
+                    <div id="form-left">
+                        <b>
+                            <p>Topic name: <input class="input{{@index}}" name="topicName"></p>
+                        </b>
+                        <b>
+                            <p>Description: <textarea class="input{{@index}}" name="description"
+                                    placeholder="Topic description..."></textarea></p>
+                        </b>
+                        <b>
+                            <p>Trainer:
+                                <select id="tutor" class="input{{@index}}" name='tutor'>
+                                    <optgroup label="Current tutor">
+                                        {{#if tutor_id}}
+                                        <option selected value="{{tutor_id}}">{{tutor_id}} - {{name}}</option>
+                                        {{else}}
+                                        <option selected disabled value="">None</option>
+                                        {{/if}}
+                                    </optgroup>
+
+                                    <optgroup label="All tutors">
+                                        {{#each tutor}}
+                                        <option value="{{tutor_id}}">{{tutor_id}} - {{name}}</option>
+                                        {{/each}}
+                                    </optgroup>
+                                </select>
+                            </p>
+                        </b>
+                    </div>
+
+                    <div id="form-right">
+                        <button class="btn submitBtnAddForm" type="submit">Create</button>
+                        <div class="btn cancelBtnAddForm" id="deleteBtn" onclick="resetAddForm()">
+                            <p>Cancel</p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="container">
+
+            <div id="searchContainer">
+                <form id="searchForm" autocomplete="off" method="POST" action="/staff/category/course/topic/search">
+                    <i id="searchIcon" class="fas fa-search"></i>
+                    <input id="searchInput" name="key" value={{key}}>
+                </form>
+            </div>
+
+            <div id="contentContainer">
+                {{#each result}}
+                <form autocomplete="off" method="POST" action="/staff/category/course/topic/edit/{{id}}" id='{{id}}'
+                    style="width: 200; height:300">
+                    <div id="formContent">
+                        <div id="leftFormContent">
+                            <div id="circle">
+                                <p>{{@index}}</p>
+                            </div>
+
+                        </div>
+                        <div id="rightFormContent">
+                            <input type="hidden" name="course_id" value="{{../course_id}}">
+                            <b>
+                                <p>Topic name: <input class="input{{@index}}" value="{{topicName}}" name="topicName">
+                                </p>
+                            </b>
+                            <b>
+                                <p>Description: <textarea class="input{{@index}}"
+                                        name="description">{{description}}</textarea>
+                                </p>
+                            </b>
+                            <b>
+                                <p>Trainer:
+                                    <select id="tutor" class="input{{@index}}" name='tutor'>
+                                        <optgroup label="Current tutor">
+                                            {{#if tutor_id}}
+                                            <option selected value="{{tutor_id}}">{{tutor_id}} - {{name}}</option>
+                                            {{else}}
+                                            <option selected disabled value="">None</option>
+                                            {{/if}}
+                                        </optgroup>
+
+                                        <optgroup label="All tutor">
+                                            {{#each ../tutor}}
+                                            <option value="{{tutor_id}}">{{tutor_id}} - {{name}}</option>
+                                            {{/each}}
+                                        </optgroup>
+                                    </select></p>
+                            </b>
+                        </div>
+                    </div>
+
+                    <div id="formBtn">
+
+                        <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{id}}')"><i
+                                class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
+                            <p>Cancel</p>
+                        </div>
+                        <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
+                            type="submit">Confirm</button>
+                        <a href="/staff/category/course/topic/delete/{{id}}" class="btn deleteBtn" id="deleteBtn">
+                            <div>
+                                <p>Delete</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div id="line"></div>
+                </form>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const total = document.getElementsByTagName("form")
+        const form = document.getElementById('addForm')
+        const addFormContainer = document.getElementById('addFormContainer')
+        const searchForm = document.getElementById("searchForm")
+
+        function setHistory() {
+            if (typeof localStorage.history != Number) parseInt(localStorage.history)
+            localStorage.history++
+            console.log("Path: ", window.location.pathname)
+            console.log("Refer: ", document.referrer)
+        }
+
+        function windowRedirect() {
+            window.history.go(-localStorage.history)
+            localStorage.history = 0
+        }
+
+        searchForm.addEventListener("focusin", function () {
+            document.getElementById("resetSearchIcon").style.zIndex = 1
+            document.getElementById("resetSearchIcon").style.opacity = 1
+        })
+
+        searchForm.addEventListener("focusout", function () {
+            document.getElementById("resetSearchIcon").style.opacity = 0
+            document.getElementById("resetSearchIcon").style.zIndex = -1
+
+        })
+
+        for (var a = 0; a < total.length - 1; a++) {
+            const submitBtn = document.getElementById("submitBtn" + a)
+            const cancelBtn = document.getElementById("cancelBtn" + a)
+            const icon = document.getElementById("iconBack" + a)
+
+            const input = document.getElementsByClassName("input" + a)
+            for (var i = 0; i < input.length; i++) {
+                input[i].addEventListener("change", function () {
+
+                    cancelBtn.disabled = false
+                    cancelBtn.style.cursor = "pointer"
+                    cancelBtn.style.opacity = "1"
+                    cancelBtn.style.zIndex = 2
+
+                    submitBtn.disabled = false
+                    submitBtn.style.cursor = "pointer"
+                    submitBtn.style.backgroundColor = "rgb(115, 70, 160)"
+
+                    submitBtn.addEventListener("mouseover", () => {
+                        submitBtn.style.transform = "scale(1.1)"
+                    })
+
+                    submitBtn.addEventListener("mouseleave", () => {
+                        submitBtn.style.transform = "scale(1)"
+                    })
+
+                    cancelBtn.addEventListener("click", () => {
+                        submitBtn.disabled = true
+                        submitBtn.style.cursor = "not-allowed"
+                        submitBtn.style.backgroundColor = "rgb(178, 153, 206)"
+
+                        cancelBtn.disabled = true
+                        cancelBtn.style.cursor = "not-allowed"
+                        cancelBtn.style.opacity = "0"
+                        cancelBtn.style.zIndex = -2
+                    })
+
+                    cancelBtn.addEventListener("mouseover", function () {
+                        icon.style.transform = "rotate(-120deg)"
+                    })
+
+                    cancelBtn.addEventListener("mouseleave", function () {
+                        icon.style.transform = "rotate(120deg)"
+                    })
+                });
+            }
+        }
+
+        function showAddForm() {
+            addFormContainer.style.zIndex = 5
+            form.style.zIndex = 5
+            addFormContainer.style.opacity = 1
+            form.style.opacity = 1
+        }
+        function resetAddForm() {
+            form.style.opacity = 0
+            addFormContainer.style.opacity = 0
+            form.style.zIndex = -6
+            addFormContainer.style.zIndex = -6
+            document.getElementById('addForm').reset()
+        }
+        function reset(id) {
+            document.getElementById(id).reset()
+        }
+
+        document.getElementById("searchInput").addEventListener("focus", () => {
+            document.getElementById("searchIcon").style.color = "rebeccapurple"
+        })
+
+        document.getElementById("searchInput").addEventListener("focusout", () => {
+            document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
+        })
+
+    </script>
+
 </body>
+
 </html>

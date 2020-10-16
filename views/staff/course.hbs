@@ -77,17 +77,17 @@
     </script>
 </body> --}}
 
-<body>
+<body onload="setHistory()">
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
-        <a onclick="window.location.href= '/staff/category'; return false;">
+        <a onclick="windowRedirect()">
             <div id="backBtn">
                 <i class="fas fa-caret-left"></i>
                 <p>Back</p>
             </div>
         </a>
-        
+
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Courses</h1>
@@ -105,7 +105,7 @@
                         </b>
                         <b>
                             <p>Description: <textarea class="input{{@index}}" name="description"
-                                    placeholder="Category description..."></textarea></p>
+                                    placeholder="Course description..."></textarea></p>
                         </b>
                         <b>
                             <p>Trainer:
@@ -213,9 +213,42 @@
     <script>
 
         const total = document.getElementsByTagName("form")
-        form = document.getElementById('addForm')
-        addFormContainer = document.getElementById('addFormContainer')
+        const form = document.getElementById('addForm')
+        const addFormContainer = document.getElementById('addFormContainer')
         const searchForm = document.getElementById("searchForm")
+        
+        function setHistory() {
+            if(typeof localStorage.history != Number) parseInt(localStorage.history)
+            localStorage.history++
+            console.log("Path: ", window.location.pathname)
+            console.log("Refer: ", document.referrer)
+        }
+
+        function windowRedirect() {
+            window.history.go(-localStorage.history)
+            localStorage.history = 0
+        }
+        
+        /*
+            function setHistory() {
+                if(typeof localStorage.history != Number) parseInt(localStorage.history)
+                if(document.referrer.includes(window.location.pathname)) {
+                    localStorage.history++
+                    delete window.document.referrer
+                    console.log(window.document.referrer)
+                    //window.document.__defineGetter__('referrer', function () { return ""; });
+                }
+                if(!window.document.referrer) localStorage.history = 0
+                console.log(localStorage.history)
+                console.log("Path: ", window.location.pathname)
+                console.log("Refer: ", window.document.referrer)
+            }
+            
+
+        function windowRedirect() {
+            window.history.go(-localStorage.history)
+            localStorage.history = 0
+        }*/
 
         searchForm.addEventListener("focusin", function () {
             document.getElementById("resetSearchIcon").style.zIndex = 1

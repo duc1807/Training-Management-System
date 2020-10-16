@@ -497,6 +497,7 @@ router.get("/category/course/redirect/:id", (req, res) => {
       coursename: rows[1][0].courseName,
       tutor: rows[2],
       course_id: course_id,
+      partials: MENU_PARTIAL,
     });
   });
 });
@@ -541,11 +542,11 @@ router.post("/category/course/topic/edit/:id", (req, res) => {
 
   const { course_id, topicName, description, tutor } = req.body;
 
-  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' OR id=${id}`;
+  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' AND course_id=${course_id}`;
 
   connection.query(sqlCheck, (err, rows) => {
     if (err) throw err;
-    if (rows && rows.length < 2) {
+    if (rows && rows.length < 1) {
       let sql = `UPDATE Topic SET 
                   topicName='${topicName}', 
                   description='${description}', 
@@ -553,7 +554,7 @@ router.post("/category/course/topic/edit/:id", (req, res) => {
                   course_id = ${course_id}
                  WHERE id = ${id}`;
 
-      connection.query(sql, (err, rows) => {
+      connection.query(sql, (err) => {
         if (err) throw err;
         res.redirect(`/staff/category/course/redirect/${course_id}`);
       });
