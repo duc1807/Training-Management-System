@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken");
 // [✔] Connect to database
 var mysql = require("mysql");
 
+// Declare the partial view (navigation)
+const MENU_PARTIAL = { menuPartial: "../partials/staff_nav" };
+
 // Use middle to authorization
 router.use(staffValidation);
 
@@ -22,9 +25,13 @@ connection.connect(function (err) {
   else console.log("Connected");
 });
 
-// GET: Home
+// GET: Homepage for staff
 router.get("/home", (req, res) => {
-  res.render("./staff/home");
+  res.render("./staff/home", {
+    // Active: the status of list in navigation to know which page is focused
+    active: { home: true },
+    partials: MENU_PARTIAL,
+  });
 });
 
 //==================================================== GET: Trainee account management pages
@@ -69,28 +76,18 @@ router.get("/account/trainee", (req, res) => {
     //     }
     //   }
     // }
-    res.render("./staff/accountTrainee", {
+    res.render("./staff/manageTrainee", {
       result: rows[0],
       category: rows[1],
       type: category,
+      active: { trainee: true },
+      partials: MENU_PARTIAL,
     });
   });
 });
 
 // POST: Add trainee account
 router.post("/account/trainee/add", (req, res) => {
-  // let username = req.body.username;
-  // let password = req.body.password;
-  // let dob = req.body.dob;
-  // let mainPL = req.body.mainPL;
-  // let expDetail = req.body.expDetail;
-  // let name = req.body.name;
-  // let age = req.body.age;
-  // let education = req.body.education;
-  // let toeic = req.body.toeic;
-  // let location = req.body.location;
-  // let course_id = req.body.course_id;
-
   const {
     username,
     password,
@@ -111,25 +108,12 @@ router.post("/account/trainee/add", (req, res) => {
 
   connection.query(sql, (err) => {
     if (err) throw err;
-    res.redirect("/staff/account/trainee");
   });
 });
 
 // POST: Edit trainee account
 router.post("/account/trainee/edit/:id", (req, res) => {
   const id = req.params.id;
-
-  // let username = req.body.username;
-  // let password = req.body.password;
-  // let dob = req.body.dob;
-  // let mainPL = req.body.mainPL;
-  // let expDetail = req.body.expDetail;
-  // let name = req.body.name;
-  // let age = req.body.age;
-  // let education = req.body.education;
-  // let toeic = req.body.toeic;
-  // let location = req.body.location;
-  // let course_id = req.body.course_id;
 
   const {
     username,
@@ -176,6 +160,7 @@ router.get("/account/trainee/delete/:id", (req, res) => {
   });
 });
 
+// POST: Search for trainee accounts
 router.post("/account/trainee/search", (req, res) => {
   const key = req.body.key;
 
@@ -221,15 +206,17 @@ router.post("/account/trainee/search", (req, res) => {
     //   }
     //   if (!isExisted) category.push({name: rows[1][i]['name'], description: description})
     // }
-    res.render("./staff/accountTrainee", {
+    res.render("./staff/manageTrainee", {
       result: rows[0],
       category: rows[1],
       type: category,
+      key: key
     });
   });
 });
 
 //========================================================= End of Trainee account management pages
+
 
 //========================================================= Trainer account management pages
 
@@ -241,7 +228,11 @@ router.get("/account/trainer", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/accountTrainer", { result: rows });
+    res.render("./staff/manageTrainer", {
+      result: rows,
+      active: { trainer: true },
+      partials: MENU_PARTIAL,
+    });
   });
 });
 
@@ -265,9 +256,28 @@ router.post("/account/trainer/edit/:id", (req, res) => {
   });
 });
 
+// GET: Delete trainer information
+router.get("/account/trainer/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE TutorAccount
+               SET name = ${null},
+                  age = ${null},
+                  type = ${null},
+                  workingPlace = ${null},
+                  phone = ${null},
+                  email = ${null}
+                WHERE tutor_id = ${id}`;
+
+  connection.query(sql, (err) => {
+    if (err) throw err;
+    res.redirect("/staff/account/trainer");
+  });
+});
+
 //========================================================= End of Trainer account management pages
 
-//==================================================== GET: Category management pages
+
+//====================================================  Category management pages
 
 // GET: Category management
 router.get("/category", (req, res) => {
@@ -275,7 +285,11 @@ router.get("/category", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/category", { result: rows });
+    res.render("./staff/category", {
+      result: rows,
+      active: { training: true },
+      partials: MENU_PARTIAL,
+    });
   });
 });
 
@@ -284,8 +298,9 @@ router.post("/category/add", (req, res) => {
   const { name, description } = req.body;
 
   let sqlCheck = `SELECT * FROM Category WHERE name='${name}'`;
-
+  // Check if the category name is duplicated or not
   connection.query(sqlCheck, (err, rows) => {
+    // If category name is duplicated, reload the page
     if (rows && rows.length) {
       res.redirect("/staff/category");
     } else {
@@ -306,8 +321,9 @@ router.post("/category/edit/:id", (req, res) => {
   const { name, description } = req.body;
 
   let sqlCheck = `SELECT * FROM Category WHERE name='${name}' OR category_id=${id}`;
-
+  // Check if the category name is duplicated or not
   connection.query(sqlCheck, (err, rows) => {
+    // If result contains only 1 result
     if (rows && rows.length < 2) {
       let sql = `UPDATE Category SET name = '${name}', description = '${description}' WHERE category_id = ${id}`;
 
@@ -339,7 +355,7 @@ router.post("/category/search", (req, res) => {
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/category", { result: rows });
+    res.render("./staff/category", { result: rows, key: key });
   });
 });
 
@@ -357,13 +373,12 @@ router.get("/category/redirect/:id", (req, res) => {
   connection.query(sql, (err, rows) => {
     if (err) throw err;
 
-    // if(rows[0] == "") res.render('./staff/course', {tutor: rows[1],category: id, notice: 'No course existed'})
-    // else res.render('./staff/course', { result: rows[0], tutor: rows[1], joined: rows[2], category: id})
     res.render("./staff/course", {
       result: rows[0],
       tutor: rows[1],
       joined: rows[2],
       category: id,
+      partials: MENU_PARTIAL,
     });
   });
 });
@@ -381,6 +396,7 @@ router.post("/category/course/add", (req, res) => {
   let sqlCheck = `SELECT * FROM Course WHERE courseName='${courseName}'`;
 
   connection.query(sqlCheck, (err, rows) => {
+    // If course name is deuplicated, reload the page
     if (rows && rows.length)
       res.redirect(`/staff/category/redirect/${category_id}`);
     else {
@@ -395,7 +411,7 @@ router.post("/category/course/add", (req, res) => {
   });
 });
 
-// post : edit course
+// POST : Edit course
 router.post("/category/course/edit/:id", (req, res) => {
   const course_id = req.params.id;
 
@@ -405,6 +421,7 @@ router.post("/category/course/edit/:id", (req, res) => {
 
   connection.query(sqlCheck, (err, rows) => {
     if (err) throw err;
+    // If the result only contain 1 result
     if (rows && rows.length < 2) {
       let sql = `UPDATE Course SET courseName='${courseName}', description='${description}', tutor_id=${tutor}
       WHERE course_id = ${course_id}`;
@@ -429,6 +446,19 @@ router.get("/category/course/delete/:id", (req, res) => {
     res.redirect(`/staff/category/redirect/${row[0][0]["category_id"]}`);
   });
 });
+
+// POST: Search courses
+router.post("/category/course/search", (req, res) => {
+  const key = req.body.key;
+
+  let sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%'`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    res.render("./staff/course", { result: rows, key: key });
+  });
+});
+
 //========================================================= End of Course management pages
 
 //========================================================= Topic management pages
@@ -446,6 +476,7 @@ router.get("/category/course/redirect/:id", (req, res) => {
       coursename: rows[1][0].courseName,
       tutor: rows[2],
       course_id: course_id,
+      partials: MENU_PARTIAL,
     });
   });
 });
@@ -453,13 +484,14 @@ router.get("/category/course/redirect/:id", (req, res) => {
 // POST: Add new topic
 router.post("/category/course/topic/add", (req, res) => {
   const { topicName, description, course_id } = req.body;
-  var tutor = req.body.tutor
-  if (!tutor) tutor = null
+  var tutor = req.body.tutor;
+  if (!tutor) tutor = null;
 
   let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}'`;
 
   connection.query(sqlCheck, (err, rows) => {
     if (err) throw err;
+    // If the returned result only contain 1 result
     if (rows && rows.length)
       res.redirect(`/staff/category/course/redirect/${course_id}`);
     else {
@@ -486,38 +518,40 @@ router.get("/category/course/topic/delete/:id", (req, res) => {
 
 // POST: Edit topic
 router.post("/category/course/topic/edit/:id", (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
 
-  const { course_id, topicName, description, tutor } = req.body
+  const { course_id, topicName, description, tutor } = req.body;
 
-  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' OR id=${id}`
+  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' AND course_id=${course_id}`;
 
   connection.query(sqlCheck, (err, rows) => {
-    if (err) throw err
-    if(rows && rows.length < 2)
-    {
+    if (err) throw err;
+    // If there are not any topics with similar topic name and course id
+    if (rows && rows.length < 1) {
       let sql = `UPDATE Topic SET 
                   topicName='${topicName}', 
                   description='${description}', 
                   tutor_id=${tutor}, 
                   course_id = ${course_id}
-                 WHERE id = ${id}`
-    
-      connection.query(sql, (err, rows) => {
-        if (err) throw err
-        res.redirect(`/staff/category/course/redirect/${course_id}`)
-      });
-    } else res.redirect(`/staff/category/course/redirect/${course_id}`)
-  })
+                 WHERE id = ${id}`;
 
+      connection.query(sql, (err) => {
+        if (err) throw err;
+        res.redirect(`/staff/category/course/redirect/${course_id}`);
+      });
+    } else res.redirect(`/staff/category/course/redirect/${course_id}`);
+  });
 });
 
+// Middleware validation for staff role
 function staffValidation(req, res, next) {
+  // Retrive token from the cookies
   const token = req.cookies["token"];
+  // If the token is not existed, send 401 error
   if (!token) {
     res.redirect("/status/401");
   }
-
+  // Check if the token is expired or not
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return res.redirect("/status/401");
     if (user.role != "staff") res.redirect("/status/401");
@@ -525,21 +559,24 @@ function staffValidation(req, res, next) {
   });
 }
 
+// Function to combine all courses into each of its different category group
 function getCategory(rows1, rows2) {
   var category = [];
   for (f = 0; f < rows2.length; f++) {
+    // Push all the category name into array and empty description
     category.push({
       name: rows2[f]["name"],
       description: [],
     });
   }
 
+  // rows1: INNER JOIN trainee account and coursename
+  // rows2: INNER JOIN category and coursename
+
   for (var i = 0; i < rows1.length; i++) {
-    // var description = []
     for (var e = 0; e < category.length; e++) {
-      // isExisted = false
       if (rows1[i]["name"] == category[e].name) {
-        // isExisted = true
+        // If course's category name equal category name at index e, push coursename and courseid into array
         category[e].description.push({
           course_id: rows1[i]["course_id"],
           courseName: rows1[i]["courseName"],

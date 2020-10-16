@@ -1,0 +1,32 @@
+<div id="leftView">
+    <div id="leftView-top">
+        <img id="logo" draggable="false"
+            src="https://i.chungta.vn/2017/12/25/LogoFPT-2017-copy-3042-1513928-4697-9171-1514166704.jpg">
+        <nav>
+            <ul>
+                <a href="{{#if active.home}}#{{else}}/staff/home{{/if}}">
+                    <li class="{{#if active.home}}active{{/if}}"><i class="fas fa-home" id="icon"></i><b>Home</b></li>
+                </a>
+                <a href="{{#if active.training}}#{{else}}/staff/category{{/if}}">
+                    <li class="{{#if active.training}}active{{/if}}"><i class="fas fa-book-open" id="icon"></i></i><b>Training</b></li>
+                </a>
+                <a href="{{#if active.trainee}}#{{else}}/staff/account/trainee{{/if}}">
+                    <li class="{{#if active.trainee}}active{{/if}}"><i class="fas fa-user-graduate" id="icon"></i><b>Trainee accounts</b></li>
+                </a>
+                <a href="{{#if active.trainer}}#{{else}}/staff/account/trainer{{/if}}">
+                    <li class="{{#if active.trainer}}active{{/if}}"><i class="fas fa-user-tie" id="icon"></i><b>Trainer accounts</b></li>
+                </a>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="leftView-bottom">
+        <nav>
+            <ul>
+                <a href="/logout">
+                    <li><i class="fas fa-sign-out-alt" id="icon"></i><b>Logout</b></li>
+                </a>
+            </ul>
+        </nav>
+    </div>
+</div>

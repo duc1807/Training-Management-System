@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
     <link rel="stylesheet" href="/styles/trainer/home.css">
+    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico" type="image/gif" sizes="16x16">
     <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
-    <title>Document</title>
+    <title>FTP Training Portal - Home</title>
 </head>
 
 <body>
@@ -15,21 +17,41 @@
 
     <div id="rightView">
         <div id="blurBackground"></div>
-        <img id="workspace-img" src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
+        <img id="workspace-img"
+            src="https://image.freepik.com/free-photo/vintage-camera-pencil-open-laptop-twig-isolated-white-background_23-2147979091.jpg">
         <h1>All courses</h1>
+
         <div id="container">
-            {{#each result}}
-            <a id="content" href="/tutor/topic/redirect/{{course_id}}">
-                <p>{{courseName}}</p>
-                <p>{{../tutorName}}</p>
-                <p>{{description}}</p>
-            </a>
-            {{/each}}
+            <div id="searchContainer">
+                <form autocomplete="off" method="POST" action="/tutor/search">
+                    <i id="searchIcon" class="fas fa-search"></i>
+                    <input id="searchInput" name="key">
+                </form>
+            </div>
+
+            <div id="contentContainer">
+
+                {{#each result}}
+                <a id="content" href="/tutor/topic/redirect/{{course_id}}">
+                    <p>{{courseName}}</p>
+                    <p>{{../tutorName}}</p>
+                    <p>{{description}}</p>
+                </a>
+                {{/each}}
+            </div>
         </div>
 
     </div>
 
+<script>
+    document.getElementById("searchInput").addEventListener("focus", () => {
+        document.getElementById("searchIcon").style.color = "rebeccapurple"
+    })
 
+    document.getElementById("searchInput").addEventListener("focusout", () => {
+        document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
+    })
+</script>
 </body>
 
 </html>
