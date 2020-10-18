@@ -1,84 +1,85 @@
 header {
-    display: flex;
-    justify-content: center;
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border: 5px solid rgb(68, 68, 160);
-    border-top-width: 0;
-  }
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border: 5px solid rgb(68, 68, 160);
+  border-top-width: 0;
+}
    
-  img {
-    width: 185px;
-    height: 120px;
-  }
+img {
+  width: 185px;
+  height: 120px;
+}
    
-  h1 {
-    text-align: center;
-    font-size: 3rem;
-  }
+h1 {
+  text-align: center;
+  font-size: 3rem;
+}
    
-  h2 {
-    margin-left: 14.5rem;
-    font-size: 2rem;
-  }
+h2 {
+  margin-left: 14.5rem;
+  font-size: 2rem;
+}
    
-  p {
-    margin-right: 18.5rem;
-    margin-top: 0rem;
-  }
+p {
+  margin-right: 18.5rem;
+  margin-top: 0rem;
+}
    
-  button {
-    width: 30%;
-    height: 35px;
-    border-radius: 15px;
-    margin-left: 11.5rem;
-    background: rgb(255, 42, 31);
-    color: white;
-    font-weight: bold;
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-top: 2rem;
-    outline-style: none;
-  }
+button {
+  width: 30%;
+  height: 35px;
+  border-radius: 7px;
+  margin-left: 11.5rem;
+  background: #5890FF;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 2rem;
+  outline-style: none;
+}
    
-  button:hover {
-    background-color: red;
-  }
+button:hover {
+  background-color: #5871ff;
+}
    
-  #background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url(https://i.chungta.vn/2020/08/12/fptdanangnew01-1597201939.jpg);
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-  }
+#background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;    
+  background-image: url(https://i.chungta.vn/2020/08/12/fptdanangnew01-1597201939.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
    
-  #form {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    padding-left: 4rem;
-    background: white;
-    width: 600px;
-    margin-left: 26.5rem;
-    margin-top: 5rem;
-    border-radius: 10px;
-    height: 400px;
-  }
+#form {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding-left: 4rem;
+  background: white;
+  width: 600px;
+  margin-left: 26.5rem;
+  margin-top: 5rem;
+  border-radius: 10px;
+  height: 400px;
+  box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+}
    
-  .username,
-  .password {
-    margin-left: 1.5rem;
-    width: 80%;
-    height: 40px;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
+.username,
+.password {
+  margin-left: 1.5rem;
+  width: 80%;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 1rem;
+}
