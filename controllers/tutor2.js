@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken')
 var mysql = require('mysql')
 
 var connection = mysql.createConnection({
-  host: 'sql12.freemysqlhosting.net',
-  user: 'sql12367447',
-  password: 'vHENizWluh',
-  database: 'sql12367447',
+  host: "sql12.freemysqlhosting.net",
+  user: "sql12371466",
+  password: "pZGVwZJwxy",
+  database: "sql12371466",
   port: 3306,
   multipleStatements: true
 })
