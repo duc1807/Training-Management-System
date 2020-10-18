@@ -9,6 +9,7 @@
     margin-top: 16rem;
     border-radius: 10px;
     height: 210px;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
 }
 
 #input {
@@ -23,7 +24,7 @@
 #submit {
     width: 30%;
     height: 35px;
-    border-radius: 15px;
+    border-radius: 7px;
     margin-left: 8.7rem;
     background: #5890FF;
     color: white;
