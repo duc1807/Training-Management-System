@@ -143,6 +143,7 @@
             <div id="searchContainer">
                 <form id="searchForm" autocomplete="off" method="POST" action="/staff/category/course/search">
                     <i id="searchIcon" class="fas fa-search"></i>
+                    <input type="hidden" name="category_id" value="{{category}}">
                     <input id="searchInput" name="key" value={{key}}>
                 </form>
             </div>
