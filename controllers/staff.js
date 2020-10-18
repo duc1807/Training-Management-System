@@ -274,6 +274,25 @@ router.get("/account/trainer/delete/:id", (req, res) => {
   });
 });
 
+// POST: Search trainer account 
+router.post("/account/trainer/search", (req, res) => {
+  const key = req.body.key;
+
+  const sql = `SELECT *
+              FROM TutorAccount
+              
+              WHERE name LIKE '%${key}%'`;
+
+  connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    res.render("./staff/manageTrainer", {
+      result: rows,
+      active: { trainer: true },
+      partials: MENU_PARTIAL,
+    });
+  });
+});
+
 //========================================================= End of Trainer account management pages
 
 
@@ -415,7 +434,9 @@ router.post("/category/course/add", (req, res) => {
 router.post("/category/course/edit/:id", (req, res) => {
   const course_id = req.params.id;
 
-  const { category_id, courseName, description, tutor } = req.body;
+  const { category_id, courseName, description } = req.body;
+  var tutor = req.body.tutor
+  if(!tutor) tutor= null
 
   let sqlCheck = `SELECT * FROM Course WHERE courseName='${courseName}' OR course_id=${course_id}`;
 
