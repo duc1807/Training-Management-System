@@ -4,54 +4,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/shared/navbar.css">
+    <link rel="stylesheet" href="/styles/admin/home.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap">
+    <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico"
+        type="image/gif" sizes="16x16">
+    <script src="https://kit.fontawesome.com/f6833f0619.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <h1>all account</h1>
+    {{> menuPartial parameter=active}}
 
-    <form method="POST" action="/admin/home/add">
-        Username: <input name="username" type="text"><br><br>
-        Password: <input name="password" type="text"><br><br>
-        Role: <input name="role" type="radio" value="admin">
-              <label for="admin">Administrator</label>
-              <input name="role" type="radio" value="staff">
-              <label for="staff">Staff</label>
-              <input name="role" type="radio" value="trainer">
-              <label for="trainer">Trainer</label>
+    <div id="rightView">
+        <div id="blurBackground"></div>
+        <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
+        <h1>All account</h1>
 
-        <br><br>
-        <button type="submit">ok</button>
-    </form>
-    <br><br>
-    
-    <form method="POST" action="/admin/home/search" id='{{user_id}}'>
-        <input placeholder="Search for account" name="key">
-        <button type="submit">Submit</button>
-    </form>
+        <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
+        <div id="addFormContainer">
+            <form autocomplete="off" method="POST" action="/staff/account/trainee/add" id='addForm'
+                style="width: 200; height:300">
+                <h2 id="addTitle">Create new account</h2>
 
-    {{#each result}}
-    <div>
-        <p>{{username}}</p>
-        <p>{{password}}</p>
-        <p>{{role}}</p>
-        <a href="/admin/home/delete/{{user_id}}">delete</a>
-        <button onclick="getAcc({{user_id}},'{{username}}', '{{password}}', '{{role}}')">Edit</button>
+                <br><br>
 
-        <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}'
-            style="opacity: 0; width: 200; height:300">
-            <input value="{{username}}" name="username">
-            <input type="text" placeholder="Leave it blank to not change the password" name="password">
-            <input value="{{role}}" name="role">
-            <button type="submit">Submit</button>
-        </form>
+                <div id="addFormContent">
+                    <div id="form-left">
+                        <b>
+                            <p>Username: <input name="username" type="text"><br><br></p>
+                        </b>
+                        <b>
+                            <p>Password: <input name="password" type="text"><br><br></p>
+                        </b>
+                        <b>
+                            <p>Role
+
+                            <select name='role'>
+                                <option value="" disabled selected hidden>Choose course...</option>
+                                <option value="admin">Admin</option>
+                                <option value="staff">Staff</option>
+                                <option value="trainer">Trainer</option>
+                            </select></p></b>
+                        
+                    </div>
+
+                    <div id="form-right">
+                        <button class="btn submitBtnAddForm" type="submit">Create</button> <br><br>
+                        <div class="btn cancelBtnAddForm" id="deleteBtn" onclick="reset('addForm')">
+                            <p>Cancel</p>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div id="container">
+            <div id="searchContainer">
+                <form id="searchForm" autocomplete="off" method="POST" action="/staff/account/trainee/search">
+                    <i id="searchIcon" class="fas fa-search"></i>
+                    <input id="searchInput" name="key" value={{key}}>
+                    <i onclick="resetSearchForm()" id="resetSearchIcon" class="fas fa-times-circle"></i>
+                </form>
+            </div><br>
+
+
+            {{#each result}}
+            <div>
+                <p>{{username}}</p>
+                <p>{{password}}</p>
+                <p>{{role}}</p>
+                <a href="/admin/home/delete/{{user_id}}">delete</a>
+                <button onclick="getAcc({{user_id}},'{{username}}', '{{password}}', '{{role}}')">Edit</button>
+
+                <div id="contentContainer">
+
+                    <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}'
+                        style="opacity: 0; width: 200; height:300">
+                        <input value="{{username}}" name="username">
+                        <input type="text" placeholder="Leave it blank to not change the password" name="password">
+                        <input value="{{role}}" name="role">
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                {{/each}}
+            </div>
+        </div>
     </div>
-    {{/each}}
     <script>
-        function getAcc(id) {
-            console.log('ok')
-            console.log(id)
-            document.getElementById(id).style.opacity = 1
+        const total = document.getElementsByTagName("form")
+        const form = document.getElementById('addForm')
+        const addFormContainer = document.getElementById('addFormContainer')
+        const searchForm = document.getElementById("searchForm")
+        const resetSearchIcon = document.getElementById("resetSearchIcon")
+
+        const searchValue = document.getElementById("searchInput").value
+        if (searchValue.length > 0) {
+            resetSearchIcon.style.zIndex = 1
+            resetSearchIcon.style.opacity = 1
+        } else {
+            resetSearchIcon.style.opacity = 0
+            resetSearchIcon.style.zIndex = -1
+        }
+
+        searchForm.addEventListener("focusin", function () {
+            resetSearchIcon.style.zIndex = 1
+            resetSearchIcon.style.opacity = 1
+        })
+
+        searchForm.addEventListener("focusout", function () {
+            resetSearchIcon.style.opacity = 0
+            resetSearchIcon.style.zIndex = -1
+
+        })
+
+        for (var a = 0; a < total.length; a++) {
+            const submitBtn = document.getElementById("submitBtn" + a)
+            const cancelBtn = document.getElementById("cancelBtn" + a)
+            const icon = document.getElementById("iconBack" + a)
+
+            const input = document.getElementsByClassName("input" + a)
+            for (var i = 0; i < input.length; i++) {
+                input[i].addEventListener("change", function () {
+
+                    cancelBtn.disabled = false
+                    cancelBtn.style.cursor = "pointer"
+                    cancelBtn.style.opacity = "1"
+                    cancelBtn.style.zIndex = 2
+
+                    submitBtn.disabled = false
+                    submitBtn.style.cursor = "pointer"
+                    submitBtn.style.backgroundColor = "rgb(115, 70, 160)"
+
+                    submitBtn.addEventListener("mouseover", () => {
+                        submitBtn.style.transform = "scale(1.1)"
+                    })
+
+                    submitBtn.addEventListener("mouseleave", () => {
+                        submitBtn.style.transform = "scale(1)"
+                    })
+
+                    cancelBtn.addEventListener("click", () => {
+                        submitBtn.disabled = true
+                        submitBtn.style.cursor = "not-allowed"
+                        submitBtn.style.backgroundColor = "rgb(178, 153, 206)"
+
+                        cancelBtn.disabled = true
+                        cancelBtn.style.cursor = "not-allowed"
+                        cancelBtn.style.opacity = "0"
+                        cancelBtn.style.zIndex = -2
+                    })
+
+                    cancelBtn.addEventListener("mouseover", function () {
+                        icon.style.transform = "rotate(-120deg)"
+                    })
+
+                    cancelBtn.addEventListener("mouseleave", function () {
+                        icon.style.transform = "rotate(120deg)"
+                    })
+                });
+            }
+        }
+
+        function showAddForm() {
+            addFormContainer.style.zIndex = 5
+            form.style.zIndex = 5
+            addFormContainer.style.opacity = 1
+            form.style.opacity = 1
+        }
+        function reset(id) {
+            form.style.opacity = 0
+            addFormContainer.style.opacity = 0
+            form.style.zIndex = -2
+            addFormContainer.style.zIndex = -2
+            document.getElementById(id).reset()
+        }
+
+    </script>
+    <script>
+        document.getElementById("searchInput").addEventListener("focus", () => {
+            document.getElementById("searchIcon").style.color = "rebeccapurple"
+        })
+
+        document.getElementById("searchInput").addEventListener("focusout", () => {
+            document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
+        })
+        function resetSearchForm() {
+            document.getElementById("searchForm").reset()
+            window.location.href = "/staff/account/trainee"
         }
     </script>
 

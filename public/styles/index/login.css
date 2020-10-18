@@ -53,7 +53,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url(https://nhanlucnganhluat.vn/uploads/images/74c337f8/720-400/2018-11/cong-ty-tnhh-phan-mem-fpt-softwave-vingarden-1.jpg);
+    background-image: url(https://www.fpt-software.com/wp-content/uploads/sites/2/2019/09/fpt-danang-new-01.jpg);
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -74,8 +74,8 @@ header {
    
   .username,
   .password {
-    margin-left: 1.5rem;
-    width: 80%;
+    margin-left: 0.5rem;
+    width: 70%;
     height: 40px;
     border-radius: 5px;
   }

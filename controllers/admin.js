@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-
+const MENU_PARTIAL = { menuPartial: "../partials/admin_nav" };
 // Use middleware for validation
 router.use(adminValidation);
 
@@ -26,7 +26,8 @@ connection.connect(function (err) {
 router.get("/home", async function (req, res) {
   var sql = "SELECT * FROM Account";
   connection.query(sql, (err, rows, field) => {
-    res.render("./admin/adminAccount", { result: rows, warningMessage: req.session.warningMessage })
+    res.render("./admin/adminAccount", { result: rows, warningMessage: req.session.warningMessage, active: { home: true },
+    partials: MENU_PARTIAL, })
     req.session.warningMessage = undefined;
   });
 });
