@@ -208,7 +208,6 @@
         const total = document.getElementsByTagName("form")
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
-        const searchForm = document.getElementById("searchForm")
 
         function setHistory() {
             if (typeof localStorage.history != Number) parseInt(localStorage.history)
@@ -221,17 +220,6 @@
             window.history.go(-localStorage.history)
             localStorage.history = 0
         }
-
-        searchForm.addEventListener("focusin", function () {
-            document.getElementById("resetSearchIcon").style.zIndex = 1
-            document.getElementById("resetSearchIcon").style.opacity = 1
-        })
-
-        searchForm.addEventListener("focusout", function () {
-            document.getElementById("resetSearchIcon").style.opacity = 0
-            document.getElementById("resetSearchIcon").style.zIndex = -1
-
-        })
 
         for (var a = 0; a < total.length - 1; a++) {
             const submitBtn = document.getElementById("submitBtn" + a)
@@ -297,14 +285,6 @@
         function reset(id) {
             document.getElementById(id).reset()
         }
-
-        document.getElementById("searchInput").addEventListener("focus", () => {
-            document.getElementById("searchIcon").style.color = "rebeccapurple"
-        })
-
-        document.getElementById("searchInput").addEventListener("focusout", () => {
-            document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
-        })
 
     </script>
 
