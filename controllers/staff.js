@@ -1,3 +1,4 @@
+const cons = require("consolidate");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
@@ -471,13 +472,20 @@ router.get("/category/course/delete/:id", (req, res) => {
 
 // POST: Search courses
 router.post("/category/course/search", (req, res) => {
+  const category_id = req.body.category_id
   const key = req.body.key;
-
-  let sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%'`;
+  var sql = undefined
+  if(!key) {
+    console.log("cat id: ",  category_id)
+    sql = `SELECT * FROM Course WHERE category_id=${category_id}`;
+  }
+  else sql = `SELECT *, TutorAccount.name 
+              FROM Course LEFT JOIN TutorAccount ON Course.tutor_id = TutorAccount.tutor_id 
+              WHERE courseName LIKE '%${key}%' AND category_id='${category_id}'`;
 
   connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.render("./staff/course", { result: rows, key: key });
+    res.render("./staff/course", { result: rows, key: key, category: category_id });
   });
 });
 
@@ -541,22 +549,23 @@ router.get("/category/course/topic/delete/:id", (req, res) => {
 // POST: Edit topic
 router.post("/category/course/topic/edit/:id", (req, res) => {
   const id = req.params.id;
-
+  
   const { course_id, topicName, description, tutor } = req.body;
 
-  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' AND course_id=${course_id}`;
+  let sqlCheck = `SELECT * FROM Topic WHERE topicName='${topicName}' OR id=${id} AND course_id=${course_id}`;
 
   connection.query(sqlCheck, (err, rows) => {
     if (err) throw err;
     // If there are not any topics with similar topic name and course id
-    if (rows && rows.length < 1) {
+    if (rows && rows.length <= 1) {
       let sql = `UPDATE Topic SET 
                   topicName='${topicName}', 
                   description='${description}', 
                   tutor_id=${tutor}, 
                   course_id = ${course_id}
                  WHERE id = ${id}`;
-
+      console.log("ID: ", course_id)
+      console.log("topic ID: ", course_id)
       connection.query(sql, (err) => {
         if (err) throw err;
         res.redirect(`/staff/category/course/redirect/${course_id}`);
