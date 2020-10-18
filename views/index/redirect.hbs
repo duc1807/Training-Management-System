@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://cms.greenwich.edu.vn/pluginfile.php/1/theme_adaptable/favicon/1596790129/favicon.ico" type="image/gif" sizes="16x16">
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles/index/redirect.css">
+    <title>FPT Training Portal - OTP code</title>
 </head>
 <body>
-        <form method="POST" action="/redirect">
-            <p>OTP Code:</p>
-        <input autofocus type="text" name="otpInput">
-        <button type="submit">Confirm</button>
-        </form>
-        <p>{{warning}}</p>
-    </div>
+    <main>
+        <div id="background">
+            <form id="form" method="POST" action="/redirect">
+                <h3>OTP Code</h3>
+                <input id="input" autofocus type="text" name="otpInput">
+                <button id="submit" type="submit">Confirm</button>
+            </form>
+            <p>{{warning}}</p>
+        </div>
+    </main>
 </body>
 </html>
