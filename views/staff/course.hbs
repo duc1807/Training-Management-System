@@ -145,6 +145,7 @@
                     <i id="searchIcon" class="fas fa-search"></i>
                     <input type="hidden" name="category_id" value="{{category}}">
                     <input id="searchInput" name="key" value={{key}}>
+                    <i onclick="resetSearchForm('{{category}}')" id="resetSearchIcon" class="fas fa-times-circle"></i>
                 </form>
             </div>
 
@@ -212,7 +213,7 @@
     </div>
 
     <script>
-
+        const resetSearchIcon = document.getElementById("resetSearchIcon")
         const total = document.getElementsByTagName("form")
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
@@ -333,11 +334,20 @@
 
         document.getElementById("searchInput").addEventListener("focus", () => {
             document.getElementById("searchIcon").style.color = "rebeccapurple"
+            resetSearchIcon.style.zIndex = 1
+            resetSearchIcon.style.opacity = 1
         })
 
         document.getElementById("searchInput").addEventListener("focusout", () => {
             document.getElementById("searchIcon").style.color = "rgb(160, 152, 168)"
+            resetSearchIcon.style.opacity = 0
+            resetSearchIcon.style.zIndex = -1
         })
+        function resetSearchForm(id) {
+            console.log(id)
+            document.getElementById("searchForm").reset()
+            window.location.href = `/staff/category/redirect/${id}`
+        }
 
     </script>
 

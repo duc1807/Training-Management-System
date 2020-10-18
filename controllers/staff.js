@@ -478,9 +478,11 @@ router.post("/category/course/search", (req, res) => {
   if(!key) {
     console.log("cat id: ",  category_id)
     sql = `SELECT * FROM Course WHERE category_id=${category_id}`;
-  console.log("emtpy key")}
-  else sql = `SELECT * FROM Course WHERE courseName LIKE '%${key}%' AND category_id='${category_id}'`;
-    console.log(sql)
+  }
+  else sql = `SELECT *, TutorAccount.name 
+              FROM Course LEFT JOIN TutorAccount ON Course.tutor_id = TutorAccount.tutor_id 
+              WHERE courseName LIKE '%${key}%' AND category_id='${category_id}'`;
+
   connection.query(sql, (err, rows) => {
     if (err) throw err;
     res.render("./staff/course", { result: rows, key: key, category: category_id });
