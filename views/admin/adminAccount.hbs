@@ -23,7 +23,7 @@
 
         <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
         <div id="addFormContainer">
-            <form autocomplete="off" method="POST" action="/staff/account/trainee/add" id='addForm'
+            <form autocomplete="off" method="POST" action="/admin/home/add" id='addForm'
                 style="width: 200; height:300">
                 <h2 id="addTitle">Create new account</h2>
 
@@ -93,6 +93,9 @@
         </div>
     </div>
     <script>
+        function getAcc(id){
+            document.getElementById(id).style.opacity = 1
+        }
         const total = document.getElementsByTagName("form")
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
@@ -192,7 +195,7 @@
         })
         function resetSearchForm() {
             document.getElementById("searchForm").reset()
-            window.location.href = "/staff/account/trainee"
+            window.location.href = "/admin/home"
         }
     </script>
 
