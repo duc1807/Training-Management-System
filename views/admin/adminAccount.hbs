@@ -16,7 +16,35 @@
 <body>
     {{> menuPartial parameter=active}}
 
+
+
+
+
+
     <div id="rightView">
+
+        {{!-- Confirm delete form --}}
+        {{#each result}}
+        <form id="confirmDelForm{{user_id}}">
+            <div id="confirmDeleteForm{{user_id}}" class="confirmDeleteForm">
+                <b>Are you sure to delete this account?</b>
+                <div id="confirmDeleteBtnContainer">
+                    <div class="btn"
+                        onclick='resetDeleteForm("confirmDelForm{{user_id}}", "confirmDeleteForm{{user_id}}")'
+                        id="cancelBtnDeleteForm">
+                        <p>Cancel</p>
+                    </div>
+                    <a href="/admin/home/delete/{{user_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <div>
+                            <p>Delete</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </form>
+        {{/each}}
+        {{!-- End of confirm delete form --}}
+
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>All account</h1>
@@ -62,7 +90,7 @@
 
         <div id="container">
             <div id="searchContainer">
-                <form id="searchForm" autocomplete="off" method="POST" action="/staff/account/trainee/search">
+                <form id="searchForm" autocomplete="off" method="POST" action="/admin/home/search">
                     <i id="searchIcon" class="fas fa-search"></i>
                     <input id="searchInput" name="key" value={{key}}>
                     <i onclick="resetSearchForm()" id="resetSearchIcon" class="fas fa-times-circle"></i>
@@ -91,13 +119,14 @@
 
                     <div id="formBtn">
 
-                        <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{course_id}}')"><i
+                        <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{user_id}}')"><i
                                 class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
                             <p>Cancel</p>
                         </div>
                         <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
                             type="submit">Confirm</button>
-                        <a href="/staff/category/course/delete/{{course_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <a onclick="showConfirmDeleteForm('confirmDeleteForm{{user_id}}')" class="btn deleteBtn"
+                            id="deleteBtn">
                             <div>
                                 <p>Delete</p>
                             </div>
@@ -193,12 +222,28 @@
             addFormContainer.style.opacity = 1
             form.style.opacity = 1
         }
+
+        function showConfirmDeleteForm(id) {
+            document.getElementById('blurBackground').style.zIndex = 5
+            document.getElementById('blurBackground').style.opacity = 1
+            document.getElementById(id).style.zIndex = 6
+            document.getElementById(id).style.opacity = 1
+        }
+
         function reset(id) {
             form.style.opacity = 0
             addFormContainer.style.opacity = 0
             form.style.zIndex = -2
             addFormContainer.style.zIndex = -2
             document.getElementById(id).reset()
+        }
+
+        function resetDeleteForm(form, div) {
+            document.getElementById(div).style.opacity = 0
+            document.getElementById(div).style.zIndex = -3
+            document.getElementById('blurBackground').style.opacity = 0
+            document.getElementById('blurBackground').style.zIndex = -3
+            document.getElementById(form).reset()
         }
 
     </script>
