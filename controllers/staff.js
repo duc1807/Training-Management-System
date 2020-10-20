@@ -504,6 +504,7 @@ router.get("/category/course/redirect/:id", (req, res) => {
     res.render("./staff/topic", {
       result: rows[0],
       coursename: rows[1][0].courseName,
+      category_id: rows[1][0].category_id,
       tutor: rows[2],
       course_id: course_id,
       partials: MENU_PARTIAL,

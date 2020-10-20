@@ -72,7 +72,7 @@
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
-        <a onclick="windowRedirect()">
+        <a onclick="windowRedirect('{{category_id}}')">
             <div id="backBtn">
                 <i class="fas fa-caret-left"></i>
                 <p>Back</p>
@@ -88,7 +88,7 @@
             <form autocomplete="off" method="POST" action="/staff/category/course/topic/add" id='addForm'
                 style="width: 200; height:300">
                 <h2 id="addTitle">Create new topic</h2>
-                <input type="hidden" name="course_id" value="{{course_id}}">
+                <input type="text" name="course_id" value="{{course_id}}">
                 <div id="addFormContent">
                     <div id="form-left">
                         <b>
@@ -212,13 +212,10 @@
         function setHistory() {
             if (typeof localStorage.history != Number) parseInt(localStorage.history)
             localStorage.history++
-            console.log("Path: ", window.location.pathname)
-            console.log("Refer: ", document.referrer)
         }
 
-        function windowRedirect() {
-            window.history.go(-localStorage.history)
-            localStorage.history = 0
+        function windowRedirect(id) {
+            window.location.href= `/staff/category/redirect/${id}`
         }
 
         for (var a = 0; a < total.length - 1; a++) {
