@@ -23,8 +23,7 @@
 
         <div id="addBtn" onclick='showAddForm()'><i class="fas fa-user-plus" id="addIcon"></i></div>
         <div id="addFormContainer">
-            <form autocomplete="off" method="POST" action="/admin/home/add" id='addForm'
-                style="width: 200; height:300">
+            <form autocomplete="off" method="POST" action="/admin/home/add" id='addForm' style="width: 200; height:300">
                 <h2 id="addTitle">Create new account</h2>
 
                 <br><br>
@@ -40,13 +39,14 @@
                         <b>
                             <p>Role
 
-                            <select name='role'>
-                                <option value="" disabled selected hidden>Choose course...</option>
-                                <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
-                                <option value="trainer">Trainer</option>
-                            </select></p></b>
-                        
+                                <select name='role'>
+                                    <option value="" disabled selected hidden>Choose course...</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="staff">Staff</option>
+                                    <option value="trainer">Trainer</option>
+                                </select></p>
+                        </b>
+
                     </div>
 
                     <div id="form-right">
@@ -68,32 +68,49 @@
                     <i onclick="resetSearchForm()" id="resetSearchIcon" class="fas fa-times-circle"></i>
                 </form>
             </div><br>
-
-
             {{#each result}}
-            <div>
-                <p>Username: {{username}}</p>
-                <p>Password: {{password}}</p>
-                <p>Role: {{role}}</p>
-                <a href="/admin/home/delete/{{user_id}}">delete</a>
-                <button onclick="getAcc({{user_id}},'{{username}}', '{{password}}', '{{role}}')">Edit</button>
+            <div id="contentContainer">
+                <form autocomplete="off" method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}'>
+                    <div id="inputContainer">
+                        <p>Username: <input value="{{username}}" name="username" class='input{{@index}}'></p>
+                        <p>Password: <input type="text" class='input{{@index}}'
+                                placeholder="Leave it blank to not change the password" name="password"></p>
+                        <p>Role <input value="{{role}}" name="role" class='input{{@index}}'></p>
+                    </div>
+                    {{!-- <div id="buttonContainer">
+                        <button disabled="true" id="cancelBtn" class="btn cancelBtn"
+                            onclick="reset('{{user_id}}')">Cancel</button>
 
-                <div id="contentContainer">
+                        <button id="submitBtn" class="btn submitBtn" type="submit">Confirm</button>
+                        <a href="/admin/home/delete/{{user_id}}">
+                            <div>
+                                <p>Delete</p>
+                            </div>
+                        </a>
+                    </div> --}}
 
-                    <form method="POST" action="/admin/home/edit/{{user_id}}" id='{{user_id}}'
-                        style="opacity: 0; width: 200; height:300">
-                       <p>Username: <input value="{{username}}" name="username"></p>
-                       <p>Password: <input type="text" placeholder="Leave it blank to not change the password" name="password"></p>
-                       <p>Role: <input value="{{role}}" name="role"></p>
-                        <button type="submit">Submit</button>
-                    </form>
-                </div>
-                {{/each}}
+                    <div id="formBtn">
+
+                        <div class="btn cancelBtn" id="cancelBtn{{@index}}" onclick="reset('{{course_id}}')"><i
+                                class="fas fa-undo-alt" id="iconBack{{@index}}"></i>
+                            <p>Cancel</p>
+                        </div>
+                        <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
+                            type="submit">Confirm</button>
+                        <a href="/staff/category/course/delete/{{course_id}}" class="btn deleteBtn" id="deleteBtn">
+                            <div>
+                                <p>Delete</p>
+                            </div>
+                        </a>
+                    </div>
+
+                </form>
             </div>
+            {{/each}}
         </div>
     </div>
     <script>
-        function getAcc(id){
+        function getAcc(id) {
             document.getElementById(id).style.opacity = 1
         }
         const total = document.getElementsByTagName("form")
@@ -138,7 +155,7 @@
 
                     submitBtn.disabled = false
                     submitBtn.style.cursor = "pointer"
-                    submitBtn.style.backgroundColor = "rgb(115, 70, 160)"
+                    submitBtn.style.backgroundColor = "rebeccapurple"
 
                     submitBtn.addEventListener("mouseover", () => {
                         submitBtn.style.transform = "scale(1.1)"
