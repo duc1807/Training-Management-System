@@ -109,7 +109,7 @@
                         </div>
                         <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
                             type="submit">Confirm</button>
-                        <a href="/staff/category/delete/{{category_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <a onclick="showConfirmDeleteForm('confirmDeleteForm{{category_id}}')" class="btn deleteBtn" id="deleteBtn">
                             <div>
                                 <p>Delete</p>
                             </div>
