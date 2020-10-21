@@ -39,7 +39,7 @@ router.get("/home", (req, res) => {
 router.get("/account/trainee", (req, res) => {
   let sql = `SELECT *, Course.courseName 
              FROM TraineeAccount
-             INNER JOIN Course ON TraineeAccount.course_id = Course.course_id;
+             LEFT JOIN Course ON TraineeAccount.course_id = Course.course_id;
              SELECT *, Course.courseName
              FROM Category
              INNER JOIN Course ON Category.category_id = Course.category_id;
@@ -100,9 +100,9 @@ router.post("/account/trainee/add", (req, res) => {
     education,
     toeic,
     location,
-    course_id,
   } = req.body;
-
+  let course_id = req.body.course_id
+  if(!course_id) course_id = null;
   let sql = `INSERT INTO TraineeAccount 
              (username, password, dob, mainPL, expDetail, name, age, education, toeic, location, course_id)
              VALUES ('${username}','${password}','${dob}','${mainPL}','${expDetail}','${name}',${age},'${education}','${toeic}','${location}', ${course_id})`;
