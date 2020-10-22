@@ -11,9 +11,9 @@ The web application project of Learning Portal Management System.
 ## Interface
 
 ![Front-end screenshots](/public/images/demo.gif)
-![Front-end screenshots](/public/images/screenshot1.jpg)
-![Front-end screenshots](/public/images/screenshot2.jpg)
-![Front-end screenshots](/public/images/screenshot3.jpg)
+![Front-end screenshots](/public/images/Screenshot1.jpg)
+![Front-end screenshots](/public/images/Screenshot2.jpg)
+![Front-end screenshots](/public/images/Screenshot3.jpg)
 
 
 
