@@ -8,6 +8,15 @@ The web application project of Learning Portal Management System.
 - [x] SQL (phpmyadmin.co)
 - [x] Wireframe (figma.com)
 
+## Interface
+
+![Front-end screenshots](/public/images/demo.gif)
+![Front-end screenshots](/public/images/screenshot1.jpg)
+![Front-end screenshots](/public/images/screenshot2.jpg)
+![Front-end screenshots](/public/images/screenshot3.jpg)
+
+
+
 ## FEATURES
 
 #### For Admin: 
