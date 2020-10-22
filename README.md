@@ -11,8 +11,14 @@ The web application project of Learning Portal Management System.
 ## Interface
 
 ![Front-end screenshots](/public/images/demo.gif)
+<br/>
+* Trainer accounts management page
 ![Front-end screenshots](/public/images/Screenshot1.jpg)
+<br/>
+* Create new trainee account form
 ![Front-end screenshots](/public/images/Screenshot2.jpg)
+<br/>
+* Course categories management
 ![Front-end screenshots](/public/images/Screenshot3.jpg)
 
 
