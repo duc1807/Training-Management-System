@@ -18,11 +18,19 @@
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
+<<<<<<< HEAD
         {{!-- Confirm delete form --}}
         {{#each result}}
         <form id="confirmDelForm{{category_id}}">
             <div id="confirmDeleteForm{{category_id}}" class="confirmDeleteForm">
                 <b>Are you sure to delete this category?</b>
+=======
+    
+        {{#each result}}
+        <form id="confirmDelForm{{category_id}}">
+            <div id="confirmDeleteForm{{category_id}}" class="confirmDeleteForm">
+                <b>Are you sure to delete this course category?</b>
+>>>>>>> 2eaeec28397b6d5f3da3bc20a47c2230de68efef
                 <div id="confirmDeleteBtnContainer">
                     <div class="btn"
                         onclick='resetDeleteForm("confirmDelForm{{category_id}}", "confirmDeleteForm{{category_id}}")'
@@ -38,7 +46,11 @@
             </div>
         </form>
         {{/each}}
+<<<<<<< HEAD
         {{!-- End of confirm delete form --}}
+=======
+        
+>>>>>>> 2eaeec28397b6d5f3da3bc20a47c2230de68efef
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Course categories</h1>
@@ -278,6 +290,21 @@
         function resetSearchForm() {
             document.getElementById("searchForm").reset()
             window.location.href = "/staff/category"
+        }
+        
+        function resetDeleteForm(form, div) {
+            document.getElementById(div).style.opacity = 0
+            document.getElementById(div).style.zIndex = -3
+            document.getElementById('blurBackground').style.opacity = 0
+            document.getElementById('blurBackground').style.zIndex = -3
+            document.getElementById(form).reset()
+        }
+
+        function showConfirmDeleteForm(id) {
+            document.getElementById('blurBackground').style.zIndex = 5
+            document.getElementById('blurBackground').style.opacity = 1
+            document.getElementById(id).style.zIndex = 6
+            document.getElementById(id).style.opacity = 1
         }
 
     </script>

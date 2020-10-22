@@ -153,17 +153,6 @@
     transition: 0.2s;
   }
   
-  .deleteBtn {
-    background-color: #af3535;
-    margin-left: 2.4vw;
-    transition: 0.3s;
-    text-decoration: none;
-  }
-  
-  .deleteBtn:hover {
-    transform: scale(1.1);
-  }
-  
   .submitBtn {
     background-color: rgb(178, 153, 206);
     cursor: not-allowed;
@@ -365,6 +354,28 @@
     color: #747272;
     transition: 0.4s;
   }
+
+  /* Delete form */
+  
+  .deleteBtn {
+    background-color: #af3535;
+    margin-left: 2.4vw;
+    transition: 0.3s;
+    text-decoration: none;
+  }
+  
+  #deleteBtn {
+    background-color: #af3535;
+    margin-left: 2.4vw;
+    transition: 0.3s;
+    text-decoration: none;
+    width: 8vw;
+  }
+  
+  .deleteBtn:hover {
+    transform: scale(1.1);
+  }
+  
   .confirmDeleteForm {
     position: fixed;
     top: 30vh;

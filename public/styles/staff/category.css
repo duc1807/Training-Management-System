@@ -542,4 +542,62 @@ b {
   width: 8vw;
 }
 
+/* Delete form */
+
+.deleteBtn {
+  background-color: #af3535;
+  margin-left: 2.4vw;
+  transition: 0.3s;
+  text-decoration: none;
+  width: 3.5vw;
+}
+
+#deleteBtn {
+  background-color: #af3535;
+  margin-left: 2.4vw;
+  transition: 0.3s;
+  text-decoration: none;
+  width: 8vw;
+}
+
+.deleteBtn:hover {
+  transform: scale(1.1);
+}
+
+.confirmDeleteForm {
+  position: fixed;
+  top: 30vh;
+  left: 44vw;
+  width: 30vw;
+  height: 25vh;
+  background-color: rgb(230, 227, 227);
+  border-radius: 8px;
+  z-index: -2;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#confirmDeleteBtnContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-right: 2vw;
+}
+
+#cancelBtnDeleteForm {
+  background-color: rgb(179, 179, 179);
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 2.4vw;
+  width: 8vw;
+}
+
+#cancelBtnDeleteForm:hover {
+  transform: scale(1.04);
+}
+
 
