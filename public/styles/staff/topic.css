@@ -583,9 +583,16 @@
   cursor: pointer;
   transition: 0.3s;
   margin-left: 2.4vw;
+  width: 8vw;
 }
 
 #cancelBtnDeleteForm:hover {
   transform: scale(1.04);
 }
-  
+#deleteBtn {
+  background-color: #af3535;
+  margin-left: 2.4vw;
+  transition: 0.3s;
+  text-decoration: none;
+  width: 8vw;
+}

@@ -18,7 +18,27 @@
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
-
+        {{!-- Confirm delete form --}}
+        {{#each result}}
+        <form id="confirmDelForm{{category_id}}">
+            <div id="confirmDeleteForm{{category_id}}" class="confirmDeleteForm">
+                <b>Are you sure to delete this category?</b>
+                <div id="confirmDeleteBtnContainer">
+                    <div class="btn"
+                        onclick='resetDeleteForm("confirmDelForm{{category_id}}", "confirmDeleteForm{{category_id}}")'
+                        id="cancelBtnDeleteForm">
+                        <p>Cancel</p>
+                    </div>
+                    <a href="/staff/category/delete/{{category_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <div>
+                            <p>Delete</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </form>
+        {{/each}}
+        {{!-- End of confirm delete form --}}
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Course categories</h1>
@@ -89,7 +109,7 @@
                         </div>
                         <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
                             type="submit">Confirm</button>
-                        <a href="/staff/category/delete/{{category_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <a onclick="showConfirmDeleteForm('confirmDeleteForm{{category_id}}')" class="btn deleteBtn" id="deleteBtn">
                             <div>
                                 <p>Delete</p>
                             </div>
@@ -138,7 +158,19 @@
         {{/each}} --}}
 
     <script>
-
+        function showConfirmDeleteForm(id) {
+            document.getElementById('blurBackground').style.zIndex = 5
+            document.getElementById('blurBackground').style.opacity = 1
+            document.getElementById(id).style.zIndex = 6
+            document.getElementById(id).style.opacity = 1
+        }
+        function resetDeleteForm(form, div) {
+            document.getElementById(div).style.opacity = 0
+            document.getElementById(div).style.zIndex = -3
+            document.getElementById('blurBackground').style.opacity = 0
+            document.getElementById('blurBackground').style.zIndex = -3
+            document.getElementById(form).reset()
+        }
         const total = document.getElementsByTagName("form")
         const form = document.getElementById('addForm')
         const addFormContainer = document.getElementById('addFormContainer')
