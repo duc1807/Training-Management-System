@@ -54,19 +54,11 @@
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
-<<<<<<< HEAD
-        {{!-- Confirm delete form --}}
-        {{#each result}}
-        <form id="confirmDelForm{{user_id}}">
-            <div id="confirmDeleteForm{{user_id}}" class="confirmDeleteForm">
-                <b>Are you sure to delete information of this account?</b>
-=======
     
         {{#each result}}
         <form id="confirmDelForm{{user_id}}">
             <div id="confirmDeleteForm{{user_id}}" class="confirmDeleteForm">
                 <b>Are you sure to delete this trainer infomation?</b>
->>>>>>> 2eaeec28397b6d5f3da3bc20a47c2230de68efef
                 <div id="confirmDeleteBtnContainer">
                     <div class="btn"
                         onclick='resetDeleteForm("confirmDelForm{{user_id}}", "confirmDeleteForm{{user_id}}")'
@@ -82,11 +74,7 @@
             </div>
         </form>
         {{/each}}
-<<<<<<< HEAD
-        {{!-- End of confirm delete form --}}
-=======
         
->>>>>>> 2eaeec28397b6d5f3da3bc20a47c2230de68efef
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Trainer Management</h1>
