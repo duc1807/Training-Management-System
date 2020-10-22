@@ -1,5 +1,6 @@
 {
   "name": "backend-student-management-system",
+  "author": "duc1807",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
