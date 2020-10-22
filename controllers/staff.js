@@ -168,7 +168,7 @@ router.post("/account/trainee/search", (req, res) => {
 
   let sql = `SELECT *, Course.courseName 
              FROM TraineeAccount 
-             INNER JOIN Course ON TraineeAccount.course_id = Course.course_id
+             LEFT JOIN Course ON TraineeAccount.course_id = Course.course_id
              WHERE username LIKE '%${key}%';
              SELECT *, Course.courseName
              FROM Category
