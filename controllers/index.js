@@ -13,6 +13,7 @@ const sendMail = require("../utils/mailer");
 /* Initialize global var */
 global.user = undefined;
 global.otpCheck = undefined;
+global.count = 0;
 
 // Initialize connection to mySQL
 const mysql = require("mysql");
@@ -70,6 +71,7 @@ router.post("/", async (req, res) => {
             sendMail(email, otp);
             console.log("OTP Code: ", otp);
             // Redirect to the OTP code validation page
+
             res.render("./index/redirect");
             break;
           case "staff":
@@ -104,13 +106,12 @@ router.post("/", async (req, res) => {
     }
   });
 });
-
 // GET: OTP validation page for admin
 router.post("/redirect", async (req, res) => {
   const { otpInput } = req.body;
 
   // Check OTP code is valid or not
-  if (await bcrypt.compare(otpInput, otpCheck)) {
+  if (await bcrypt.compare(otpInput, otpCheck)) { 
     // Initialize the token if OTP code is valid
     var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
@@ -121,7 +122,7 @@ router.post("/redirect", async (req, res) => {
 
     res.cookie("token", accessToken, { httpOnly: true });
     res.redirect("/admin/home");
-  } else res.render("./index/redirect", { warning: "Invalid OTP" });
+  } else count++, res.render("./index/redirect", { warning: "Invalid OTP",count:count });
 });
 
 // GET: Logout

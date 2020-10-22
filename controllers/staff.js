@@ -396,6 +396,7 @@ router.get("/category/redirect/:id", (req, res) => {
 
     res.render("./staff/course", {
       result: rows[0],
+      count: rows[0].length,
       tutor: rows[1],
       joined: rows[2],
       category: id,

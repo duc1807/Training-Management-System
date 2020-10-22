@@ -12,11 +12,25 @@
         <div id="background">
             <form id="form" method="POST" action="/redirect">
                 <h3>OTP Code</h3>
+                <input type="hidden" name="" id="failCount" value={{count}}>
                 <input id="input" autofocus type="text" name="otpInput">
                 <button id="submit" type="submit">Confirm</button>
             </form>
             <p>{{warning}}</p>
         </div>
     </main>
+    <script>
+
+    const count = document.getElementById("failCount").value
+    if(count >=3){
+    document.getElementById("submit").disabled = true;
+    setTimeout(function() {
+        document.getElementById("submit").disabled = false;
+    }, 5000);
+    }
+    
+
+
+    </script>
 </body>
 </html>
