@@ -220,7 +220,7 @@
                         </div>
                         <button disabled="true" id="submitBtn{{@index}}" class="btn submitBtn"
                             type="submit">Confirm</button>
-                        <a href="/staff/account/trainee/delete/{{trainee_id}}" class="btn deleteBtn" id="deleteBtn"><div>
+                        <a onclick="showConfirmDeleteForm('confirmDeleteForm{{trainee_id}}')" class="btn deleteBtn" id="deleteBtn"><div>
                             <p>Delete</p>
                         </div></a>
                     </div>
@@ -397,6 +397,20 @@
             form.style.zIndex = -2
             addFormContainer.style.zIndex = -2    
             document.getElementById(id).reset()
+        }
+        
+        function showConfirmDeleteForm(id) {
+            document.getElementById('blurBackground').style.zIndex = 5
+            document.getElementById('blurBackground').style.opacity = 1
+            document.getElementById(id).style.zIndex = 6
+            document.getElementById(id).style.opacity = 1
+        }
+        function resetDeleteForm(form, div) {
+            document.getElementById(div).style.opacity = 0
+            document.getElementById(div).style.zIndex = -3
+            document.getElementById('blurBackground').style.opacity = 0
+            document.getElementById('blurBackground').style.zIndex = -3
+            document.getElementById(form).reset()
         }
         
     </script>
