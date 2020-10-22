@@ -111,6 +111,27 @@
     {{> menuPartial parameter=active}}
 
     <div id="rightView">
+    
+        {{#each result}}
+        <form id="confirmDelForm{{trainee_id}}">
+            <div id="confirmDeleteForm{{trainee_id}}" class="confirmDeleteForm">
+                <b>Are you sure to delete this account?</b>
+                <div id="confirmDeleteBtnContainer">
+                    <div class="btn"
+                        onclick='resetDeleteForm("confirmDelForm{{trainee_id}}", "confirmDeleteForm{{trainee_id}}")'
+                        id="cancelBtnDeleteForm">
+                        <p>Cancel</p>
+                    </div>
+                    <a href="/staff/account/trainee/delete/{{trainee_id}}" class="btn deleteBtn" id="deleteBtn">
+                        <div>
+                            <p>Delete</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </form>
+        {{/each}}
+           
         <div id="blurBackground"></div>
         <img id="workspace-img" src="https://gjkhai.github.io/khai/JS7/Images/office-table.jpg">
         <h1>Trainee Management</h1>
