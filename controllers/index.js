@@ -111,7 +111,7 @@ router.post("/redirect", async (req, res) => {
   const { otpInput } = req.body;
 
   // Check OTP code is valid or not
-  if (await bcrypt.compare(otpInput, otpCheck)) { 
+  if (await bcrypt.compare(otpInput, otpCheck)) {
     // Initialize the token if OTP code is valid
     var accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1h",
@@ -122,13 +122,14 @@ router.post("/redirect", async (req, res) => {
 
     res.cookie("token", accessToken, { httpOnly: true });
     res.redirect("/admin/home");
-  } else count++, res.render("./index/redirect", { warning: "Invalid OTP",count:count });
+  } else count++;
+  res.render("./index/redirect", { warning: "Invalid OTP", count: count });
 });
 
 // GET: Logout
 router.get("/logout", function (req, res) {
   // Clear the token from cookies and render login page
-  res.clearCookie('token')
+  res.clearCookie("token");
   res.render(`./index/login`);
 });
 
