@@ -13,10 +13,10 @@ const MENU_PARTIAL = { menuPartial: "../partials/staff_nav" };
 router.use(staffValidation);
 
 var connection = mysql.createConnection({
-  host: "sql12.freemysqlhosting.net",
-  user: "sql12371466",
-  password: "pZGVwZJwxy",
-  database: "sql12371466",
+  host: "remotemysql.com",
+  user: "NoyWf02HHi",
+  password: "VUZIWf1hGV",
+  database: "NoyWf02HHi",
   port: 3306,
   multipleStatements: true,
 });
@@ -49,34 +49,7 @@ router.get("/account/trainee", (req, res) => {
     if (err) throw err;
     const category = getCategory(rows[1], rows[2]);
 
-    // var category = []
 
-    // for(f = 0; f < rows[2].length; f++)
-    // {
-    //   category.push(
-    //     {
-    //       name: rows[2][f]['name'],
-    //       description: []
-    //     })
-    // }
-
-    // for (var i = 0; i < rows[1].length; i++)
-    // {
-    //   // var description = []
-    //   for(var e = 0; e < category.length; e++)
-    //   {
-    //     // isExisted = false
-    //     if(rows[1][i]['name'] == category[e].name)
-    //     {
-    //       // isExisted = true
-    //       category[e].description.push({
-    //         course_id: rows[1][i]['course_id'],
-    //         courseName: rows[1][i]['courseName']
-    //       })
-    //       break
-    //     }
-    //   }
-    // }
     res.render("./staff/manageTrainee", {
       result: rows[0],
       category: rows[1],
